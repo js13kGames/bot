@@ -1,0 +1,39 @@
+{
+  "name": "13k-bot",
+  "description": "13kjs automatic entry validation",
+  "version": "0.1.0",
+  "dependencies": {
+    "base-64": "0.1.0",
+    "get-pixels": "3.3.2",
+    "github-app": "4.0.1",
+    "node-fetch": "2.6.0",
+    "node-zip": "1.1.1",
+    "selenium-webdriver": "4.0.0-alpha.4"
+  },
+  "devDependencies": {
+    "@types/github": "7.1.0",
+    "@types/node-fetch": "2.3.7",
+    "@babel/cli": "7.5.0",
+    "@babel/core": "7.5.4",
+    "@babel/node": "7.5.0",
+    "@babel/plugin-proposal-class-properties": "7.5.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-modules-commonjs": "7.5.0",
+    "@babel/preset-react": "7.0.0",
+    "@babel/preset-typescript": "7.3.3",
+    "@types/base-64": "0.1.3",
+    "@types/jest": "24.0.15",
+    "babel-jest": "24.8.0",
+    "babel-plugin-inline-dotenv": "1.3.3",
+    "github-webhook-event-types": "1.2.1",
+    "jest": "24.8.0",
+    "prettier": "1.18.2",
+    "typescript": "3.5.3"
+  },
+  "scripts": {
+    "test": "jest --config ./jest.config.js --no-cache --detectOpenHandles --forceExit",
+    "dev": "babel-node --extensions .ts ./src/dev-server.ts",
+    "test_": "babel-node --extensions .ts -e \"require('./src/handler').handle(require('./src/__fixtures__/published.json'))\"",
+    "test0": "babel-node --extensions .ts ./src/test.ts"
+  }
+}
