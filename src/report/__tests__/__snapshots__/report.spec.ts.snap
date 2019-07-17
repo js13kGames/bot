@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`report should generate a report 1`] = `
+"[v1](/b) [deployed](/a) ⚠️
+ - size is over the limit
+ - index not found
+
+[v2](/d) ⚠️
+ - index not found
+
+[v3](/f) [deployed](/e) ✔️"
+`;
