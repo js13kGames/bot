@@ -1,7 +1,7 @@
 import { GithubClient } from "./services/github";
 import { PullRequest } from "./types/github";
 import * as config from "./config";
-import { parseReport, Bundle, generateReport } from "./report";
+import { parseReport, Report, generateReport } from "./report";
 
 /**
  * read the comment left by the bot
@@ -17,8 +17,6 @@ export const getComment = ({ github }: { github: GithubClient }) => async (
   });
 
   const userLogin = config.github.app_name + "[bot]";
-
-  console.log(comments.map(({ user }) => user.login));
 
   const comment = comments.find(({ user }) => user.login === userLogin);
 
@@ -57,10 +55,10 @@ export const setComment = ({ github }: { github: GithubClient }) => async (
  */
 export const getReport = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest
-): Promise<Bundle[]> => {
+): Promise<Report | null> => {
   const comment = await getComment({ github })(pullRequest);
 
-  return comment ? parseReport(comment.body) : [];
+  return comment ? parseReport(comment.body) : null;
 };
 
 /**
@@ -68,5 +66,5 @@ export const getReport = ({ github }: { github: GithubClient }) => async (
  */
 export const setReport = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest,
-  bundles: Bundle[]
-) => setComment({ github })(pullRequest, generateReport(bundles));
+  report: Report
+) => setComment({ github })(pullRequest, generateReport(report));

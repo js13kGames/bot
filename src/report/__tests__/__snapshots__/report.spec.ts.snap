@@ -1,12 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`report should generate a report 1`] = `
-"[v1](/b) [deployed](/a) ⚠️
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+[v1](https://github.com/platane-org/13k-submission/releases/tag/v1#1234123) [deployed](/a) ⚠️
  - size is over the limit
  - index not found
 
-[v2](/d) ⚠️
+[v2](https://github.com/platane-org/13k-submission/releases/tag/v2#12) ⚠️
  - index not found
 
-[v3](/f) [deployed](/e) ✔️"
+[v3](https://github.com/platane-org/13k-submission/releases/tag/v3#126) [deployed](/e) ✔️"
 `;
