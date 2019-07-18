@@ -50,7 +50,14 @@ export const generateReport = (
       if (checks["bundle-found"].conclusion === "failure") {
         body.push(
           "I could not found the zip file in the release assets.",
-          "Are you sure you includes a .zip file ?"
+          "I found:",
+          "```",
+          ...checks["bundle-found"].assetFiles.map(
+            fileName => ` - ${fileName}`
+          ),
+          "```",
+          "",
+          "Are you sure you included a .zip file ?"
         );
 
         /**
@@ -65,7 +72,14 @@ export const generateReport = (
       } else if (checks["index-found"].conclusion === "failure") {
         body.push(
           "I could not found a index.html file in the zip archive.",
-          "Can you make sure your game can be launched through a file named index.html?"
+          "I found:",
+          "```",
+          ...checks["index-found"].bundleFiles.map(
+            fileName => ` - ${fileName}`
+          ),
+          "```",
+          "",
+          "Can you make sure your game can be launched through a file named `index.html`?"
         );
 
         /**
@@ -83,6 +97,12 @@ export const generateReport = (
       } else if (checks["run-without-error"].conclusion === "failure") {
         body.push(
           "Your game seems to have error at launch with chrome",
+          "I got this error:",
+          "```",
+          ...checks["run-without-error"].errors.map(
+            error => `${error.message}`
+          ),
+          "```",
           `Can you take a look ? I have it deployed [here](${checks["index-found"].deployUrl})`
         );
 

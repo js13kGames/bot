@@ -1,21 +1,12 @@
 import { Release } from "../types/github";
 import { GithubClient } from "../services/github";
 import { readBundle } from "./readBundle";
-import { ReleaseReport } from "../report/releaseReport";
 import { upload } from "../services/s3";
 import path from "path";
 import { runGame } from "./runGame";
 import { Check } from "./check";
 
 const SIZE_LIMIT = 13 * 1024;
-
-export const readRelease = (release: Release): ReleaseReport => ({
-  releaseId: release.id.toString(),
-  releaseName: release.tag_name,
-  releaseUrl: release.html_url,
-  deployUrl: undefined,
-  checks: []
-});
 
 export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   release: Release
@@ -34,15 +25,27 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     bundleSize = res.bundleSize;
 
     checks.push(
-      { name: "bundle-found", conclusion: "success" },
+      {
+        name: "bundle-found",
+        conclusion: "success",
+        assetFiles: release.assets.map(a => a.name)
+      },
       { name: "bundle-unziped", conclusion: "success" }
     );
   } catch (err) {
     if (err.message === "could not find a zip file") {
-      checks.push({ name: "bundle-found", conclusion: "failure" });
+      checks.push({
+        name: "bundle-found",
+        conclusion: "failure",
+        assetFiles: release.assets.map(a => a.name)
+      });
       return checks;
     } else {
-      checks.push({ name: "bundle-found", conclusion: "success" });
+      checks.push({
+        name: "bundle-found",
+        conclusion: "success",
+        assetFiles: release.assets.map(a => a.name)
+      });
     }
 
     if (err.message === "failed to unzip") {

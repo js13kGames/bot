@@ -75,7 +75,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
    *
    *  need to have a defensive check on "networkLogs" existance in case browserstack fails
    */
-  const networkLogs = await fetch(
+  const urls = await fetch(
     `https://api.browserstack.com/automate/sessions/${session.getId()}/networklogs`,
     {
       headers: {
@@ -88,9 +88,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
     .then(async res => {
       const text = await res.text();
 
-      console.log("network logs", text);
-
-      if (res.ok) return text;
+      if (res.ok) return JSON.parse(text).log.entries.map(e => e.url);
 
       throw new Error(text);
     })
@@ -100,9 +98,8 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
     });
 
   const externalUrls =
-    networkLogs &&
-    networkLogs.log &&
-    networkLogs.log.entries
+    urls &&
+    urls
       .map(({ request }) => request.url)
       .filter(
         url =>
@@ -132,7 +129,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
       name: "run-without-external-http",
       conclusion:
         externalUrls && externalUrls.length > 0 ? "failure" : "success",
-      urls: networkLogs ? networkLogs.map(({ url }) => url) : undefined,
+      urls: urls,
       externalUrls:
         externalUrls && externalUrls.length > 0 ? externalUrls : undefined
     },
