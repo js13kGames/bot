@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import Zip from "node-zip";
-import { Asset, Repository } from "./types/github";
-import { GithubClient } from "./services/github";
+import { Asset } from "../types/github";
+import { GithubClient } from "../services/github";
 
 const downloadAsset = (url: string) =>
   fetch(url, {
@@ -15,7 +15,6 @@ const downloadAsset = (url: string) =>
  * the strategy is to take whatever have the mim type zip and unzip it
  */
 const readZipFile = ({ github }: { github: GithubClient }) => async (
-  repository: Repository,
   assets: Asset[]
 ) => {
   /*
@@ -59,8 +58,7 @@ const readZipFile = ({ github }: { github: GithubClient }) => async (
  * read bundle entry files
  */
 export const readBundle = ({ github }: { github: GithubClient }) => async (
-  repository: Repository,
   assets: Asset[]
 ) => {
-  return readZipFile({ github })(repository, assets);
+  return readZipFile({ github })(assets);
 };

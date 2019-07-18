@@ -10,8 +10,6 @@ type EventPublished = {
   release: Release;
 };
 
-const i: Installation;
-
 export type Event = (EventPublished | { action: "noop" }) & {
   installation: Installation;
 } & {

@@ -3,10 +3,12 @@ import fetch from "node-fetch";
 import webdriver from "selenium-webdriver";
 import getPixels from "get-pixels";
 import { promisify } from "util";
-import * as config from "./config";
+import * as config from "../config";
 import { encode } from "base-64";
+import { Check } from "./check";
+import { upload } from "../services/s3";
 
-export const runGame = async (deployUrl: string): Promise<string[]> => {
+export const runGame = async (deployUrl: string): Promise<Check[]> => {
   /**
    * prepare browserstack
    */
@@ -52,35 +54,8 @@ export const runGame = async (deployUrl: string): Promise<string[]> => {
     .logs()
     .get(webdriver.logging.Type.BROWSER);
 
-  await driver.quit();
-
-  /**
-   * read the network log, from browserstack rest api
-   */
-  // should basically never works
   await driver.sleep(500);
-  const networkLogs = await fetch(
-    `https://api.browserstack.com/automate/sessions/${session.getId()}/networklogs`,
-    {
-      headers: {
-        Authorization: `Basic ${encode(
-          config.browserstack.user + ":" + config.browserstack.key
-        )}`
-      }
-    }
-  )
-    .then(async res => {
-      if (res.ok) return res.json();
-
-      const text = await res.text();
-      throw new Error(text);
-    })
-    .catch(error => {
-      console.log(error);
-      return null;
-    });
-
-  const warnings = [];
+  await driver.quit();
 
   /**
    * look for error in the console
@@ -93,12 +68,6 @@ export const runGame = async (deployUrl: string): Promise<string[]> => {
         !(message.includes("favicon.ico") && message.match(/40[34]/))
     );
 
-  warnings.push(
-    ...criticalLogs.map(
-      ({ message }) => `critical error was found while running: \`${message}\``
-    )
-  );
-
   /**
    * check the network log for external resource call
    * ( which is obviously prohibited )
@@ -106,8 +75,31 @@ export const runGame = async (deployUrl: string): Promise<string[]> => {
    *
    *  need to have a defensive check on "networkLogs" existance in case browserstack fails
    */
-  if (networkLogs && networkLogs.logs) {
-    const externalUrls = networkLogs.log.entries
+  const networkLogs = await fetch(
+    `https://api.browserstack.com/automate/sessions/${session.getId()}/networklogs`,
+    {
+      headers: {
+        Authorization: `Basic ${encode(
+          config.browserstack.user + ":" + config.browserstack.key
+        )}`
+      }
+    }
+  )
+    .then(async res => {
+      if (res.ok) return console.log(await res.text());
+
+      const text = await res.text();
+      throw new Error(text);
+    })
+    .catch(error => {
+      console.log(error);
+      return null;
+    });
+
+  const externalUrls =
+    networkLogs &&
+    networkLogs.log &&
+    networkLogs.log.entries
       .map(({ request }) => request.url)
       .filter(
         url =>
@@ -115,23 +107,44 @@ export const runGame = async (deployUrl: string): Promise<string[]> => {
           path.basename(url) !== "favicon.ico"
       );
 
-    warnings.push(
-      ...externalUrls.map(
-        url => `forbidden access to external resouce: \`${url}\``
-      )
-    );
-  }
-
   /**
    * check that the first thing displayed is no a blank page
    */
-  const { data } = await promisify(getPixels)(
+  const { data: dataImage } = await promisify(getPixels)(
     "data:image/png;base64," + base64screenShot
   );
+  const screenShotUrl = await upload(
+    "game_preview_screenshot.png",
+    Buffer.from(base64screenShot, "base64")
+  );
 
-  if (isImageBlank(data)) warnings.push("game is stuck on a blank screen");
+  return [
+    {
+      name: "run-without-error",
+      status: criticalLogs.length > 0 ? "failure" : "success",
+      statusDetail:
+        criticalLogs.length > 0
+          ? criticalLogs.map(error => ` - \`${error.message}\``).join("\n")
+          : undefined
+    },
 
-  return warnings;
+    {
+      name: "run-without-external-http",
+      status: externalUrls && externalUrls.length > 0 ? "failure" : "success",
+      statusDetail:
+        externalUrls && externalUrls.length > 0
+          ? externalUrls
+              .map(url => ` - forbidden access to \`${url}\``)
+              .join("\n")
+          : undefined
+    },
+
+    {
+      name: "run-without-blank-screen",
+      status: isImageBlank(dataImage) ? "failure" : "success",
+      statusDetail: screenShotUrl
+    }
+  ];
 };
 
 /**
