@@ -6,26 +6,17 @@ export type ReleaseReport = {
   checks: Check[];
 };
 
-export const checks = [
-  //
-  "bundle-found" as const,
-  "bundle-unziped" as const,
-  "index-found" as const,
-  "bundle-size" as const,
-  "run-without-error" as const,
-  "run-without-external-http" as const,
-  "run-without-blank-screen" as const,
-
-  "meta-images-found" as const,
-  "meta-images-size" as const,
-  "meta-images-resolution" as const,
-  "meta-name" as const
-];
-
-type CheckStatus = "success" | "failure";
-
-export type Check = {
-  name: (typeof checks)[number];
-  status: CheckStatus;
-  statusDetail?: string;
+export type Check = (
+  | { name: "bundle-found" }
+  | { name: "bundle-unziped" }
+  | { name: "index-found"; deployUrl: string }
+  | { name: "bundle-size"; bundleSize: number; sizeLimit: number }
+  | { name: "run-without-error"; errors: any[] }
+  | {
+      name: "run-without-external-http";
+      externalUrls?: string[];
+      urls?: string[];
+    }
+  | { name: "run-without-blank-screen"; screenShotUrl: string }) & {
+  conclusion: "success" | "failure";
 };

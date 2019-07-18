@@ -86,9 +86,12 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
     }
   )
     .then(async res => {
-      if (res.ok) return console.log(await res.text());
-
       const text = await res.text();
+
+      console.log("network logs", text);
+
+      if (res.ok) return text;
+
       throw new Error(text);
     })
     .catch(error => {
@@ -121,28 +124,23 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
   return [
     {
       name: "run-without-error",
-      status: criticalLogs.length > 0 ? "failure" : "success",
-      statusDetail:
-        criticalLogs.length > 0
-          ? criticalLogs.map(error => ` - \`${error.message}\``).join("\n")
-          : undefined
+      conclusion: criticalLogs.length > 0 ? "failure" : "success",
+      errors: criticalLogs
     },
 
     {
       name: "run-without-external-http",
-      status: externalUrls && externalUrls.length > 0 ? "failure" : "success",
-      statusDetail:
-        externalUrls && externalUrls.length > 0
-          ? externalUrls
-              .map(url => ` - forbidden access to \`${url}\``)
-              .join("\n")
-          : undefined
+      conclusion:
+        externalUrls && externalUrls.length > 0 ? "failure" : "success",
+      urls: networkLogs ? networkLogs.map(({ url }) => url) : undefined,
+      externalUrls:
+        externalUrls && externalUrls.length > 0 ? externalUrls : undefined
     },
 
     {
       name: "run-without-blank-screen",
-      status: isImageBlank(dataImage) ? "failure" : "success",
-      statusDetail: screenShotUrl
+      conclusion: isImageBlank(dataImage) ? "failure" : "success",
+      screenShotUrl
     }
   ];
 };

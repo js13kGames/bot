@@ -34,22 +34,22 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     bundleSize = res.bundleSize;
 
     checks.push(
-      { name: "bundle-found", status: "success" },
-      { name: "bundle-unziped", status: "success" }
+      { name: "bundle-found", conclusion: "success" },
+      { name: "bundle-unziped", conclusion: "success" }
     );
   } catch (err) {
     if (err.message === "could not find a zip file") {
-      checks.push({ name: "bundle-found", status: "failure" });
+      checks.push({ name: "bundle-found", conclusion: "failure" });
       return checks;
     } else {
-      checks.push({ name: "bundle-found", status: "success" });
+      checks.push({ name: "bundle-found", conclusion: "success" });
     }
 
     if (err.message === "failed to unzip") {
-      checks.push({ name: "bundle-unziped", status: "failure" });
+      checks.push({ name: "bundle-unziped", conclusion: "failure" });
       return checks;
     } else {
-      checks.push({ name: "bundle-unziped", status: "success" });
+      checks.push({ name: "bundle-unziped", conclusion: "success" });
     }
 
     throw err;
@@ -60,9 +60,9 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
    */
   checks.push({
     name: "bundle-size",
-    status: bundleSize > SIZE_LIMIT ? "failure" : "success",
-    statusDetail:
-      bundleSize > SIZE_LIMIT ? `${bundleSize} > ${SIZE_LIMIT}` : undefined
+    conclusion: bundleSize > SIZE_LIMIT ? "failure" : "success",
+    bundleSize,
+    sizeLimit: SIZE_LIMIT
   });
 
   /**
@@ -83,8 +83,8 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
    */
   checks.push({
     name: "index-found",
-    status: index ? "success" : "failure",
-    statusDetail: index
+    conclusion: index ? "success" : "failure",
+    deployUrl: index
   });
 
   /**

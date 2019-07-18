@@ -1,7 +1,6 @@
 import { GithubClient } from "./services/github";
 import { PullRequest } from "./types/github";
 import * as config from "./config";
-import { parseReport, Report, generateReport } from "./report";
 
 /**
  * read the comment left by the bot
@@ -49,22 +48,3 @@ export const setComment = ({ github }: { github: GithubClient }) => async (
       body
     });
 };
-
-/**
- * read the comment and extract the report
- */
-export const getReport = ({ github }: { github: GithubClient }) => async (
-  pullRequest: PullRequest
-): Promise<Report | null> => {
-  const comment = await getComment({ github })(pullRequest);
-
-  return comment ? parseReport(comment.body) : null;
-};
-
-/**
- * format the report and set the comment
- */
-export const setReport = ({ github }: { github: GithubClient }) => async (
-  pullRequest: PullRequest,
-  report: Report
-) => setComment({ github })(pullRequest, generateReport(report));
