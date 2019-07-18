@@ -88,7 +88,9 @@ export const generateReport = (
       } else if (checks["bundle-size"].conclusion === "failure") {
         body.push(
           "I am afraid your entry is too large!",
-          "Surely you can save a few bits here an there ?"
+          `It weights ${checks["bundle-size"].bundleSize}o, which is more than the ${checks["bundle-size"].sizeLimit}o limit`,
+          "",
+          "Surely you can save a few bits here an there? 😀"
         );
 
         /**

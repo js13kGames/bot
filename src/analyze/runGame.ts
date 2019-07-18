@@ -88,7 +88,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
     .then(async res => {
       const text = await res.text();
 
-      if (res.ok) return JSON.parse(text).log.entries.map(e => e.url);
+      if (res.ok) return JSON.parse(text).log.entries.map(e => e.request.url);
 
       throw new Error(text);
     })
@@ -99,13 +99,11 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
 
   const externalUrls =
     urls &&
-    urls
-      .map(({ request }) => request.url)
-      .filter(
-        url =>
-          !url.startsWith(path.dirname(deployUrl)) &&
-          path.basename(url) !== "favicon.ico"
-      );
+    urls.filter(
+      url =>
+        !url.startsWith(path.dirname(deployUrl)) &&
+        path.basename(url) !== "favicon.ico"
+    );
 
   /**
    * check that the first thing displayed is no a blank page
