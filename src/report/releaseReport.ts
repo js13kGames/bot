@@ -30,17 +30,19 @@ const generateReleaseReport = ({
 export const generateReleaseReports = (releaseReports: ReleaseReport[]) =>
   releaseReports.map(generateReleaseReport).join("\n\n");
 
-const bundleRe = /\[(\w+)\]\(([^#]+)#([^)]+)\) +(\[deployed\]\(([^)]+)\) +)?[vw](\n - [^\n]+)*/g;
+const bundleRe = /\[([^]]+)\]\(([^#)]+)#([^)]+)\) +(\[deployed\]\(([^)]+)\) +)?[vw](\n +- [^\n]+)*/g;
 
-export const parseReleaseReports = (text: string): ReleaseReport[] =>
-  matchAll(
-    // smh the huge regexp does not like emoji, replace them with arbitrary char
-    text.replace(/✔️/g, "v").replace(/⚠️/g, "w"),
-    bundleRe
-  ).map(([t, releaseName, releaseUrl, releaseId, , deployUrl]) => ({
-    releaseName,
-    releaseUrl,
-    deployUrl,
-    releaseId,
-    warnings: matchAll(t, /^ - (.+)$/gm).map(([, w]) => w)
-  }));
+export const parseReleaseReports = (text: string): ReleaseReport[] => {
+  // smh the huge regexp does not like emoji, replace them with arbitrary char
+  const simpleText = text.replace(/✔️/g, "v").replace(/⚠️/g, "w");
+
+  return matchAll(simpleText, bundleRe).map(
+    ([t, releaseName, releaseUrl, releaseId, , deployUrl]) => ({
+      releaseName,
+      releaseUrl,
+      deployUrl,
+      releaseId,
+      warnings: matchAll(t, /^ +- (.+)$/gm).map(([, w]) => w)
+    })
+  );
+};

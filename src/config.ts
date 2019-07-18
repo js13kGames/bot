@@ -13,4 +13,10 @@ export const browserstack = {
   key: process.env.BROWSERSTACK_KEY
 };
 
-export const awsDeploy = {};
+export const awsDeploy = {
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_DEFAULT_REGION,
+  sessionToken: process.env.AWS_SESSION_TOKEN,
+  bucketName: process.env.AWS_BUCKET_NAME
+};

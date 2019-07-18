@@ -5,8 +5,9 @@ describe("report", () => {
     releaseReports: [
       {
         releaseId: "1234123",
-        releaseName: "v1",
-        deployUrl: "/a",
+        releaseName: "v-1",
+        deployUrl:
+          "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/v1/index.html",
         releaseUrl:
           "https://github.com/platane-org/13k-submission/releases/tag/v1",
         warnings: ["size is over the limit", "index not found"]
@@ -22,7 +23,8 @@ describe("report", () => {
       {
         releaseId: "126",
         releaseName: "v3",
-        deployUrl: "/e",
+        deployUrl:
+          "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/v3/index.html",
         releaseUrl:
           "https://github.com/platane-org/13k-submission/releases/tag/v3",
         warnings: []
