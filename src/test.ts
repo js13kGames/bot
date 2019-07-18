@@ -1,17 +1,20 @@
 import { create } from "./services/github";
-import event from "./__fixtures__/e.json";
 import { analyzeRelease } from "./analyze/analyzeRelease";
 import { getLatestRelease, getChecks, setChecks } from "./checkRuns";
-import { setComment } from "./comment";
+import { setComment, getComment } from "./comment";
 import { generateReport } from "./report";
 import { PullRequest } from "./types/github";
 
 const loop = ({ github }) => async (pullRequest: PullRequest) => {
-  const re = await getLatestRelease({ github })(pullRequest.head.repo);
+  const re = await getLatestRelease({ github })(pullRequest);
 
-  if (!re) return;
+  if (!re) {
+    if (!(await getComment({ github })(pullRequest)))
+      await setComment({ github })(pullRequest, generateReport());
+    return;
+  }
 
-  console.log(`latest release ${re.release.id}, sha: ${re.sha}`);
+  // console.log(`latest release ${re.release.id}, sha: ${re.sha}`);
 
   const previousChecks = await getChecks({ github })(
     pullRequest.base.repo,
@@ -25,7 +28,7 @@ const loop = ({ github }) => async (pullRequest: PullRequest) => {
 
   const newChecks = await analyzeRelease({ github })(re.release);
 
-  console.log(newChecks);
+  // console.log(newChecks);
 
   await setComment({ github })(
     pullRequest,
@@ -41,7 +44,9 @@ const loop = ({ github }) => async (pullRequest: PullRequest) => {
 };
 
 const run = async () => {
-  const github = await create(event.installation.id);
+  const installationId = 1281536;
+
+  const github = await create(installationId);
 
   const {
     data: { repositories }

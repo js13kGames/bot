@@ -9,7 +9,7 @@ export type ReleaseReport = {
 export type Check = (
   | { name: "bundle-found" }
   | { name: "bundle-unziped" }
-  | { name: "index-found"; deployUrl: string }
+  | { name: "index-found"; deployUrl: string; bundleFiles: string[] }
   | { name: "bundle-size"; bundleSize: number; sizeLimit: number }
   | { name: "run-without-error"; errors: any[] }
   | {

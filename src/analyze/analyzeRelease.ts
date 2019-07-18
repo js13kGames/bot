@@ -84,7 +84,8 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   checks.push({
     name: "index-found",
     conclusion: index ? "success" : "failure",
-    deployUrl: index
+    deployUrl: index,
+    bundleFiles: Object.keys(files)
   });
 
   /**

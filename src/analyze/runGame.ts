@@ -39,7 +39,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
    */
   await driver.get(deployUrl);
 
-  await driver.sleep(300);
+  await driver.sleep(1000);
 
   /**
    * take a screenshot
