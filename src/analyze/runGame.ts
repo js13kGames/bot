@@ -67,7 +67,8 @@ export const runGame = ({ upload }) => async (
     .filter(
       ({ message }) =>
         !(message.includes("favicon.ico") && message.match(/40[34]/))
-    );
+    )
+    .map(({ message }) => message);
 
   /**
    * check the network log for external resource call

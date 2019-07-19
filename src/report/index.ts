@@ -101,9 +101,7 @@ export const generateReport = (
           "Your game seems to have error at launch with chrome",
           "I got this error:",
           "```",
-          ...checks["run-without-error"].errors.map(
-            error => `${error.message}`
-          ),
+          ...checks["run-without-error"].errors,
           "```",
           `Can you take a look ? I have it deployed [here](${checks["index-found"].deployUrl})`
         );

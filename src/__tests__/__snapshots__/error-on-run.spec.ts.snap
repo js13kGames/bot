@@ -33,12 +33,7 @@ Array [
   Object {
     "conclusion": "failure",
     "errors": Array [
-      Object {
-        "level": "SEVERE",
-        "message": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
-        "timestamp": 1563534907719,
-        "type": "",
-      },
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
     ],
     "name": "run-without-error",
   },

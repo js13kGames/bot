@@ -11,7 +11,7 @@ export type Check = (
   | { name: "bundle-unziped" }
   | { name: "index-found"; deployUrl: string; bundleFiles: string[] }
   | { name: "bundle-size"; bundleSize: number; sizeLimit: number }
-  | { name: "run-without-error"; errors: any[] }
+  | { name: "run-without-error"; errors: string[] }
   | { name: "run-without-blank-screen"; screenShotUrl: string }
   | {
       name: "run-without-external-http";
