@@ -45,7 +45,7 @@ It's ok, we just need to change the git remote.
 
 - open a term in your repository
 
-```
+```bash
 
 # add a new remote, named "entry"
 # replace git@github.com:<github_login>/js13-entry.git by your remote url
@@ -67,7 +67,7 @@ git push --set-upstream entry master
 
 - alternatively, if you are ok with dropping your original repository, you can replace origin url instead of creating a new remote
 
-```
+```bash
 git remote set-url origin git@github.com:<github_login>/js13-entry.git
 
 git fetch
