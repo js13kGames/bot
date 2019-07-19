@@ -31,8 +31,15 @@ Array [
     "name": "index-found",
   },
   Object {
-    "conclusion": "success",
-    "errors": Array [],
+    "conclusion": "failure",
+    "errors": Array [
+      Object {
+        "level": "SEVERE",
+        "message": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+        "timestamp": 1563534907719,
+        "type": "",
+      },
+    ],
     "name": "run-without-error",
   },
   Object {
@@ -42,7 +49,7 @@ Array [
     "urls": null,
   },
   Object {
-    "conclusion": "failure",
+    "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png",
   },
@@ -55,6 +62,10 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [entry-error-on-run-1](https://github.com/platane-org/js13-entry/releases/tag/entry-error-on-run-1)
 
-Your game seems to have error at launch, all I can see is a [blank screen](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png)
+Your game seems to have error at launch with chrome
+I got this error:
+\`\`\`
+http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad
+\`\`\`
 Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html)"
 `;

@@ -42,7 +42,7 @@ Array [
     "urls": null,
   },
   Object {
-    "conclusion": "failure",
+    "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/game_preview_screenshot.png",
   },

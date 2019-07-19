@@ -42,7 +42,7 @@ Array [
     "urls": null,
   },
   Object {
-    "conclusion": "failure",
+    "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png",
   },
@@ -55,6 +55,5 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [entry-valid-1](https://github.com/platane-org/js13-entry/releases/tag/entry-valid-1)
 
-Your game seems to have error at launch, all I can see is a [blank screen](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png)
-Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html)"
+Its looking all good 👍 A human will soon accept your [entry](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html) 🎉"
 `;

@@ -2,10 +2,9 @@ import S3 from "aws-sdk/clients/s3";
 import * as config from "../config";
 import mime from "mime-types";
 
-export const createUploader = async (key: string) => {
-  const s3 = new S3(config.awsDeploy);
-  const bucketName = config.awsDeploy.bucketName;
+const wait = (delay=0) => new Promise(r => setTimeout(r,delay))
 
+const prepareBucket = ({s3}) => async (bucketName:string) => {
   /**
    * ensure bucket exist
    */
@@ -17,6 +16,9 @@ export const createUploader = async (key: string) => {
     .promise()
     .catch(error => {
       if (error.code === "BucketAlreadyOwnedByYou") return;
+      
+      if(error.code === "OperationAborted") return wait(100).then(() => prepareBucket({s3})(bucketName))
+      
       throw error;
     });
 
@@ -32,7 +34,20 @@ export const createUploader = async (key: string) => {
         }
       }
     })
-    .promise();
+    .promise()
+    .catch(error => {
+      
+      if(error.code === "OperationAborted") return wait(100).then(() => prepareBucket({s3})(bucketName))
+      
+      throw error;
+    });
+}
+
+export const createUploader = async (key: string) => {
+  const s3 = new S3(config.awsDeploy);
+  const bucketName = config.awsDeploy.bucketName;
+
+  await prepareBucket({s3})(bucketName)
 
   const upload = async (
     filename: string,
@@ -48,7 +63,7 @@ export const createUploader = async (key: string) => {
         Key: key + "/" + filename,
         Body: body,
         ACL: "public-read",
-        ContentType: mime.lookup(key) || undefined,
+        ContentType: mime.lookup(filename) || undefined,
         ...options
       })
       .promise();
