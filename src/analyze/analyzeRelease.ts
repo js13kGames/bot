@@ -1,8 +1,6 @@
-import { Release } from "../types/github";
-import { GithubClient } from "../services/github";
+import { Release, GithubClient } from "../services/github";
 import { readBundle } from "./readBundle";
-import { upload } from "../services/s3";
-import path from "path";
+import { createUploader } from "../services/s3";
 import { runGame } from "./runGame";
 import { Check } from "./check";
 
@@ -13,6 +11,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
 ): Promise<Check[]> => {
   let files: { [key: string]: any };
   let bundleSize: number;
+  let bundleHash: string;
 
   const checks: Check[] = [];
 
@@ -23,6 +22,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     const res = await readBundle({ github })(release.assets);
     files = res.files;
     bundleSize = res.bundleSize;
+    bundleHash = res.bundleHash;
 
     checks.push(
       {
@@ -71,12 +71,11 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   /**
    * upload files
    */
+  const { upload } = await createUploader(bundleHash);
+
   let index: string;
   for (const [filename, content] of Object.entries(files)) {
-    const url = await upload(
-      path.join(release.tag_name, filename),
-      content as any
-    );
+    const url = await upload(filename, content as any);
 
     if (filename === "index.html") index = url;
   }
@@ -95,7 +94,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
    * check run
    */
   if (index) {
-    checks.push(...(await runGame(index)));
+    checks.push(...(await runGame({ upload })(index)));
   }
 
   return checks;

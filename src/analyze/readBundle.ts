@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import Zip from "node-zip";
-import { Asset } from "../types/github";
-import { GithubClient } from "../services/github";
+import { GithubClient, Asset } from "../services/github";
+import { getHash } from "../services/md5";
 
 const downloadAsset = (url: string) =>
   fetch(url, {
@@ -29,6 +29,8 @@ const readZipFile = ({ github }: { github: GithubClient }) => async (
    */
   const bundleContent = await downloadAsset(asset.browser_download_url);
 
+  const bundleHash = getHash(Buffer.from(bundleContent));
+
   /*
    * unzip it
    */
@@ -44,7 +46,11 @@ const readZipFile = ({ github }: { github: GithubClient }) => async (
         .map(([name, file]: any) => [name, file.asNodeBuffer()])
     );
 
-    return { files, bundleSize: asset.size };
+    return {
+      files,
+      bundleSize: asset.size,
+      bundleHash
+    };
   } catch (err) {
     const error = new Error("failed to unzip");
 

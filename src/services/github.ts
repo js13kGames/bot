@@ -1,6 +1,19 @@
 import createApp from "github-app";
 import * as config from "../config";
-import Github from "@octokit/rest";
+import Github, {
+  PullRequestsListResponseItem,
+  ReposListAssetsForReleaseResponseItem,
+  ReposGetReleaseResponse,
+  ChecksGetResponse
+  // ReposGetResponse,
+} from "@octokit/rest";
+
+export type Check = ChecksGetResponse;
+export type PullRequest = PullRequestsListResponseItem;
+export type Repository = PullRequest["head"]["repo"];
+export type Asset = ReposListAssetsForReleaseResponseItem;
+export type Release = ReposGetReleaseResponse;
+// export type Repository = ReposGetResponse;
 
 export type GithubClient = Github;
 

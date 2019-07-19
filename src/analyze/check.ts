@@ -12,11 +12,11 @@ export type Check = (
   | { name: "index-found"; deployUrl: string; bundleFiles: string[] }
   | { name: "bundle-size"; bundleSize: number; sizeLimit: number }
   | { name: "run-without-error"; errors: any[] }
+  | { name: "run-without-blank-screen"; screenShotUrl: string }
   | {
       name: "run-without-external-http";
       externalUrls?: string[];
       urls?: string[];
-    }
-  | { name: "run-without-blank-screen"; screenShotUrl: string }) & {
+    }) & {
   conclusion: "success" | "failure";
 };

@@ -1,5 +1,4 @@
-import { GithubClient } from "./services/github";
-import { PullRequest } from "./types/github";
+import { PullRequest, GithubClient } from "./services/github";
 import * as config from "./config";
 
 /**

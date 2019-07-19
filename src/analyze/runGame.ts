@@ -6,9 +6,10 @@ import { promisify } from "util";
 import * as config from "../config";
 import { encode } from "base-64";
 import { Check } from "./check";
-import { upload } from "../services/s3";
 
-export const runGame = async (deployUrl: string): Promise<Check[]> => {
+export const runGame = ({ upload }) => async (
+  deployUrl: string
+): Promise<Check[]> => {
   /**
    * prepare browserstack
    */
@@ -39,7 +40,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
    */
   await driver.get(deployUrl);
 
-  await driver.sleep(1000);
+  await driver.sleep(600);
 
   /**
    * take a screenshot
@@ -54,7 +55,7 @@ export const runGame = async (deployUrl: string): Promise<Check[]> => {
     .logs()
     .get(webdriver.logging.Type.BROWSER);
 
-  await driver.sleep(500);
+  // await driver.sleep(500);
   await driver.quit();
 
   /**

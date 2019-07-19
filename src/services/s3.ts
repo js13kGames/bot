@@ -2,11 +2,7 @@ import S3 from "aws-sdk/clients/s3";
 import * as config from "../config";
 import mime from "mime-types";
 
-export const upload = async (
-  key: string,
-  body: string | Buffer | ArrayBuffer,
-  options = {}
-) => {
+export const createUploader = async (key: string) => {
   const s3 = new S3(config.awsDeploy);
   const bucketName = config.awsDeploy.bucketName;
 
@@ -16,8 +12,7 @@ export const upload = async (
   await s3
     .createBucket({
       Bucket: bucketName,
-      ACL: "public-read",
-      ...options
+      ACL: "public-read"
     })
     .promise()
     .catch(error => {
@@ -39,24 +34,32 @@ export const upload = async (
     })
     .promise();
 
-  /**
-   * upload file
-   */
-  const data = await s3
-    .upload({
-      Bucket: bucketName,
-      Key: key,
-      Body: body,
-      ACL: "public-read",
-      ContentType: mime.lookup(key) || undefined,
-      ...options
-    })
-    .promise();
+  const upload = async (
+    filename: string,
+    body: string | Buffer | ArrayBuffer,
+    options = {}
+  ) => {
+    /**
+     * upload file
+     */
+    const data = await s3
+      .upload({
+        Bucket: bucketName,
+        Key: key + "/" + filename,
+        Body: body,
+        ACL: "public-read",
+        ContentType: mime.lookup(key) || undefined,
+        ...options
+      })
+      .promise();
 
-  /**
-   * build website url
-   */
-  const url = `http://${bucketName}.s3-website-${config.awsDeploy.region}.amazonaws.com/${data.Key}`;
+    /**
+     * build website url
+     */
+    const url = `http://${bucketName}.s3-website-${config.awsDeploy.region}.amazonaws.com/${data.Key}`;
 
-  return url;
+    return url;
+  };
+
+  return { upload };
 };

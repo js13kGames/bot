@@ -1,5 +1,5 @@
 import { Check } from "../analyze/check";
-import { Release } from "../types/github";
+import { Release } from "../services/github";
 
 export const generateReport = (
   latestRelease?: Release,
