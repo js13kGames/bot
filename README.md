@@ -104,7 +104,11 @@ You will need to have the [env](./.env) configured.
 
 ### Deployment
 
-[...]
+The app is backed by aws lambda. Using serverless to handle the deploy thingy.
+
+`yarn deploy` will build the sources, package and deploy the bundle.
+
+You will need to have the [env](./.env) configured, and serverless configured to target aws as well.
 
 ## License
 
