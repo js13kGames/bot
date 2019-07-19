@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  oversize-bundle should analyze 1`] = `
+Array [
+  Object {
+    "assetFiles": Array [
+      "bundle.zip",
+    ],
+    "conclusion": "success",
+    "name": "bundle-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle-unziped",
+  },
+  Object {
+    "bundleSize": 18017,
+    "conclusion": "failure",
+    "name": "bundle-size",
+    "sizeLimit": 13312,
+  },
+  Object {
+    "bundleFiles": Array [
+      "asset/text.txt",
+      "asset/script.js",
+      "asset/image/1659821.jpeg",
+      "index.html",
+    ],
+    "conclusion": "success",
+    "deployUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html",
+    "name": "index-found",
+  },
+  Object {
+    "conclusion": "success",
+    "errors": Array [],
+    "name": "run-without-error",
+  },
+  Object {
+    "conclusion": "success",
+    "externalUrls": undefined,
+    "name": "run-without-external-http",
+    "urls": null,
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "run-without-blank-screen",
+    "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  oversize-bundle should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+I reviewed your latest release, [entry-oversize-bundle-1](https://github.com/platane-org/js13-entry/releases/tag/entry-oversize-bundle-1)
+
+I am afraid your entry is too large!
+It weights 18017o, which is more than the 13312o limit
+
+Surely you can save a few bits here an there? 😀"
+`;

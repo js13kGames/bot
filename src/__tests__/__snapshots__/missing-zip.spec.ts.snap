@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  missing-zip should analyze 1`] = `
+Array [
+  Object {
+    "assetFiles": Array [
+      "index.html",
+    ],
+    "conclusion": "failure",
+    "name": "bundle-found",
+  },
+]
+`;
+
+exports[`integration  missing-zip should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+I reviewed your latest release, [entry-missing-zip-1](https://github.com/platane-org/js13-entry/releases/tag/entry-missing-zip-1)
+
+I could not found the zip file in the release assets.
+I found:
+\`\`\`
+ - index.html
+\`\`\`
+
+Are you sure you included a .zip file ?"
+`;

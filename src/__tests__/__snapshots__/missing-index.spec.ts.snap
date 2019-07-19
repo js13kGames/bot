@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  missing-index should analyze 1`] = `
+Array [
+  Object {
+    "assetFiles": Array [
+      "bundle.zip",
+    ],
+    "conclusion": "success",
+    "name": "bundle-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle-unziped",
+  },
+  Object {
+    "bundleSize": 3857,
+    "conclusion": "success",
+    "name": "bundle-size",
+    "sizeLimit": 13312,
+  },
+  Object {
+    "bundleFiles": Array [
+      "asset/text.txt",
+      "asset/script.js",
+      "asset/image/1659821.jpeg",
+      "game.html",
+    ],
+    "conclusion": "failure",
+    "deployUrl": undefined,
+    "name": "index-found",
+  },
+]
+`;
+
+exports[`integration  missing-index should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+I reviewed your latest release, [entry-missing-index-1](https://github.com/platane-org/js13-entry/releases/tag/entry-missing-index-1)
+
+I could not found a index.html file in the zip archive.
+I found:
+\`\`\`
+ - asset/text.txt
+ - asset/script.js
+ - asset/image/1659821.jpeg
+ - game.html
+\`\`\`
+
+Can you make sure your game can be launched through a file named \`index.html\`?"
+`;

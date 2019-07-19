@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  no-release should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+Please create a release with your bundled zip file so I can start reviewing 👀
+If you have trouble doing so, please read the [guide](/). Or ask for help here.
+"
+`;
