@@ -1,0 +1,19 @@
+service: bot-13k
+
+package:
+  exclude:
+    - ./src/**
+    - ./doc/**
+    - ./.jest-cache/**
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  memorySize: 256
+  timeout: 180
+
+functions:
+  cron:
+    handler: build/handle-cron.handle
+    events:
+      - schedule: rate(5 minutes)

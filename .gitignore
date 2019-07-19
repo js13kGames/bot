@@ -2,3 +2,5 @@ node_modules
 .jest-cache
 env
 yarn-error.log
+build
+.serverless
