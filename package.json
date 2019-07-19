@@ -34,7 +34,8 @@
     "typescript": "3.5.3"
   },
   "scripts": {
-    "test": "jest --config ./jest.config.js --no-cache --detectOpenHandles --forceExit",
+    "test": "jest --config ./jest.config.js --no-cache",
+    "type": "tsc --noEmit",
     "dev": "babel-node --extensions .ts ./src/dev-server.ts",
     "test_": "babel-node --extensions .ts -e \"require('./src/handler').handle(require('./src/__fixtures__/published.json'))\"",
     "test0": "babel-node --extensions .ts ./src/test.ts"
