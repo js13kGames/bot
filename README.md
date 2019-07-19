@@ -2,14 +2,14 @@
 
 > js13kGames automatic submission validation
 
-![screenshot of pull request comment section](https://raw.githubusercontent.com/Platane/13k-bot/master/banner.png)
+![screenshot of pull request comment section](https://raw.githubusercontent.com/Platane/13k-bot/master/doc/assets/banner.png)
 
 In order to automate submission for the [js13kgames.com/](https://js13kgames.com/) challenge, the whole submission process is based on github Pull Request with a bot to check trivial things.
 
 ## Table of content
 
 - [Usage](#usage)
-  - [Submission](#submission) [_How to submit_](./how-to-submit.md)
+  - [Submission](#submission) - [**How to submit**](./doc/how-to-submit.md#how-to-submit)
   - [Internal Workflow](#internal-workflow)
 - [Contributing](#contributing)
 - [License](#license)
@@ -18,7 +18,7 @@ In order to automate submission for the [js13kgames.com/](https://js13kgames.com
 
 ### Submission
 
-If you want to submit an entry to the js13kgames.com, have a look at the [How to submit](./how-to-submit.md)
+If you want to submit an entry to the js13kgames.com, have a look at the [How to submit](./doc/how-to-submit.md#how-to-submit)
 
 ### Internal Workflow
 
