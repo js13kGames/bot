@@ -1,6 +1,6 @@
 {
   "name": "13k-bot",
-  "description": "13kjs automatic entry validation",
+  "description": "13kjs automatic submission validation",
   "version": "0.1.0",
   "dependencies": {
     "base-64": "0.1.0",
@@ -32,6 +32,7 @@
   "scripts": {
     "test": "jest --config ./jest.config.js --no-cache",
     "type": "tsc --noEmit",
+    "lint": "yarn prettier -c './**/*.[tj]s'",
     "dev": "babel-node --extensions .ts ./src/dev-server.ts",
     "test0": "babel-node --extensions .ts ./src/test.ts"
   }
