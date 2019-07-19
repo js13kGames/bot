@@ -1,8 +1,10 @@
 # js13kGames bot
 
-> js13kGames automatic submission validation
-
 ![screenshot of pull request comment section](https://raw.githubusercontent.com/Platane/13k-bot/master/doc/assets/banner.png)
+
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![type: typescript](https://img.shields.io/npm/types/typescript.svg?style=flat-square)](https://github.com/microsoft/TypeScript)
+
+> js13kGames automatic submission validation
 
 In order to automate submission for the [js13kgames.com/](https://js13kgames.com/) challenge, the whole submission process is based on github Pull Request with a bot to check trivial things.
 
