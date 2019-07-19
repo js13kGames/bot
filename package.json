@@ -34,7 +34,7 @@
   },
   "scripts": {
     "deploy": "yarn build; serverless deploy",
-    "build": "babel src --extensions \".ts\" --out-dir build --ignore **/__tests__ --ignore **__fixtures__",
+    "build": "babel src --extensions \".ts\" --out-dir build --ignore **/__tests__ --ignore **/__fixtures__",
     "test": "jest --config ./jest.config.js --no-cache",
     "type": "tsc --noEmit",
     "lint": "yarn prettier -c './**/*.[tj]s'",
