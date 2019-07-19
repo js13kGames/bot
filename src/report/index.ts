@@ -20,7 +20,7 @@ export const generateReport = (
      */
     body.push(
       "Please create a release with your bundled zip file so I can start reviewing 👀",
-      "If you have trouble doing so, please read the [guide](/). Or ask for help here.",
+      "If you have trouble doing so, please read the [guide](https://github.com/Platane/13k-bot/blob/master/doc/how-to-submit.md#release). Or ask for help here.",
       ""
     );
   } else {
