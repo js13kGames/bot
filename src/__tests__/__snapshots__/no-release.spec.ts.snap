@@ -5,6 +5,6 @@ exports[`integration  no-release should generate report 1`] = `
 I am a bot. My job is to review your submission.
 
 Please create a release with your bundled zip file so I can start reviewing 👀
-If you have trouble doing so, please read the [guide](https://github.com/Platane/13k-bot/blob/master/doc/how-to-submit.md#release). Or ask for help here.
+If you have trouble doing so, please read the [guide](https://github.com/js13kGames/bot/blob/master/doc/how-to-submit.md#release). Or ask for help here.
 "
 `;
