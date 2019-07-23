@@ -40,11 +40,11 @@ Array [
     "externalUrls": Array [],
     "name": "run-without-external-http",
     "urls": Array [
-      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
-      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg",
-      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
     ],
   },
   Object {
@@ -107,7 +107,7 @@ Array [
     "name": "run without external http",
     "output": Object {
       "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
 > ",
       "title": "",
     },

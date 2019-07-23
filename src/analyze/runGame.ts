@@ -23,12 +23,12 @@ const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
     .then(async res => {
       const text = await res.text();
 
-      if (res.ok) return JSON.parse(text).log.entries.map(e => e.request.url);
+      if (res.ok) return JSON.parse(text);
 
       throw new Error(text);
     })
     .catch(async error => {
-      if (retry < 5) {
+      if (retry < 6) {
         await wait(1000);
 
         return getBrowserStackNetworkLog(sessionId, retry + 1);
@@ -114,7 +114,9 @@ export const runGame = ({ upload }) => async (
    *
    *  need to have a defensive check on "networkLogs" existance in case browserstack fails
    */
-  const urls = await getBrowserStackNetworkLog(session.getId());
+  const networkLog = await getBrowserStackNetworkLog(session.getId());
+  const urls =
+    networkLog && networkLog.log.entries.map(e => e.request.url).sort();
 
   const externalUrls =
     urls &&
