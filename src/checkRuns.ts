@@ -16,7 +16,7 @@ export const getChecks = ({ github }: { github: GithubClient }) => async (
 
   const checks: Check[] = checkRuns
     .filter(c => c.external_id.toString() === releaseId.toString())
-    .map(c => ({ name: c.name, status: c.conclusion }));
+    .map(c => ({ name: c.name, status: c.conclusion })) as any;
 
   return checks.length > 0 ? checks : null;
 };
