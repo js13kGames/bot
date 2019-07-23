@@ -21,7 +21,7 @@ jobs:
 
       - run: yarn lint
 
-      - run: yarn test --ci
+      - run: yarn test --ci --runInBand
 
       - run:
           name: yarn build
@@ -36,6 +36,8 @@ jobs:
             - build
             - .env
             - serverless.yml
+            - package.json
+            - yarn.lock
 
   deploy:
     executor: node
@@ -43,9 +45,11 @@ jobs:
       - attach_workspace:
           at: *workspace_root
 
+      - run: yarn install --frozen-lockfile --no-progress --non-interactive --production
+
       - run: yarn add serverless@1.48.0
 
-      - run: yarn serverless deploy
+      - run: serverless deploy
 
 workflows:
   version: 2
