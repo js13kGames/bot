@@ -1,4 +1,4 @@
-service: bot-13k
+service: js13kGames-bot
 
 package:
   exclude:
@@ -11,6 +11,15 @@ provider:
   runtime: nodejs8.10
   memorySize: 256
   timeout: 180
+  logRetentionInDays: 14
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource:
+        - "arn:aws:s3:::js13kgames-entry-preview"
+  environment:
+    AWS_BUCKET_NAME: js13kgames-entry-preview
 
 functions:
   cron:

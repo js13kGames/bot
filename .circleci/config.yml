@@ -1,0 +1,60 @@
+version: 2.1
+
+references:
+  workspace_root: &workspace_root /home/circleci/project
+
+executors:
+  node:
+    docker:
+      - image: circleci/node:10.16.0
+    working_directory: *workspace_root
+
+jobs:
+  install-test-build:
+    executor: node
+    steps:
+      - checkout
+
+      - run: yarn install --frozen-lockfile --no-progress --non-interactive
+
+      - run: yarn type
+
+      - run: yarn lint
+
+      - run: yarn test
+
+      - run:
+          name: yarn build
+          command: |
+            export AWS_ACCESS_KEY_ID=
+            export AWS_SECRET_ACCESS_KEY=
+            yarn build
+
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - build
+            - .env
+            - serverless.yml
+
+  deploy:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *workspace_root
+
+      - run: yarn add serverless@1.48.0
+
+      - run: yarn serverless deploy
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - install-test-build
+      - deploy:
+          requires:
+            - install-test-build
+          filters:
+            branches:
+              only: master

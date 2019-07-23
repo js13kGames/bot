@@ -2,6 +2,9 @@
   "name": "13k-bot",
   "description": "13kjs automatic submission validation",
   "version": "0.1.0",
+  "engines": {
+    "node": "10.16.0"
+  },
   "dependencies": {
     "aws-sdk": "2.495.0",
     "base-64": "0.1.0",

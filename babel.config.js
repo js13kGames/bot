@@ -5,7 +5,10 @@ const plugins = [
 
   [
     "babel-plugin-inline-dotenv",
-    { path: path.resolve(__dirname, "./.env"), systemVar: "disable" }
+    {
+      path: path.resolve(__dirname, "./.env"),
+      systemVar: process.env.CI ? "overwrite" : "disable"
+    }
   ],
 
   "@babel/plugin-transform-modules-commonjs"
