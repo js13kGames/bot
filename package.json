@@ -1,6 +1,7 @@
 {
-  "name": "13k-bot",
-  "description": "13kjs automatic submission validation",
+  "name": "js13kGames-bot",
+  "description": "js13kGames automatic submission validation",
+  "repository": "github:js13kGames/bot",
   "version": "0.1.0",
   "engines": {
     "node": "10.16.0"
