@@ -12,6 +12,20 @@ Array [
 ]
 `;
 
+exports[`integration  missing-zip should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "failure",
+    "name": "bundle found",
+    "output": Object {
+      "summary": "",
+      "text": "> index.html",
+      "title": "",
+    },
+  },
+]
+`;
+
 exports[`integration  missing-zip should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.

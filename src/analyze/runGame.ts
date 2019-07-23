@@ -7,6 +7,38 @@ import * as config from "../config";
 import { encode } from "base-64";
 import { Control } from "./control";
 
+const wait = (delay = 0) => new Promise(r => setTimeout(r, delay));
+
+const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
+  fetch(
+    `https://api.browserstack.com/automate/sessions/${sessionId}/networklogs`,
+    {
+      headers: {
+        Authorization: `Basic ${encode(
+          config.browserstack.user + ":" + config.browserstack.key
+        )}`
+      }
+    }
+  )
+    .then(async res => {
+      const text = await res.text();
+
+      if (res.ok) return JSON.parse(text).log.entries.map(e => e.request.url);
+
+      throw new Error(text);
+    })
+    .catch(async error => {
+      if (retry < 5) {
+        await wait(1000);
+
+        return getBrowserStackNetworkLog(sessionId, retry + 1);
+      }
+
+      console.log(error);
+
+      return null;
+    });
+
 export const runGame = ({ upload }) => async (
   deployUrl: string
 ): Promise<Control[]> => {
@@ -71,33 +103,18 @@ export const runGame = ({ upload }) => async (
     .map(({ message }) => message);
 
   /**
+   * wait for log to be ready ...
+   */
+  await wait(4000);
+
+  /**
    * check the network log for external resource call
    * ( which is obviously prohibited )
    * ( expect from the favicon.ico, i guess that's ok )
    *
    *  need to have a defensive check on "networkLogs" existance in case browserstack fails
    */
-  const urls = await fetch(
-    `https://api.browserstack.com/automate/sessions/${session.getId()}/networklogs`,
-    {
-      headers: {
-        Authorization: `Basic ${encode(
-          config.browserstack.user + ":" + config.browserstack.key
-        )}`
-      }
-    }
-  )
-    .then(async res => {
-      const text = await res.text();
-
-      if (res.ok) return JSON.parse(text).log.entries.map(e => e.request.url);
-
-      throw new Error(text);
-    })
-    .catch(error => {
-      console.log(error);
-      return null;
-    });
+  const urls = await getBrowserStackNetworkLog(session.getId());
 
   const externalUrls =
     urls &&
@@ -129,9 +146,8 @@ export const runGame = ({ upload }) => async (
       name: "run-without-external-http",
       conclusion:
         externalUrls && externalUrls.length > 0 ? "failure" : "success",
-      urls: urls,
-      externalUrls:
-        externalUrls && externalUrls.length > 0 ? externalUrls : undefined
+      urls: urls || undefined,
+      externalUrls: externalUrls || undefined
     },
 
     {

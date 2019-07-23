@@ -2,7 +2,6 @@ import { decode } from "base-64";
 
 export const github = {
   app_id: process.env.GITHUB_APP_ID,
-  app_name: process.env.GITHUB_APP_NAME,
   app_secret: process.env.GITHUB_APP_SECRET,
   app_private_key: decode(process.env.GITHUB_APP_PRIVATE_KEY_B64),
 

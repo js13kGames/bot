@@ -4,6 +4,7 @@ import { setComment, getComment } from "./comment";
 import { generateReport } from "./report";
 import { GithubClient, PullRequest } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
+import { generateChecks } from "./report/checks";
 
 export const collectAnalyzeReport = ({
   github
@@ -40,14 +41,14 @@ export const collectAnalyzeReport = ({
   /**
    * analyze the release
    */
-  const newChecks = await analyzeRelease({ github })(re.release);
+  const newControls = await analyzeRelease({ github })(re.release);
 
   /**
    * report as comment
    */
   await setComment({ github })(
     pullRequest,
-    generateReport(re.release, newChecks)
+    generateReport(re.release, newControls)
   );
 
   /**
@@ -57,6 +58,6 @@ export const collectAnalyzeReport = ({
     pullRequest.base.repo,
     re.sha,
     re.release.id,
-    newChecks
+    generateChecks(newControls)
   );
 };

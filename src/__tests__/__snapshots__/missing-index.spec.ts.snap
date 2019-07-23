@@ -33,6 +33,47 @@ Array [
 ]
 `;
 
+exports[`integration  missing-index should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "bundle found",
+    "output": Object {
+      "summary": "",
+      "text": "> bundle.zip",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle unziped",
+    "output": Object {
+      "summary": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle size",
+    "output": Object {
+      "summary": "",
+      "text": "> 3857, 13312",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "index found",
+    "output": Object {
+      "summary": "",
+      "text": "> 
+> asset/text.txt, asset/script.js, asset/image/1659821.jpeg, game.html",
+      "title": "",
+    },
+  },
+]
+`;
+
 exports[`integration  missing-index should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.

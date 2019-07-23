@@ -37,14 +37,89 @@ Array [
   },
   Object {
     "conclusion": "success",
-    "externalUrls": undefined,
+    "externalUrls": Array [],
     "name": "run-without-external-http",
-    "urls": null,
+    "urls": Array [
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt",
+    ],
   },
   Object {
     "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  valid should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "bundle found",
+    "output": Object {
+      "summary": "",
+      "text": "> bundle.zip",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle unziped",
+    "output": Object {
+      "summary": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle size",
+    "output": Object {
+      "summary": "",
+      "text": "> 3859, 13312",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "index found",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html
+> asset/text.txt, asset/script.js, asset/image/1659821.jpeg, index.html",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run without error",
+    "output": Object {
+      "summary": "",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run without external http",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt
+> ",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run without blank screen",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png",
+      "title": "",
+    },
   },
 ]
 `;

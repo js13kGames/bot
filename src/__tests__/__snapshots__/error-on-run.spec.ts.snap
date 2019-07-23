@@ -39,14 +39,89 @@ Array [
   },
   Object {
     "conclusion": "success",
-    "externalUrls": undefined,
+    "externalUrls": Array [],
     "name": "run-without-external-http",
-    "urls": null,
+    "urls": Array [
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt",
+    ],
   },
   Object {
     "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  error-on-run should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "bundle found",
+    "output": Object {
+      "summary": "",
+      "text": "> bundle.zip",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle unziped",
+    "output": Object {
+      "summary": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle size",
+    "output": Object {
+      "summary": "",
+      "text": "> 3882, 13312",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "index found",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html
+> asset/text.txt, asset/script.js, asset/image/1659821.jpeg, index.html",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "run without error",
+    "output": Object {
+      "summary": "",
+      "text": "> - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run without external http",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt
+> ",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run without blank screen",
+    "output": Object {
+      "summary": "",
+      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png",
+      "title": "",
+    },
   },
 ]
 `;

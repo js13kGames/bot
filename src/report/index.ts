@@ -3,7 +3,7 @@ import { Release } from "../services/github";
 
 export const generateReport = (
   latestRelease?: Release,
-  latestReleaseChecks?: Control[]
+  latestReleaseControls?: Control[]
 ) => {
   /**
    * header
@@ -25,7 +25,7 @@ export const generateReport = (
     );
   } else {
     const checks: any = Object.fromEntries(
-      latestReleaseChecks.map(x => [x.name, x])
+      latestReleaseControls.map(x => [x.name, x])
     );
 
     /**
@@ -39,7 +39,7 @@ export const generateReport = (
     /**
      * all good
      */
-    if (latestReleaseChecks.every(c => c.conclusion === "success")) {
+    if (latestReleaseControls.every(c => c.conclusion === "success")) {
       body.push(
         `Its looking all good 👍 A human will soon accept your [entry](${checks["index-found"].deployUrl}) 🎉`
       );
