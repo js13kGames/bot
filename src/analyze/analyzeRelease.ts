@@ -2,18 +2,18 @@ import { Release, GithubClient } from "../services/github";
 import { readBundle } from "./readBundle";
 import { createUploader } from "../services/s3";
 import { runGame } from "./runGame";
-import { Check } from "./check";
+import { Control } from "./control";
 
 const SIZE_LIMIT = 13 * 1024;
 
 export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   release: Release
-): Promise<Check[]> => {
+): Promise<Control[]> => {
   let files: { [key: string]: any };
   let bundleSize: number;
   let bundleHash: string;
 
-  const checks: Check[] = [];
+  const controls: Control[] = [];
 
   /**
    * read the bundle
@@ -24,7 +24,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     bundleSize = res.bundleSize;
     bundleHash = res.bundleHash;
 
-    checks.push(
+    controls.push(
       {
         name: "bundle-found",
         conclusion: "success",
@@ -34,14 +34,14 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     );
   } catch (err) {
     if (err.message === "could not find a zip file") {
-      checks.push({
+      controls.push({
         name: "bundle-found",
         conclusion: "failure",
         assetFiles: release.assets.map(a => a.name)
       });
-      return checks;
+      return controls;
     } else {
-      checks.push({
+      controls.push({
         name: "bundle-found",
         conclusion: "success",
         assetFiles: release.assets.map(a => a.name)
@@ -49,10 +49,10 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     }
 
     if (err.message === "failed to unzip") {
-      checks.push({ name: "bundle-unziped", conclusion: "failure" });
-      return checks;
+      controls.push({ name: "bundle-unziped", conclusion: "failure" });
+      return controls;
     } else {
-      checks.push({ name: "bundle-unziped", conclusion: "success" });
+      controls.push({ name: "bundle-unziped", conclusion: "success" });
     }
 
     throw err;
@@ -61,7 +61,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   /**
    * check the bundle size
    */
-  checks.push({
+  controls.push({
     name: "bundle-size",
     conclusion: bundleSize > SIZE_LIMIT ? "failure" : "success",
     bundleSize,
@@ -83,7 +83,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   /**
    * check for the index html
    */
-  checks.push({
+  controls.push({
     name: "index-found",
     conclusion: index ? "success" : "failure",
     deployUrl: index,
@@ -94,8 +94,8 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
    * check run
    */
   if (index) {
-    checks.push(...(await runGame({ upload })(index)));
+    controls.push(...(await runGame({ upload })(index)));
   }
 
-  return checks;
+  return controls;
 };

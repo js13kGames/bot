@@ -6,10 +6,13 @@ import Github, {
   ReposGetReleaseResponse,
   ChecksGetResponse,
   AppsGetInstallationResponse,
-  AppsGetAuthenticatedResponse
+  AppsGetAuthenticatedResponse,
+  ChecksUpdateParams
 } from "@octokit/rest";
 
-export type Check = ChecksGetResponse;
+export type Check = Omit<ChecksGetResponse, "conclusion"> & {
+  conclusion: ChecksUpdateParams["conclusion"];
+};
 export type PullRequest = PullRequestsListResponseItem;
 export type Repository = PullRequest["head"]["repo"];
 export type Asset = ReposListAssetsForReleaseResponseItem;

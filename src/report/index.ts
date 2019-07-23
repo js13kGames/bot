@@ -1,9 +1,9 @@
-import { Check } from "../analyze/check";
+import { Control } from "../analyze/control";
 import { Release } from "../services/github";
 
 export const generateReport = (
   latestRelease?: Release,
-  latestReleaseChecks?: Check[]
+  latestReleaseChecks?: Control[]
 ) => {
   /**
    * header

@@ -5,11 +5,11 @@ import getPixels from "get-pixels";
 import { promisify } from "util";
 import * as config from "../config";
 import { encode } from "base-64";
-import { Check } from "./check";
+import { Control } from "./control";
 
 export const runGame = ({ upload }) => async (
   deployUrl: string
-): Promise<Check[]> => {
+): Promise<Control[]> => {
   /**
    * prepare browserstack
    */

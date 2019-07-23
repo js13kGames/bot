@@ -1,5 +1,4 @@
-import { GithubClient, Repository } from "./services/github";
-import { Check } from "./analyze/check";
+import { GithubClient, Repository, Check } from "./services/github";
 
 export const getChecks = ({ github }: { github: GithubClient }) => async (
   repository: Repository,
@@ -14,9 +13,9 @@ export const getChecks = ({ github }: { github: GithubClient }) => async (
     ref: sha
   });
 
-  const checks: Check[] = checkRuns
-    .filter(c => c.external_id.toString() === releaseId.toString())
-    .map(c => ({ name: c.name, status: c.conclusion })) as any;
+  const checks: Check[] = checkRuns.filter(
+    c => c.external_id.toString() === releaseId.toString()
+  ) as any;
 
   return checks.length > 0 ? checks : null;
 };
@@ -41,26 +40,26 @@ export const setChecks = ({ github }: { github: GithubClient }) => async (
   /**
    * create / update check runs
    */
-  for (const { name, conclusion } of checks) {
+  for (const check of checks) {
     const checkRun = checkRuns.find(cr => cr.name === name);
 
     if (checkRun)
       await github.checks.update({
+        ...check,
         check_run_id: checkRun.id,
         owner: repository.owner.login,
         repo: repository.name,
         status: "completed",
-        conclusion,
         external_id: releaseId.toString()
       });
     else
       await github.checks.create({
+        ...check,
         owner: repository.owner.login,
         repo: repository.name,
         name: name,
         head_sha: sha,
         status: "completed",
-        conclusion,
         external_id: releaseId.toString()
       });
   }

@@ -1,12 +1,4 @@
-export type ReleaseReport = {
-  releaseId: string;
-  releaseName: string;
-  releaseUrl: string;
-  deployUrl?: string;
-  checks: Check[];
-};
-
-export type Check = (
+export type Control = (
   | { name: "bundle-found"; assetFiles: string[] }
   | { name: "bundle-unziped" }
   | { name: "index-found"; deployUrl: string; bundleFiles: string[] }
