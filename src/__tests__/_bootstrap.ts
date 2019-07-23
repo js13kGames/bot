@@ -5,7 +5,7 @@ import { generateReport } from "../report";
 import { setComment } from "../comment";
 import { getLatestRelease } from "../getLatestRelease";
 
-jest.setTimeout(40000);
+jest.setTimeout(60000);
 
 export const bootstrap = ({ pullRequest, installation }) => {
   let checks;

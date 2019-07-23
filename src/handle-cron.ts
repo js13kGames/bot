@@ -1,10 +1,11 @@
-import { create } from "./services/github";
+import { create, listInstallations } from "./services/github";
 import { collectAnalyzeReport } from "./collectAnalyzeReport";
-import * as config from "./config";
 
 export const handle = async () => {
-  for (const installationId of config.github.installation_ids) {
-    const github = await create(+installationId);
+  const installations = await listInstallations();
+
+  for (const installation of installations) {
+    const github = await create(installation.id);
 
     const {
       data: { repositories }

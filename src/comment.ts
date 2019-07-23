@@ -1,5 +1,4 @@
-import { PullRequest, GithubClient } from "./services/github";
-import * as config from "./config";
+import { PullRequest, GithubClient, getApp } from "./services/github";
 
 /**
  * read the comment left by the bot
@@ -14,7 +13,8 @@ export const getComment = ({ github }: { github: GithubClient }) => async (
     per_page: 100
   });
 
-  const userLogin = config.github.app_name + "[bot]";
+  const app = await getApp();
+  const userLogin = app.name.toLowerCase() + "[bot]";
 
   const comment = comments.find(({ user }) => user.login === userLogin);
 
