@@ -5,6 +5,9 @@ package:
     - ./src/**
     - ./doc/**
     - ./.jest-cache/**
+    - ./node_modules/.cache/**
+    - README.md
+    - license
 
 provider:
   name: aws
