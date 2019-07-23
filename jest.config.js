@@ -6,5 +6,6 @@ module.exports = {
   testMatch: ["**/__tests__/**/?(*.)+(spec|test).[jt]s?(x)"],
   modulePathIgnorePatterns: ["build"],
   testPathIgnorePatterns: ["/node_modules/"],
-  cacheDirectory: "./.jest-cache"
+  cacheDirectory: "./.jest-cache",
+  setupFiles: ["./src/polyfill.fromEntries.ts"]
 };

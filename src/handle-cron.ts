@@ -1,3 +1,4 @@
+import "./polyfill.fromEntries";
 import { create, listInstallations } from "./services/github";
 import { collectAnalyzeReport } from "./collectAnalyzeReport";
 
