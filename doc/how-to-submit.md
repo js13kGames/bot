@@ -35,7 +35,11 @@
 
 ## FAQ
 
-**I already made a repository, and I don't want to lose my history**
+### Can I see a fully featured exemple ?
+
+[sure ](.)
+
+### I already made a repository, and I don't want to lose my history
 
 It's ok, we just need to change the git remote.
 
@@ -43,7 +47,29 @@ It's ok, we just need to change the git remote.
 
 - get the remote url (you can found it under the "clone or download" button, and it looks like `git@github.com:<github_login>/js13-entry.git` )
 
-- open a term in your repository
+- in a term
+
+```bash
+
+# change the origin url to the fork
+# replace git@github.com:<github_login>/js13-entry.git by your remote url
+git remote set-url origin git@github.com:<github_login>/js13-entry.git
+
+# fetch the latest commit on the fork
+# it should contain only a dummy commit
+git fetch
+
+# rebase your commit history on top of the ones from entry
+# which should be easy since origin only have one dummy commit
+git rebase origin/master
+
+# push your history
+git push
+```
+
+### I already made a repository, and I want to keep committing on it
+
+Ok, so instead of changing the remote url, we can add a new one.
 
 ```bash
 
@@ -55,24 +81,16 @@ git remote add entry git@github.com:<github_login>/js13-entry.git
 git fetch entry
 
 # rebase your commit history on top of the ones from entry
-# which should be easy since entry have only one dummy commit
 git rebase entry/master
 
 # push to entry
 git push --set-upstream entry master
-
 ```
 
-- whenever you want to push commits to the fork, do `git push entry`
+whenever you want to push commits to the fork, do `git push entry`
 
-- alternatively, if you are ok with dropping your original repository, you can replace origin url instead of creating a new remote
+### I want to submit more than one entry
 
-```bash
-git remote set-url origin git@github.com:<github_login>/js13-entry.git
+One workaround is to create one branch for each of your entry.
 
-git fetch
-
-git rebase origin/master
-
-git push
-```
+Have the PR target your branch, as well as your release
