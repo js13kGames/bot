@@ -1,10 +1,9 @@
 import { Release, GithubClient } from "../services/github";
 import { readBundle } from "./readBundle";
 import { createUploader } from "../services/s3";
-import { runGame } from "./runGame";
+import { analyzeGame } from "./analyzeGame";
 import { Control } from "./control";
-
-const SIZE_LIMIT = 13 * 1024;
+import * as config from "../config";
 
 export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   release: Release
@@ -30,7 +29,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
         conclusion: "success",
         assetFiles: release.assets.map(a => a.name)
       },
-      { name: "bundle-unziped", conclusion: "success" }
+      { name: "bundle-unzipped", conclusion: "success" }
     );
   } catch (err) {
     if (err.message === "could not find a zip file") {
@@ -49,10 +48,10 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     }
 
     if (err.message === "failed to unzip") {
-      controls.push({ name: "bundle-unziped", conclusion: "failure" });
+      controls.push({ name: "bundle-unzipped", conclusion: "failure" });
       return controls;
     } else {
-      controls.push({ name: "bundle-unziped", conclusion: "success" });
+      controls.push({ name: "bundle-unzipped", conclusion: "success" });
     }
 
     throw err;
@@ -63,9 +62,10 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
    */
   controls.push({
     name: "bundle-size",
-    conclusion: bundleSize > SIZE_LIMIT ? "failure" : "success",
+    conclusion:
+      bundleSize > config.rules.bundleSizeLimit ? "failure" : "success",
     bundleSize,
-    sizeLimit: SIZE_LIMIT
+    sizeLimit: config.rules.bundleSizeLimit
   });
 
   /**
@@ -90,11 +90,8 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     bundleFiles: Object.keys(files)
   });
 
-  /**
-   * check run
-   */
   if (index) {
-    controls.push(...(await runGame({ upload })(index)));
+    controls.push(...(await analyzeGame({ upload })(index)));
   }
 
   return controls;

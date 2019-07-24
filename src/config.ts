@@ -27,3 +27,17 @@ export const awsDeploy = {
   sessionToken: process.env.AWS_SESSION_TOKEN,
   bucketName: process.env.AWS_BUCKET_NAME
 };
+
+export const rules = {
+  images: {
+    image_thumbnail: {
+      width: 100,
+      height: 100
+    },
+    image_large: {
+      width: 300,
+      height: 200
+    }
+  },
+  bundleSizeLimit: 13 * 1024
+};

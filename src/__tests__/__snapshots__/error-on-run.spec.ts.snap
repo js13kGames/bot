@@ -3,6 +3,50 @@
 exports[`integration  error-on-run should analyze 1`] = `
 Array [
   Object {
+    "conclusion": "success",
+    "files": Array [
+      "asset/image/1659821.jpeg",
+      "asset/script.js",
+      "asset/text.txt",
+      "image_large.jpg",
+      "image_thumbnail.jpg",
+      "index.html",
+      "manifest.json",
+    ],
+    "name": "manifest-found",
+  },
+  Object {
+    "conclusion": "success",
+    "manifest": Object {
+      "description": "This entry should yield an error because when running, the game yield error in the console",
+      "name": "error on run",
+    },
+    "name": "manifest-read",
+  },
+  Object {
+    "conclusion": "success",
+    "gameName": "error on run",
+    "name": "name-found",
+  },
+  Object {
+    "conclusion": "success",
+    "gameDescription": "This entry should yield an error because when running, the game yield error in the console",
+    "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "images": Object {
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
+    },
+    "name": "images-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "release-found",
+    "tagName": "entry/error-on-run-v1",
+  },
+  Object {
     "assetFiles": Array [
       "bundle.zip",
     ],
@@ -11,7 +55,7 @@ Array [
   },
   Object {
     "conclusion": "success",
-    "name": "bundle-unziped",
+    "name": "bundle-unzipped",
   },
   Object {
     "bundleSize": 3882,
@@ -57,85 +101,18 @@ Array [
 ]
 `;
 
-exports[`integration  error-on-run should generate checks 1`] = `
-Array [
-  Object {
-    "conclusion": "success",
-    "name": "bundle found",
-    "output": Object {
-      "summary": "",
-      "text": "> bundle.zip",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "bundle unziped",
-    "output": Object {
-      "summary": "",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "bundle size",
-    "output": Object {
-      "summary": "",
-      "text": "> 3882, 13312",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "index found",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html
-> asset/text.txt, asset/script.js, asset/image/1659821.jpeg, index.html",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "failure",
-    "name": "run without error",
-    "output": Object {
-      "summary": "",
-      "text": "> - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "run without external http",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
-> ",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "run without blank screen",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png",
-      "title": "",
-    },
-  },
-]
-`;
-
 exports[`integration  error-on-run should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.
 
-I reviewed your latest release, [entry-error-on-run-1](https://github.com/platane-org/js13-entry/releases/tag/entry-error-on-run-1)
-
+I reviewed your latest release, [entry/error-on-run-v1](https://github.com/Platane/entry/releases/tag/entry/error-on-run-v1)
 Your game seems to have error at launch with chrome
 I got this error:
 \`\`\`
 http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad
 \`\`\`
-Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html)"
+Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html)
+
+
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html\\">   <strong>error on run</strong>  </a>  <br>  This entry should yield an error because when running, the game yield error in the console </div> <br></blockquote>"
 `;

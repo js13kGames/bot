@@ -1,4 +1,5 @@
 import cloudinary from "cloudinary";
+import path from "path";
 import * as config from "../config";
 import { getHash } from "./md5";
 
@@ -13,9 +14,11 @@ export const createUrl = (
 ) => {
   cloudinary.v2.config(config.cloudinary);
 
-  const filename = url.split("/").slice(-1)[0];
+  const filename = trimExtension(url.split("/").slice(-1)[0]);
 
-  return cloudinary.v2.url(filename, options);
+  return cloudinary.v2
+    .url(filename, { format: "jpg", ...options })
+    .replace("http://", "https://");
 };
 
 export const uploadImage = async (image: Buffer): Promise<string> =>
@@ -30,3 +33,8 @@ export const uploadImage = async (image: Buffer): Promise<string> =>
     stream.write(image);
     stream.end();
   });
+
+const trimExtension = filename => {
+  const ext = path.extname(filename);
+  return filename.slice(0, -ext.length);
+};

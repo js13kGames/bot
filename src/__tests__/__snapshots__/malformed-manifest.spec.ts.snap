@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`integration  valid should analyze 1`] = `
+exports[`integration  malformed-manifest should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
@@ -16,21 +16,17 @@ Array [
     "name": "manifest-found",
   },
   Object {
-    "conclusion": "success",
-    "manifest": Object {
-      "description": "This entry should pass",
-      "name": "valid",
-    },
+    "conclusion": "failure",
     "name": "manifest-read",
   },
   Object {
-    "conclusion": "success",
-    "gameName": "valid",
+    "conclusion": "failure",
+    "gameName": undefined,
     "name": "name-found",
   },
   Object {
-    "conclusion": "success",
-    "gameDescription": "This entry should pass",
+    "conclusion": "failure",
+    "gameDescription": undefined,
     "name": "description-found",
   },
   Object {
@@ -44,7 +40,7 @@ Array [
   Object {
     "conclusion": "success",
     "name": "release-found",
-    "tagName": "entry/valid-v1",
+    "tagName": "entry/malformed-manifest-v1",
   },
   Object {
     "assetFiles": Array [
@@ -99,12 +95,13 @@ Array [
 ]
 `;
 
-exports[`integration  valid should generate report 1`] = `
+exports[`integration  malformed-manifest should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.
 
-I reviewed your latest release, [entry/valid-v1](https://github.com/Platane/entry/releases/tag/entry/valid-v1). Its looking all good 👍
+I reviewed your latest release, [entry/malformed-manifest-v1](https://github.com/Platane/entry/releases/tag/entry/malformed-manifest-v1). Its looking all good 👍
 
+I could not read the manifest. It seems that it contains malformed json
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>valid</strong>  </a>  <br>  This entry should pass </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>game</strong>  </a>  <br>   </div> <br></blockquote>"
 `;

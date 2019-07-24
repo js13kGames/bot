@@ -3,25 +3,53 @@
 exports[`integration  missing-zip should analyze 1`] = `
 Array [
   Object {
+    "conclusion": "success",
+    "files": Array [
+      "image_large.jpg",
+      "image_thumbnail.jpg",
+      "manifest.json",
+    ],
+    "name": "manifest-found",
+  },
+  Object {
+    "conclusion": "success",
+    "manifest": Object {
+      "description": "This entry should yield an error because no zip file can be found in the release assets",
+      "name": "missing zip",
+    },
+    "name": "manifest-read",
+  },
+  Object {
+    "conclusion": "success",
+    "gameName": "missing zip",
+    "name": "name-found",
+  },
+  Object {
+    "conclusion": "success",
+    "gameDescription": "This entry should yield an error because no zip file can be found in the release assets",
+    "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "images": Object {
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
+    },
+    "name": "images-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "release-found",
+    "tagName": "entry/missing-zip-v1",
+  },
+  Object {
     "assetFiles": Array [
-      "index.html",
+      "image_large.jpg",
+      "image_thumbnail.jpg",
+      "manifest.json",
     ],
     "conclusion": "failure",
     "name": "bundle-found",
-  },
-]
-`;
-
-exports[`integration  missing-zip should generate checks 1`] = `
-Array [
-  Object {
-    "conclusion": "failure",
-    "name": "bundle found",
-    "output": Object {
-      "summary": "",
-      "text": "> index.html",
-      "title": "",
-    },
   },
 ]
 `;
@@ -30,13 +58,17 @@ exports[`integration  missing-zip should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.
 
-I reviewed your latest release, [entry-missing-zip-1](https://github.com/platane-org/js13-entry/releases/tag/entry-missing-zip-1)
-
+I reviewed your latest release, [entry/missing-zip-v1](https://github.com/Platane/entry/releases/tag/entry/missing-zip-v1)
 I could not found the zip file in the release assets.
 I found:
 \`\`\`
- - index.html
+ - image_large.jpg
+ - image_thumbnail.jpg
+ - manifest.json
 \`\`\`
 
-Are you sure you included a .zip file ?"
+Are you sure you included a .zip file ?
+
+
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>missing zip</strong>  </a>  <br>  This entry should yield an error because no zip file can be found in the release assets </div> <br></blockquote>"
 `;

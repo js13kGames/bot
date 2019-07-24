@@ -28,7 +28,7 @@ const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
       throw new Error(text);
     })
     .catch(async error => {
-      if (retry < 6) {
+      if (retry < 10) {
         await wait(1000);
 
         return getBrowserStackNetworkLog(sessionId, retry + 1);
@@ -39,7 +39,7 @@ const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
       return null;
     });
 
-export const runGame = ({ upload }) => async (
+export const analyzeGame = ({ upload }) => async (
   deployUrl: string
 ): Promise<Control[]> => {
   /**

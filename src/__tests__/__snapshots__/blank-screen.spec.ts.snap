@@ -3,6 +3,50 @@
 exports[`integration  blank-screen should analyze 1`] = `
 Array [
   Object {
+    "conclusion": "success",
+    "files": Array [
+      "asset/image/1659821.jpeg",
+      "asset/script.js",
+      "asset/text.txt",
+      "image_large.jpg",
+      "image_thumbnail.jpg",
+      "index.html",
+      "manifest.json",
+    ],
+    "name": "manifest-found",
+  },
+  Object {
+    "conclusion": "success",
+    "manifest": Object {
+      "description": "This entry should yield an error because when running, the game display a blank screen",
+      "name": "blank-screen",
+    },
+    "name": "manifest-read",
+  },
+  Object {
+    "conclusion": "success",
+    "gameName": "blank-screen",
+    "name": "name-found",
+  },
+  Object {
+    "conclusion": "success",
+    "gameDescription": "This entry should yield an error because when running, the game display a blank screen",
+    "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "images": Object {
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
+    },
+    "name": "images-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "release-found",
+    "tagName": "entry/blank-screen-v1",
+  },
+  Object {
     "assetFiles": Array [
       "bundle.zip",
     ],
@@ -11,7 +55,7 @@ Array [
   },
   Object {
     "conclusion": "success",
-    "name": "bundle-unziped",
+    "name": "bundle-unzipped",
   },
   Object {
     "bundleSize": 3896,
@@ -55,81 +99,14 @@ Array [
 ]
 `;
 
-exports[`integration  blank-screen should generate checks 1`] = `
-Array [
-  Object {
-    "conclusion": "success",
-    "name": "bundle found",
-    "output": Object {
-      "summary": "",
-      "text": "> bundle.zip",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "bundle unziped",
-    "output": Object {
-      "summary": "",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "bundle size",
-    "output": Object {
-      "summary": "",
-      "text": "> 3896, 13312",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "index found",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html
-> asset/text.txt, asset/script.js, asset/image/1659821.jpeg, index.html",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "run without error",
-    "output": Object {
-      "summary": "",
-      "text": "",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "success",
-    "name": "run without external http",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/image/1659821.jpeg, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/script.js, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/text.txt, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html, http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
-> ",
-      "title": "",
-    },
-  },
-  Object {
-    "conclusion": "failure",
-    "name": "run without blank screen",
-    "output": Object {
-      "summary": "",
-      "text": "> http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/game_preview_screenshot.png",
-      "title": "",
-    },
-  },
-]
-`;
-
 exports[`integration  blank-screen should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.
 
-I reviewed your latest release, [entry-blank-screen-1](https://github.com/platane-org/js13-entry/releases/tag/entry-blank-screen-1)
-
+I reviewed your latest release, [entry/blank-screen-v1](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1)
 Your game seems to have error at launch, all I can see is a [blank screen](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/game_preview_screenshot.png)
-Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html)"
+Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html)
+
+
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html\\">   <strong>blank-screen</strong>  </a>  <br>  This entry should yield an error because when running, the game display a blank screen </div> <br></blockquote>"
 `;

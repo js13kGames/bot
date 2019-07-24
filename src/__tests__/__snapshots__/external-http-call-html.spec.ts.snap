@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  external-http-call-html should analyze 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "files": Array [
+      "asset/image/1659821.jpeg",
+      "asset/script.js",
+      "asset/text.txt",
+      "image_large.jpg",
+      "image_thumbnail.jpg",
+      "index.html",
+      "manifest.json",
+    ],
+    "name": "manifest-found",
+  },
+  Object {
+    "conclusion": "success",
+    "manifest": Object {
+      "description": "This entry should yield an error because when running, the game make a forbidden request to external resources from the html file",
+      "name": "external http call html",
+    },
+    "name": "manifest-read",
+  },
+  Object {
+    "conclusion": "success",
+    "gameName": "external http call html",
+    "name": "name-found",
+  },
+  Object {
+    "conclusion": "success",
+    "gameDescription": "This entry should yield an error because when running, the game make a forbidden request to external resources from the html file",
+    "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "images": Object {
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
+    },
+    "name": "images-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "release-found",
+    "tagName": "entry/external-http-call-html-v1",
+  },
+  Object {
+    "assetFiles": Array [
+      "bundle.zip",
+    ],
+    "conclusion": "success",
+    "name": "bundle-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle-unzipped",
+  },
+  Object {
+    "bundleSize": 3890,
+    "conclusion": "success",
+    "name": "bundle-size",
+    "sizeLimit": 13312,
+  },
+  Object {
+    "bundleFiles": Array [
+      "asset/text.txt",
+      "asset/script.js",
+      "asset/image/1659821.jpeg",
+      "index.html",
+    ],
+    "conclusion": "success",
+    "deployUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
+    "name": "index-found",
+  },
+  Object {
+    "conclusion": "success",
+    "errors": Array [],
+    "name": "run-without-error",
+  },
+  Object {
+    "conclusion": "failure",
+    "externalUrls": Array [
+      "https://avatars0.githubusercontent.com/u/1659820?v=4",
+      "https://github.com/platane.png",
+    ],
+    "name": "run-without-external-http",
+    "urls": Array [
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/asset/image/1659821.jpeg",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/asset/script.js",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/asset/text.txt",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
+      "https://avatars0.githubusercontent.com/u/1659820?v=4",
+      "https://github.com/platane.png",
+    ],
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run-without-blank-screen",
+    "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  external-http-call-html should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+I reviewed your latest release, [entry/external-http-call-html-v1](https://github.com/Platane/entry/releases/tag/entry/external-http-call-html-v1)
+It seems that your game is making call to external resources, which is forbidden.
+Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html)
+
+
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html\\">   <strong>external http call html</strong>  </a>  <br>  This entry should yield an error because when running, the game make a forbidden request to external resources from the html file </div> <br></blockquote>"
+`;

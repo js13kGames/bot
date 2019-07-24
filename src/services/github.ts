@@ -7,7 +7,8 @@ import Github, {
   ChecksGetResponse,
   AppsGetInstallationResponse,
   AppsGetAuthenticatedResponse,
-  ChecksUpdateParams
+  ChecksUpdateParams,
+  PullRequestsListFilesResponseItem
 } from "@octokit/rest";
 
 export type Check = Omit<ChecksGetResponse, "conclusion"> & {
@@ -19,6 +20,7 @@ export type Asset = ReposListAssetsForReleaseResponseItem;
 export type Release = ReposGetReleaseResponse;
 export type Installation = AppsGetInstallationResponse;
 export type App = AppsGetAuthenticatedResponse;
+export type File = PullRequestsListFilesResponseItem;
 
 export type GithubClient = Github;
 

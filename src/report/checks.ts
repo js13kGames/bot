@@ -13,9 +13,9 @@ const generateCheck = (control: Control) => {
         }
       };
 
-    case "bundle-unziped":
+    case "bundle-unzipped":
       return {
-        name: "bundle unziped",
+        name: "bundle unzipped",
         output: {
           title: "",
           summary: ""
@@ -93,9 +93,9 @@ const parseCheck = (check: Check) => {
           .filter(Boolean)
       };
 
-    case "bundle unziped":
+    case "bundle unzipped":
       return {
-        name: "bundle-unziped"
+        name: "bundle-unzipped"
       };
 
     case "bundle size": {

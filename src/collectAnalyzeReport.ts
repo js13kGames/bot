@@ -1,10 +1,10 @@
-import { analyzeRelease } from "./analyze/analyzeRelease";
 import { getChecks, setChecks } from "./checkRuns";
 import { setComment, getComment } from "./comment";
 import { generateReport } from "./report";
 import { GithubClient, PullRequest } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
 import { generateChecks } from "./report/checks";
+import { analyze } from "./analyze";
 
 export const collectAnalyzeReport = ({
   github
@@ -41,7 +41,7 @@ export const collectAnalyzeReport = ({
   /**
    * analyze the release
    */
-  const newControls = await analyzeRelease({ github })(re.release);
+  const newControls = await analyze({ github })(pullRequest, re.release);
 
   /**
    * report as comment
