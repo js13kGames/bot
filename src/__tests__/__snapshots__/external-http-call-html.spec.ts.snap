@@ -42,6 +42,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/external-http-call-html",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/external-http-call-html-v1",
@@ -100,6 +101,94 @@ Array [
     "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  external-http-call-html should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"external http call html\\",
+  \\"description\\": \\"This entry should yield an error because when running, the game make a forbidden request to external resources from the html file\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"external http call html\\"
+
+The game name is:
+This entry should yield an error because when running, the game make a forbidden request to external resources from the html file
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/external-http-call-html-v1\` was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ✔️ index file
+The index was found
+
+## ✔️ bundle size
+The bundle size is ok",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html)
+
+## ✔️ errors
+The game did not had any error
+
+## ❌ external resources
+The game appear to make calls to external resources
+\`\`\`
+ - https://avatars0.githubusercontent.com/u/1659820?v=4
+ - https://github.com/platane.png
+\`\`\`
+
+> This is cheating
+
+## ✔️ blank screen
+The game seems to display something",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

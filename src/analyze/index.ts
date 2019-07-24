@@ -13,7 +13,8 @@ export const analyze = ({ github }: { github: GithubClient }) => async (
     Promise.resolve({
       conclusion: release ? "success" : "failure",
       name: "release-found",
-      tagName: release && release.tag_name
+      tagName: release && release.tag_name,
+      branch: pullRequest.head.ref
     }),
 
     release && analyzeRelease({ github })(release)

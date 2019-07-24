@@ -42,6 +42,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/oversize-bundle",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/oversize-bundle-v1",
@@ -95,6 +96,98 @@ Array [
     "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  oversize-bundle should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"oversize bundle\\",
+  \\"description\\": \\"This entry should yield an error because the bundle is over the size limit\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"oversize bundle\\"
+
+The game name is:
+This entry should yield an error because the bundle is over the size limit
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/oversize-bundle-v1\` was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ✔️ index file
+The index was found
+
+## ❌ bundle size
+The bundle appear to be over the size limit
+18017o > 13312o
+
+> Compress a little more",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html)
+
+## ✔️ errors
+The game did not had any error
+
+## ✔️ external resources
+The game made request to internal resources only, which is fine
+\`\`\`
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/asset/image/1659821.jpeg
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/asset/script.js
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/asset/text.txt
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
+\`\`\`
+
+## ✔️ blank screen
+The game seems to display something",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

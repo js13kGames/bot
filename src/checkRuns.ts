@@ -1,4 +1,5 @@
 import { GithubClient, Repository, Check } from "./services/github";
+import * as config from "./config";
 
 export const getChecks = ({ github }: { github: GithubClient }) => async (
   repository: Repository,
@@ -29,19 +30,20 @@ export const setChecks = ({ github }: { github: GithubClient }) => async (
   /**
    * get the current check runs
    */
-  const {
-    data: { check_runs: checkRuns }
-  } = await github.checks.listForRef({
+  const { data } = await github.checks.listForRef({
     owner: repository.owner.login,
     repo: repository.name,
     ref: sha
   });
+  const checkRuns = data.check_runs.filter(
+    cr => cr.app.id.toString() === config.github.app_id
+  );
 
   /**
    * create / update check runs
    */
   for (const check of checks) {
-    const checkRun = checkRuns.find(cr => cr.name === name);
+    const checkRun = checkRuns.find(cr => cr.name === check.name);
 
     if (checkRun)
       await github.checks.update({
@@ -57,8 +59,24 @@ export const setChecks = ({ github }: { github: GithubClient }) => async (
         ...check,
         owner: repository.owner.login,
         repo: repository.name,
-        name: name,
         head_sha: sha,
+        status: "completed",
+        external_id: releaseId.toString()
+      });
+  }
+
+  /**
+   * "remove" other check runs
+   */
+  for (const checkRun of checkRuns) {
+    if (!checks.some(check => checkRun.name === check.name))
+      await github.checks.update({
+        check_run_id: checkRun.id,
+        name: "[deleted]" + checkRun.id,
+        conclusion: "success",
+        output: { title: "", text: "", summary: "" },
+        owner: repository.owner.login,
+        repo: repository.name,
         status: "completed",
         external_id: releaseId.toString()
       });

@@ -38,9 +38,76 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/no-release",
     "conclusion": "failure",
     "name": "release-found",
     "tagName": undefined,
+  },
+]
+`;
+
+exports[`integration  no-release should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"no release\\",
+  \\"description\\": \\"This entry should yield an error because there is no relese on the pullrequest branch\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"no release\\"
+
+The game name is:
+This entry should yield an error because there is no relese on the pullrequest branch
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ❌ release
+The branch of the pull request undefined does not contain any release.
+
+> Submit a release on undefined which contains your bundle.zip as asset.
+> Read this [guide](.) if you are stuck",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ❌ release
+The game could not be deployed, check the bundle report to see why.
+
+> Make sure that the bundle is valid first.",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

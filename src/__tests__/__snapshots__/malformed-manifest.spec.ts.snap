@@ -38,6 +38,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/malformed-manifest",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/malformed-manifest-v1",
@@ -91,6 +92,77 @@ Array [
     "conclusion": "success",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  malformed-manifest should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "failure",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ❌ manifest parsed
+The manifest does not appear to be a valid json file
+
+> Make sure you the manifest is a valid json file",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/malformed-manifest-v1\` was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ✔️ index file
+The index was found
+
+## ✔️ bundle size
+The bundle size is ok",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html)
+
+## ✔️ errors
+The game did not had any error
+
+## ✔️ external resources
+The game made request to internal resources only, which is fine
+\`\`\`
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/image/1659821.jpeg
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/script.js
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/asset/text.txt
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
+\`\`\`
+
+## ✔️ blank screen
+The game seems to display something",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

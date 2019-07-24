@@ -38,6 +38,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/missing-zip",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/missing-zip-v1",
@@ -50,6 +51,81 @@ Array [
     ],
     "conclusion": "failure",
     "name": "bundle-found",
+  },
+]
+`;
+
+exports[`integration  missing-zip should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"missing zip\\",
+  \\"description\\": \\"This entry should yield an error because no zip file can be found in the release assets\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"missing zip\\"
+
+The game name is:
+This entry should yield an error because no zip file can be found in the release assets
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/missing-zip-v1\` was found
+
+## ❌ bundle
+The release assets does not contain a zip file
+Those are the files found as assets:
+\`\`\`
+ - image_large.jpg
+ - image_thumbnail.jpg
+ - manifest.json
+\`\`\`
+
+> Make sure to have a zip file as asset
+> Read this [guide](.) if you are stuck",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ❌ release
+The game could not be deployed, check the bundle report to see why.
+
+> Make sure that the bundle is valid first.",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

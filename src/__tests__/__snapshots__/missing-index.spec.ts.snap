@@ -42,6 +42,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/missing-index",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/missing-index-v1",
@@ -73,6 +74,90 @@ Array [
     "conclusion": "failure",
     "deployUrl": undefined,
     "name": "index-found",
+  },
+]
+`;
+
+exports[`integration  missing-index should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"missing index\\",
+  \\"description\\": \\"This entry should yield an error because the index.html is missing from the bundle\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"missing index\\"
+
+The game name is:
+This entry should yield an error because the index.html is missing from the bundle
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/missing-index-v1\` was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ❌ index file
+The bundle appear to not contain a \`index.html\` file
+Those are the files found as assets:
+\`\`\`
+ - asset/text.txt
+ - asset/script.js
+ - asset/image/1659821.jpeg
+ - game.html
+\`\`\`
+
+> Make sure the bundle contains an \`index.html\` file
+
+## ✔️ bundle size
+The bundle size is ok",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ❌ release
+The game could not be deployed, check the bundle report to see why.
+
+> Make sure that the bundle is valid first.",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;

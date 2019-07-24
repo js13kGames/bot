@@ -4,7 +4,7 @@ import { setChecks } from "../checkRuns";
 import { generateReport } from "../report";
 import { setComment } from "../comment";
 import { getLatestRelease } from "../getLatestRelease";
-import { generateChecks, parseChecks } from "../report/checks";
+import { generateChecks } from "../report/checks";
 import { Control } from "../analyze/control";
 
 jest.setTimeout(60000);
@@ -29,6 +29,8 @@ export const bootstrap = ({ pullRequest, installation }) => {
   it("should analyze", async () => {
     controls = await analyze({ github })(pullRequest, re && re.release);
 
+    expect(controls.length).toBeGreaterThan(1);
+
     expect(controls).toMatchSnapshot();
   });
 
@@ -38,15 +40,11 @@ export const bootstrap = ({ pullRequest, installation }) => {
     expect(report).toMatchSnapshot();
   });
 
-  xit("should generate checks", () => {
+  it("should generate checks", () => {
     const checks = generateChecks(controls);
 
     expect(checks).toMatchSnapshot();
   });
-
-  // it("generateChecks / parseChecks should be idempotent", () => {
-  //   expect(parseChecks(generateChecks(controls))).toEqual(controls);
-  // });
 
   it("should report", async () => {
     await setComment({ github })(
@@ -55,12 +53,13 @@ export const bootstrap = ({ pullRequest, installation }) => {
     );
   });
 
-  xit("should report checks", async () => {
-    await setChecks({ github })(
-      pullRequest.base.repo,
-      re.sha,
-      re && re.release.id,
-      generateChecks(controls)
-    );
+  it("should report checks", async () => {
+    re &&
+      (await setChecks({ github })(
+        pullRequest.base.repo,
+        re.sha,
+        re && re.release.id,
+        generateChecks(controls)
+      ));
   });
 };

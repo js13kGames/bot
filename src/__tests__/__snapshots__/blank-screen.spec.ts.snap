@@ -42,6 +42,7 @@ Array [
     "name": "images-found",
   },
   Object {
+    "branch": "entry/blank-screen",
     "conclusion": "success",
     "name": "release-found",
     "tagName": "entry/blank-screen-v1",
@@ -95,6 +96,98 @@ Array [
     "conclusion": "failure",
     "name": "run-without-blank-screen",
     "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  blank-screen should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"blank-screen\\",
+  \\"description\\": \\"This entry should yield an error because when running, the game display a blank screen\\"
+}
+\`\`\`
+
+## ✔️ game info
+The game name is \\"blank-screen\\"
+
+The game name is:
+This entry should yield an error because when running, the game display a blank screen
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release \`entry/blank-screen-v1\` was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ✔️ index file
+The index was found
+
+## ✔️ bundle size
+The bundle size is ok",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html)
+
+## ✔️ errors
+The game did not had any error
+
+## ✔️ external resources
+The game made request to internal resources only, which is fine
+\`\`\`
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/image/1659821.jpeg
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/script.js
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/asset/text.txt
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
+\`\`\`
+
+## ❌ blank screen
+The game appear to display a blank screen
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/game_preview_screenshot.png\\"/>
+
+> That's not a good sign, is the game broken ?",
+      "text": "",
+      "title": "",
+    },
   },
 ]
 `;
