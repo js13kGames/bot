@@ -36,7 +36,7 @@ export const listInstallations = async (): Promise<Installation[]> => {
     cert: config.github.app_private_key
   }).asApp();
 
-  const { data: installations } = await github.apps.getInstallations({});
+  const { data: installations } = await github.apps.listInstallations({});
 
   return installations;
 };
