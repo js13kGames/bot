@@ -1,0 +1,4 @@
+{
+  "name": "external http call html",
+  "description": "This entry should yield an error because when running, the game make a forbidden request to external resources from the html file"
+}

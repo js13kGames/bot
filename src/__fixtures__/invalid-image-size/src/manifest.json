@@ -1,0 +1,4 @@
+{
+  "name": "invalid image size",
+  "description": "This entry should yield an error because one image does not meet the ratio required"
+}

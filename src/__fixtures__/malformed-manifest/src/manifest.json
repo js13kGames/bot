@@ -1,0 +1,4 @@
+{
+  "name": "malformed manifest"
+  "description": "This entry should yield an error because the manifest json is malformed"
+}

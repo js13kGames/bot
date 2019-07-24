@@ -1,20 +1,20 @@
 import { PullRequest } from "../../services/github";
 
-export const installation = { id: 1281536 };
+export const installation = { id: 1319757 };
 
 export const pullRequest: PullRequest = {
-  number: 1,
+  number: 2,
   base: {
     repo: {
-      name: "js13-entry",
-      owner: { login: "platane" }
+      name: "entry",
+      owner: { login: "js13kgames" }
     }
   },
   head: {
     ref: "entry/valid",
     repo: {
-      name: "js13-entry",
-      owner: { login: "platane-org" }
+      name: "entry",
+      owner: { login: "platane" }
     }
   }
 } as any;

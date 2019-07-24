@@ -1,0 +1,4 @@
+{
+  "name": "no release",
+  "description": "This entry should yield an error because there is no relese on the pullrequest branch"
+}

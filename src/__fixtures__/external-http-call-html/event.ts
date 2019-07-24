@@ -3,7 +3,7 @@ import { PullRequest } from "../../services/github";
 export const installation = { id: 1319757 };
 
 export const pullRequest: PullRequest = {
-  number: 7,
+  number: 5,
   base: {
     repo: {
       name: "entry",
@@ -11,7 +11,7 @@ export const pullRequest: PullRequest = {
     }
   },
   head: {
-    ref: "entry/no-release",
+    ref: "entry/external-http-call-html",
     repo: {
       name: "entry",
       owner: { login: "platane" }
