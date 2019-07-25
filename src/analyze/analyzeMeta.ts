@@ -17,7 +17,8 @@ export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
   const { data: files } = await github.pullRequests.listFiles({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
-    number: pullRequest.number
+    number: pullRequest.number,
+    per_page: 300
   });
 
   /**
@@ -110,7 +111,11 @@ const analyzeImage = async (
   );
 
   if (!imageFile) {
-    return { error: "not-found", filename };
+    return {
+      error: "not-found",
+      target: { width: spec.width, height: spec.height },
+      filename
+    };
   }
 
   const imageContent = await fetch(imageFile.raw_url, {
@@ -130,6 +135,7 @@ const analyzeImage = async (
   ) {
     return {
       error: "size",
+      filename,
       target: { width: spec.width, height: spec.height },
       origin: { width, height }
     };
