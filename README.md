@@ -98,7 +98,7 @@ Check type consistency with `yarn type` and linting with `yarn lint`
 
 Run integration test with `yarn test`
 
-It will run the bot against this [pull requests samples](https://github.com/Platane/js13-entry/pulls).
+It will run the bot against this [pull requests samples](https://github.com/js13kGames/entry/pulls?utf8=%E2%9C%93&q=is%3Apr+label%3Aintegration-test).
 
 You will need to have the [env](./.env) configured.
 

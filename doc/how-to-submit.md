@@ -13,7 +13,7 @@
 
 ## TL;DR
 
-- fork [github.com/Platane/js13-entry](https://github.com/Platane/js13-entry)
+- fork [github.com/js13kGames/entry](https://github.com/js13kGames/entry)
 - work on your entry 👷
 - create a PR
 - create a release with a zip file containing your game
@@ -37,13 +37,13 @@
 
 ### Can I see a fully featured exemple ?
 
-[sure ](.)
+[sure ](https://github.com/js13kGames/entry/pull/13)
 
 ### I already made a repository, and I don't want to lose my history
 
 It's ok, we just need to change the git remote.
 
-- fork [github.com/Platane/js13-entry](https://github.com/Platane/js13-entry)
+- fork [github.com/js13kGames/entry](https://github.com/js13kGames/entry)
 
 - get the remote url (you can found it under the "clone or download" button, and it looks like `git@github.com:<github_login>/js13-entry.git` )
 
