@@ -45,7 +45,16 @@ const prepareBucket = ({ s3 }) => async (bucketName: string) => {
 };
 
 export const createUploader = async (key: string) => {
-  const s3 = new S3(config.awsDeploy);
+  const s3 = new S3(
+    (config.awsDeploy.sessionToken && {
+      sessionToken: config.awsDeploy.sessionToken
+    }) ||
+      (config.awsDeploy.accessKeyId && {
+        accessKeyId: config.awsDeploy.accessKeyId,
+        secretAccessKey: config.awsDeploy.secretAccessKey
+      }) ||
+      {}
+  );
   const bucketName = config.awsDeploy.bucketName;
 
   await prepareBucket({ s3 })(bucketName);
