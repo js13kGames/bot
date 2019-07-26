@@ -75,7 +75,7 @@ export const generateMetaCheck = (controls: Control[]): Check => {
       else
         summary.push(
           "The game description is:",
-          "------",
+          "",
           c["description-found"].gameDescription
         );
 

@@ -142,7 +142,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html)
 
 ## ✔️ errors
@@ -159,7 +159,8 @@ The game made request to internal resources only, which is fine
 \`\`\`
 
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

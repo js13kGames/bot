@@ -38,6 +38,7 @@ Array [
     "images": Object {
       "image_large": Object {
         "error": "size",
+        "filename": "image_large",
         "origin": Object {
           "height": 300,
           "width": 200,
@@ -132,7 +133,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"invalid image size\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because one image does not meet the ratio required
 
 ## ❌ game images
@@ -174,7 +176,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html)
 
 ## ✔️ errors
@@ -191,7 +193,8 @@ The game made request to internal resources only, which is fine
 \`\`\`
 
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

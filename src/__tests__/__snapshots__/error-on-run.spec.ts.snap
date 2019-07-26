@@ -83,10 +83,17 @@ Array [
     "name": "run-without-error",
   },
   Object {
-    "conclusion": "success",
-    "externalUrls": Array [],
+    "conclusion": "failure",
+    "externalUrls": Array [
+      "http://crl.globalsign.net/primobject.crl",
+      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9",
+      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53",
+    ],
     "name": "run-without-external-http",
     "urls": Array [
+      "http://crl.globalsign.net/primobject.crl",
+      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9",
+      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt",
@@ -124,7 +131,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"error on run\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because when running, the game yield error in the console
 
 ## ✔️ game images
@@ -166,7 +174,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html)
 
 ## ❌ errors
@@ -177,18 +185,19 @@ The game appear to yield error in the console
 
 > That's not a good sign, is the game broken ?
 
-## ✔️ external resources
-The game made request to internal resources only, which is fine
+## ❌ external resources
+The game appear to make calls to external resources
 \`\`\`
- - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg
- - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js
- - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt
- - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html
- - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
+ - http://crl.globalsign.net/primobject.crl
+ - http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9
+ - http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53
 \`\`\`
 
+> This is cheating
+
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

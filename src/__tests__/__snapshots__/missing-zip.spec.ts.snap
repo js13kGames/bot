@@ -77,7 +77,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"missing zip\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because no zip file can be found in the release assets
 
 ## ✔️ game images
@@ -119,7 +120,7 @@ Those are the files found as assets:
     "name": "game",
     "output": Object {
       "summary": "
-## ❌ release
+## ❌ deploy
 The game could not be deployed, check the bundle report to see why.
 
 > Make sure that the bundle is valid first.",

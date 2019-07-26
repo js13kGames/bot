@@ -122,7 +122,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"oversize bundle\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because the bundle is over the size limit
 
 ## ✔️ game images
@@ -167,7 +168,7 @@ The bundle appear to be over the size limit
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html)
 
 ## ✔️ errors
@@ -184,7 +185,8 @@ The game made request to internal resources only, which is fine
 \`\`\`
 
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

@@ -100,7 +100,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"missing index\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because the index.html is missing from the bundle
 
 ## ✔️ game images
@@ -151,7 +152,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ❌ release
+## ❌ deploy
 The game could not be deployed, check the bundle report to see why.
 
 > Make sure that the bundle is valid first.",

@@ -51,10 +51,10 @@ export const analyzeGame = ({ upload }) => async (
     browserName: "Chrome",
     browser_version: "62.0",
     "browserstack.local": "false",
-    "browserstack.debug": "true",
-    "browserstack.video": "true",
+    "browserstack.debug": "false",
+    "browserstack.video": "false",
     "browserstack.networkLogs": "true",
-    "browserstack.seleniumLogs": "true",
+    "browserstack.seleniumLogs": "false",
     "browserstack.selenium_version": "3.5.2",
     "browserstack.user": config.browserstack.user,
     "browserstack.key": config.browserstack.key
@@ -72,7 +72,7 @@ export const analyzeGame = ({ upload }) => async (
    */
   await driver.get(deployUrl);
 
-  await driver.sleep(600);
+  await driver.sleep(500);
 
   /**
    * take a screenshot
@@ -103,28 +103,23 @@ export const analyzeGame = ({ upload }) => async (
     .map(({ message }) => message);
 
   /**
-   * wait for log to be ready ...
+   * wait for network log to be ready
+   * and get them
    */
   await wait(4000);
+  const networkLog = await getBrowserStackNetworkLog(session.getId());
+  const urls = networkLog.log.entries.map(e => e.request.url).sort();
 
   /**
    * check the network log for external resource call
    * ( which is obviously prohibited )
    * ( expect from the favicon.ico, i guess that's ok )
-   *
-   *  need to have a defensive check on "networkLogs" existance in case browserstack fails
    */
-  const networkLog = await getBrowserStackNetworkLog(session.getId());
-  const urls =
-    networkLog && networkLog.log.entries.map(e => e.request.url).sort();
-
-  const externalUrls =
-    urls &&
-    urls.filter(
-      url =>
-        !url.startsWith(path.dirname(deployUrl)) &&
-        path.basename(url) !== "favicon.ico"
-    );
+  const externalUrls = urls.filter(
+    url =>
+      !url.startsWith(path.dirname(deployUrl)) &&
+      path.basename(url) !== "favicon.ico"
+  );
 
   /**
    * check that the first thing displayed is no a blank page
@@ -146,10 +141,9 @@ export const analyzeGame = ({ upload }) => async (
 
     {
       name: "run-without-external-http",
-      conclusion:
-        externalUrls && externalUrls.length > 0 ? "failure" : "success",
-      urls: urls || undefined,
-      externalUrls: externalUrls || undefined
+      conclusion: externalUrls.length > 0 ? "failure" : "success",
+      urls,
+      externalUrls
     },
 
     {

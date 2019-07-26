@@ -68,7 +68,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"no release\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because there is no relese on the pullrequest branch
 
 ## ✔️ game images
@@ -101,7 +102,7 @@ The branch of the pull request undefined does not contain any release.
     "name": "game",
     "output": Object {
       "summary": "
-## ❌ release
+## ❌ deploy
 The game could not be deployed, check the bundle report to see why.
 
 > Make sure that the bundle is valid first.",

@@ -39,6 +39,10 @@ Array [
       "image_large": Object {
         "error": "not-found",
         "filename": "image_large",
+        "target": Object {
+          "height": 200,
+          "width": 300,
+        },
       },
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
     },
@@ -125,7 +129,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"missing image\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because one image is missing
 
 ## ❌ game images
@@ -167,7 +172,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html)
 
 ## ✔️ errors
@@ -184,7 +189,8 @@ The game made request to internal resources only, which is fine
 \`\`\`
 
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

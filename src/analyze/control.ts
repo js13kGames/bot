@@ -16,8 +16,8 @@ export type Control = (
   | { name: "run-without-blank-screen"; screenShotUrl: string }
   | {
       name: "run-without-external-http";
-      externalUrls?: string[];
-      urls?: string[];
+      externalUrls: string[];
+      urls: string[];
     }) & {
   conclusion: "success" | "failure";
 };

@@ -122,7 +122,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"blank-screen\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because when running, the game display a blank screen
 
 ## ✔️ game images
@@ -164,7 +165,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html)
 
 ## ✔️ errors

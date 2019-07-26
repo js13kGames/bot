@@ -127,7 +127,8 @@ The manifest was found :
 ## ✔️ game info
 The game name is \\"external http call html\\"
 
-The game name is:
+The game description is:
+
 This entry should yield an error because when running, the game make a forbidden request to external resources from the html file
 
 ## ✔️ game images
@@ -169,7 +170,7 @@ The bundle size is ok",
     "name": "game",
     "output": Object {
       "summary": "
-## ✔️ release
+## ✔️ deploy
 The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html)
 
 ## ✔️ errors
@@ -185,7 +186,8 @@ The game appear to make calls to external resources
 > This is cheating
 
 ## ✔️ blank screen
-The game seems to display something",
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/game_preview_screenshot.png\\"/>",
       "text": "",
       "title": "",
     },

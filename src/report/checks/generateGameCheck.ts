@@ -13,7 +13,7 @@ export const generateGameCheck = (controls: Control[]): Check => {
       !c["index-found"] || c["index-found"].conclusion === "failure"
         ? "❌"
         : "✔️"
-    } release`
+    } deploy`
   );
   if (!c["index-found"] || c["index-found"].conclusion === "failure")
     summary.push(
@@ -62,7 +62,7 @@ export const generateGameCheck = (controls: Control[]): Check => {
       summary.push(
         "The game made request to internal resources only, which is fine",
         "```",
-        ...(c["run-without-external-http"].urls || []).map(url => ` - ${url}`),
+        ...c["run-without-external-http"].urls.map(url => ` - ${url}`),
         "```"
       );
 
@@ -80,7 +80,11 @@ export const generateGameCheck = (controls: Control[]): Check => {
         "",
         "> That's not a good sign, is the game broken ?"
       );
-    else summary.push(`The game seems to display something`);
+    else
+      summary.push(
+        `The game seems to display something`,
+        `<img height="120" src="${c["run-without-blank-screen"].screenShotUrl}"/>`
+      );
   }
 
   return {
