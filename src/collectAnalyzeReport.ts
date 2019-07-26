@@ -1,9 +1,9 @@
-import { getChecks, setChecks } from "./checkRuns";
+import { getCheckRuns, setCheckRuns } from "./checkRuns";
 import { setComment, getComment } from "./comment";
 import { generateReport } from "./report";
 import { GithubClient, PullRequest } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
-import { generateChecks } from "./report/checks";
+import { generateCheckRuns } from "./report/checkRuns";
 import { analyze } from "./analyze";
 
 export const collectAnalyzeReport = ({
@@ -31,12 +31,12 @@ export const collectAnalyzeReport = ({
   /**
    * if there is already a check for this release, ignore
    */
-  const previousChecks = await getChecks({ github })(
+  const previousCheckRuns = await getCheckRuns({ github })(
     pullRequest.base.repo,
     re.sha,
     re.release.id
   );
-  if (previousChecks) return;
+  if (previousCheckRuns) return;
 
   /**
    * analyze the release
@@ -54,10 +54,10 @@ export const collectAnalyzeReport = ({
   /**
    * report as run checks
    */
-  await setChecks({ github })(
+  await setCheckRuns({ github })(
     pullRequest.base.repo,
     re.sha,
     re.release.id,
-    generateChecks(newControls)
+    generateCheckRuns(newControls)
   );
 };

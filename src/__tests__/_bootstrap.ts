@@ -1,10 +1,10 @@
 import { create, GithubClient } from "../services/github";
 import { analyze } from "../analyze";
-import { setChecks } from "../checkRuns";
+import { setCheckRuns } from "../checkRuns";
 import { generateReport } from "../report";
 import { setComment } from "../comment";
 import { getLatestRelease } from "../getLatestRelease";
-import { generateChecks } from "../report/checks";
+import { generateCheckRuns } from "../report/checkRuns";
 import { Control } from "../analyze/control";
 
 jest.setTimeout(60000);
@@ -41,7 +41,7 @@ export const bootstrap = ({ pullRequest, installation }) => {
   });
 
   it("should generate checks", () => {
-    const checks = generateChecks(controls);
+    const checks = generateCheckRuns(controls);
 
     expect(checks).toMatchSnapshot();
   });
@@ -55,11 +55,11 @@ export const bootstrap = ({ pullRequest, installation }) => {
 
   it("should report checks", async () => {
     re &&
-      (await setChecks({ github })(
+      (await setCheckRuns({ github })(
         pullRequest.base.repo,
         re.sha,
         re && re.release.id,
-        generateChecks(controls)
+        generateCheckRuns(controls)
       ));
   });
 };

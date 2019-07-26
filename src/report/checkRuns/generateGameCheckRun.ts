@@ -1,7 +1,7 @@
 import { Control } from "../../analyze/control";
-import { Check } from "../../services/github";
+import { CheckRun } from "../../services/github";
 
-export const generateGameCheck = (controls: Control[]): Check => {
+export const generateGameCheckRun = (controls: Control[]): CheckRun => {
   const c: any = Object.fromEntries((controls || []).map(x => [x.name, x]));
 
   const summary = [];

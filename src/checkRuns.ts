@@ -1,11 +1,11 @@
-import { GithubClient, Repository, Check } from "./services/github";
+import { GithubClient, Repository, CheckRun } from "./services/github";
 import * as config from "./config";
 
-export const getChecks = ({ github }: { github: GithubClient }) => async (
+export const getCheckRuns = ({ github }: { github: GithubClient }) => async (
   repository: Repository,
   sha: string,
   releaseId?: string | number
-): Promise<Check[] | null> => {
+): Promise<CheckRun[] | null> => {
   const {
     data: { check_runs: checkRuns }
   } = await github.checks.listForRef({
@@ -14,18 +14,18 @@ export const getChecks = ({ github }: { github: GithubClient }) => async (
     ref: sha
   });
 
-  const checks: Check[] = checkRuns.filter(
+  const checks: CheckRun[] = checkRuns.filter(
     c => c.external_id.toString() === releaseId.toString()
   ) as any;
 
   return checks.length > 0 ? checks : null;
 };
 
-export const setChecks = ({ github }: { github: GithubClient }) => async (
+export const setCheckRuns = ({ github }: { github: GithubClient }) => async (
   repository: Repository,
   sha: string,
   releaseId: string | number,
-  checks: Check[]
+  checks: CheckRun[]
 ) => {
   /**
    * get the current check runs
