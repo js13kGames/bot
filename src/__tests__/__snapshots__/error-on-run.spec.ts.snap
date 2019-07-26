@@ -83,17 +83,10 @@ Array [
     "name": "run-without-error",
   },
   Object {
-    "conclusion": "failure",
-    "externalUrls": Array [
-      "http://crl.globalsign.net/primobject.crl",
-      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9",
-      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53",
-    ],
+    "conclusion": "success",
+    "externalUrls": Array [],
     "name": "run-without-external-http",
     "urls": Array [
-      "http://crl.globalsign.net/primobject.crl",
-      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9",
-      "http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js",
       "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt",
@@ -185,15 +178,15 @@ The game appear to yield error in the console
 
 > That's not a good sign, is the game broken ?
 
-## ❌ external resources
-The game appear to make calls to external resources
+## ✔️ external resources
+The game made request to internal resources only, which is fine
 \`\`\`
- - http://crl.globalsign.net/primobject.crl
- - http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/authrootstl.cab?ba93a2c9d0396bd9
- - http://ctldl.windowsupdate.com/msdownload/update/v3/static/trustedr/en/pinrulesstl.cab?ecc81aaf294efd53
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/image/1659821.jpeg
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/text.txt
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html
+ - http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico
 \`\`\`
-
-> This is cheating
 
 ## ✔️ blank screen
 The game seems to display something

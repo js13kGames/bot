@@ -108,22 +108,6 @@ export const analyzeGame = ({ upload }) => async (
   await wait(4000);
   const networkLog = await getBrowserStackNetworkLog(session.getId());
 
-  console.log(networkLog.log.entries.map(e => e.request.url));
-  console.log(
-    networkLog.log.entries
-      .map(e => e.request.url)
-
-      // omit requests made by the os that somehow end up here
-      .filter(
-        url =>
-          !(
-            url.startsWith(
-              "http://ctldl.windowsupdate.com/msdownload/update"
-            ) || url.startsWith("http://crl.globalsign.net")
-          )
-      )
-  );
-
   const urls: string[] = networkLog.log.entries
     .map(e => e.request.url)
 
@@ -132,7 +116,8 @@ export const analyzeGame = ({ upload }) => async (
       url =>
         !(
           url.startsWith("http://ctldl.windowsupdate.com/msdownload/update") ||
-          url.startsWith("http://crl.globalsign.net")
+          url.startsWith("http://crl.globalsign.net") ||
+          url.match(/^https?:\/\/[^/]+microsoft\.com/)
         )
     )
     .sort();
