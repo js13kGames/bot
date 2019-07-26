@@ -1,8 +1,7 @@
 import S3 from "aws-sdk/clients/s3";
 import * as config from "../config";
 import mime from "mime-types";
-
-const wait = (delay = 0) => new Promise(r => setTimeout(r, delay));
+import { wait } from "../utils/wait";
 
 const prepareBucket = ({ s3 }) => async (bucketName: string) => {
   /**
