@@ -108,7 +108,18 @@ export const analyzeGame = ({ upload }) => async (
    */
   await wait(4000);
   const networkLog = await getBrowserStackNetworkLog(session.getId());
-  const urls = networkLog.log.entries.map(e => e.request.url).sort();
+  const urls = networkLog.log.entries
+    .map(e => e.request.url)
+
+    // omit requests made by the os that somehow end up here
+    .filter(
+      url =>
+        !(
+          url.startsWith(`http://ctldl.windowsupdate.com/msdownload/update`) ||
+          url.startsWith(`http://crl.globalsign.net`)
+        )
+    )
+    .sort();
 
   /**
    * check the network log for external resource call
