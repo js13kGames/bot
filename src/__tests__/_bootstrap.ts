@@ -14,8 +14,15 @@ export const bootstrap = ({ pullRequest, installation }) => {
   let controls: Control[];
   let github: GithubClient;
 
-  it("should init github client", async () => {
-    github = await create(installation.id);
+  it("should init github client (eventually)", async () => {
+    let k = 5;
+    while (!github) {
+      try {
+        github = await create(installation.id);
+      } catch (error) {
+        if (k-- < 0) throw error;
+      }
+    }
 
     expect(github).toBeTruthy();
   });
