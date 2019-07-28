@@ -75,7 +75,7 @@ export type Event = (
     }
   | {
       eventName: "pull_request";
-      action: "open";
+      action: "opened";
       pull_request: PullRequest;
     }
   | {

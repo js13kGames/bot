@@ -66,7 +66,7 @@ export const handle: SQSHandler = async e => {
   /**
    * PR opened
    */
-  if (event.eventName === "pull_request" && event.action === "open") {
+  if (event.eventName === "pull_request" && event.action === "opened") {
     const github = await create(event.installation.id);
 
     const re = await getLatestRelease({ github })(

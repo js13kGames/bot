@@ -24,7 +24,7 @@ export const handle: APIGatewayProxyHandler = async e => {
 
   if (
     (event.eventName === "pull_request" && event.action === "synchronize") ||
-    (event.eventName === "pull_request" && event.action === "open") ||
+    (event.eventName === "pull_request" && event.action === "opened") ||
     (event.eventName === "check_run" && event.action === "rerequested") ||
     (event.eventName === "check_suite" && event.action === "rerequested")
   ) {
