@@ -98,7 +98,7 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
             summary.push(
               ` The image was not found.` +
                 (label !== x.filename
-                  ? `according to the manifest, it should be named ${x.fileName}`
+                  ? `according to the manifest, it should be named ${x.filename}`
                   : "")
             );
             return;
