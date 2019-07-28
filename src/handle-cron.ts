@@ -4,6 +4,7 @@ import { create, listInstallations } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
 import * as config from "./config";
 import { getCheckRuns } from "./checkRuns";
+import { sendMessage } from "./services/sqs";
 
 export const handle = async () => {
   const installations = await listInstallations();
@@ -31,6 +32,12 @@ export const handle = async () => {
 
         const re = await getLatestRelease({ github })(pullRequest);
 
+        console.log(
+          re
+            ? `--  --  -- release ${re.release.tag_name} [${re.release.id}] on ${re.commitSha}`
+            : `--  --  -- no release`
+        );
+
         if (
           re &&
           !(await getCheckRuns({ github })(
@@ -39,22 +46,14 @@ export const handle = async () => {
             re.release.id
           ))
         ) {
-          console.log(
-            `--  --  -- new release ${re.release.tag_name} on ${re.commitSha}`
-          );
+          console.log(`--  --  -- new one`);
 
-          fetch(config.github.webhook_url, {
-            method: "POST",
-            headers: {
-              ["X-GitHub-Event"]: "x-release",
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              installation,
-              pullRequest,
-              release: re.release,
-              releaseCommitSha: re.commitSha
-            })
+          await sendMessage({
+            eventName: "x-release",
+            installation,
+            pullRequest,
+            release: re.release,
+            releaseCommitSha: re.commitSha
           });
         }
       }

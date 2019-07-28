@@ -12,39 +12,96 @@ package:
 provider:
   name: aws
   runtime: nodejs10.x
-  memorySize: 256
-  timeout: 120
   region: eu-west-1
   stage: stage
   logRetentionInDays: 14
   iamRoleStatements:
+    # - Effect: "Allow"
+    #   Action:
+    #     - "s3:"
+    #   Resource:
+    #     - "arn:aws:s3:::js13kgames-entry-preview"
+    #
+    - Effect: "Allow"
+      Action:
+        - "s3:ListBucket*"
+      Resource:
+        - "arn:aws:s3:::*"
+
     - Effect: "Allow"
       Action:
         - "s3:*"
       Resource:
         - "*"
+
     - Effect: "Allow"
       Action:
         - "xray:PutTraceSegments"
         - "xray:PutTelemetryRecords"
       Resource:
         - "*"
+
+    - Effect: "Allow"
+      Action:
+        - "sqs:ListQueues"
+      Resource:
+        - "*"
+
+    - Effect: "Allow"
+      Action:
+        - "sqs:*"
+      Resource:
+        - Fn::GetAtt:
+            - JobQueue
+            - Arn
+
   environment:
     AWS_BUCKET_NAME: js13kgames-entry-preview
+    AWS_SQS_QUEUE_NAME:
+      Fn::GetAtt:
+        - JobQueue
+        - QueueName
+    AWS_SQS_QUEUE_ARN:
+      Fn::GetAtt:
+        - JobQueue
+        - Arn
     GITHUB_WEBHOOK_URL:
       Fn::Join:
         - ""
         - - "https://"
           - Ref: "ApiGatewayRestApi"
-          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
+          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/webhook"
+
+resources:
+  Resources:
+    JobQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        VisibilityTimeout: 120
 
 functions:
   github-webhook:
+    memorySize: 128
+    timeout: 10
     handler: build/handle-github-webhook.handle
     events:
       - http: POST webhook
 
   detect-new-release:
+    memorySize: 256
+    timeout: 60
     handler: build/handle-cron.handle
     events:
       - schedule: rate(2 minutes)
+
+  job:
+    memorySize: 256
+    timeout: 120
+    handler: build/handle-job.handle
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - JobQueue
+              - Arn
+          batchSize: 1

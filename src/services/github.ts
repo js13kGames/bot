@@ -65,34 +65,27 @@ type GenericEventPayload = {
     id: number;
   };
 };
-export type Event =
+export type Event = (
   | {
-      name: "pull_request";
-      payload: {
-        action: "synchronize";
-        pull_request: PullRequest;
-        before: string;
-        after: string;
-      } & GenericEventPayload;
+      eventName: "pull_request";
+      action: "synchronize";
+      pull_request: PullRequest;
+      before: string;
+      after: string;
     }
   | {
-      name: "pull_request";
-      payload: {
-        action: "open";
-        pull_request: PullRequest;
-      } & GenericEventPayload;
+      eventName: "pull_request";
+      action: "open";
+      pull_request: PullRequest;
     }
   | {
-      name: "check_suite";
-      payload: {
-        action: "rerequested";
-        check_suite: CheckSuite;
-      } & GenericEventPayload;
+      eventName: "check_suite";
+      action: "rerequested";
+      check_suite: CheckSuite;
     }
   | {
-      name: "check_run";
-      payload: {
-        action: "rerequested";
-        check_run: CheckRun;
-      } & GenericEventPayload;
-    };
+      eventName: "check_run";
+      action: "rerequested";
+      check_run: CheckRun;
+    }) &
+  GenericEventPayload;
