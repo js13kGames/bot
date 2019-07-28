@@ -9,7 +9,12 @@ export type Control = (
     }
   | { name: "bundle-found"; assetFiles: string[] }
   | { name: "bundle-unzipped" }
-  | { name: "release-found"; tagName: string; branch: string }
+  | {
+      name: "release-found";
+      releaseUrl: string;
+      tagName: string;
+      branch: string;
+    }
   | { name: "index-found"; deployUrl: string; bundleFiles: string[] }
   | { name: "bundle-size"; bundleSize: number; sizeLimit: number }
   | { name: "run-without-error"; errors: string[] }

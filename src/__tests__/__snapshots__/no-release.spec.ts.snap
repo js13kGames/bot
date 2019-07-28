@@ -41,6 +41,7 @@ Array [
     "branch": "entry/no-release",
     "conclusion": "failure",
     "name": "release-found",
+    "releaseUrl": undefined,
     "tagName": undefined,
   },
 ]

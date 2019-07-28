@@ -6,7 +6,9 @@ export const github = {
   app_private_key: decode(process.env.GITHUB_APP_PRIVATE_KEY_B64),
 
   client_id: process.env.GITHUB_CLIENT_ID,
-  client_secret: process.env.GITHUB_CLIENT_SECRET
+  client_secret: process.env.GITHUB_CLIENT_SECRET,
+
+  webhook_url: process.env.GITHUB_WEBHOOK_URL
 };
 
 export const browserstack = {

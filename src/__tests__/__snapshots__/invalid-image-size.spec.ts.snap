@@ -56,6 +56,7 @@ Array [
     "branch": "entry/invalid-image-size",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/invalid-image-size-v1",
     "tagName": "invalid-image-size-v1",
   },
   Object {
@@ -154,7 +155,7 @@ This entry should yield an error because one image does not meet the ratio requi
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`invalid-image-size-v1\` was found
+The release [invalid-image-size-v1](https://github.com/Platane/entry/releases/tag/invalid-image-size-v1) was found
 
 ## ✔️ bundle
 The bundle was found

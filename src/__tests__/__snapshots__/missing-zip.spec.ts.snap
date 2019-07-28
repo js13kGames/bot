@@ -41,6 +41,7 @@ Array [
     "branch": "entry/missing-zip",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/missing-zip-v1",
     "tagName": "entry/missing-zip-v1",
   },
   Object {
@@ -98,7 +99,7 @@ This entry should yield an error because no zip file can be found in the release
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/missing-zip-v1\` was found
+The release [entry/missing-zip-v1](https://github.com/Platane/entry/releases/tag/entry/missing-zip-v1) was found
 
 ## ❌ bundle
 The release assets does not contain a zip file

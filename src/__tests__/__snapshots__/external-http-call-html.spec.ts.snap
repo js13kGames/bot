@@ -45,6 +45,7 @@ Array [
     "branch": "entry/external-http-call-html",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/external-http-call-html-v1",
     "tagName": "entry/external-http-call-html-v1",
   },
   Object {
@@ -148,7 +149,7 @@ This entry should yield an error because when running, the game make a forbidden
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/external-http-call-html-v1\` was found
+The release [entry/external-http-call-html-v1](https://github.com/Platane/entry/releases/tag/entry/external-http-call-html-v1) was found
 
 ## ✔️ bundle
 The bundle was found

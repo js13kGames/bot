@@ -10,16 +10,12 @@ import { promisify } from "util";
 import { uploadImage, createUrl } from "../services/cloudinary";
 
 export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
-  pullRequest: PullRequest
+  pullRequest: PullRequest,
+  commitSha: string
 ): Promise<Control[]> => {
   const controls: Control[] = [];
 
-  const { data: files } = await github.pullRequests.listFiles({
-    owner: pullRequest.base.repo.owner.login,
-    repo: pullRequest.base.repo.name,
-    number: pullRequest.number,
-    per_page: 300
-  });
+  const files = await getFiles({ github })(pullRequest, commitSha);
 
   /**
    * look for the manifest file
@@ -153,9 +149,43 @@ const analyzeImage = async (
 
 const numberEqual = (a, b) => Math.abs(a - b) < 0.001;
 
-const trimExtension = filename => {
+const trimExtension = (filename: string) => {
   const ext = path.extname(filename);
   return filename.slice(0, -ext.length);
 };
 
-const isImage = filename => !!(mime.lookup(filename) || "").match(/^image/);
+const isImage = (filename: string) =>
+  !!(mime.lookup(filename) || "").match(/^image/);
+
+export const getFiles = ({ github }: { github: GithubClient }) => async (
+  pullRequest: PullRequest,
+  commitSha?: string
+): Promise<File[]> => {
+  const { data: commits } = await github.pullRequests.listCommits({
+    owner: pullRequest.base.repo.owner.login,
+    repo: pullRequest.base.repo.name,
+    number: pullRequest.number,
+    per_page: 300
+  });
+
+  const files = {};
+
+  for (const sha of removeAfter(commits.map(c => c.sha), commitSha)) {
+    const { data: commit } = await github.repos.getCommit({
+      owner: pullRequest.base.repo.owner.login,
+      repo: pullRequest.base.repo.name,
+      sha
+    });
+
+    for (const file of commit.files) {
+      files[file.filename] = file;
+    }
+  }
+
+  return Object.values(files);
+};
+
+const removeAfter = <T>(arr: T[], x: T): T[] => {
+  const i = arr.indexOf(x);
+  return i === -1 ? arr : arr.slice(0, 1 + i);
+};

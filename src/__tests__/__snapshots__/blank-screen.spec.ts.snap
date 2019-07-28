@@ -45,6 +45,7 @@ Array [
     "branch": "entry/blank-screen",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1",
     "tagName": "entry/blank-screen-v1",
   },
   Object {
@@ -143,7 +144,7 @@ This entry should yield an error because when running, the game display a blank 
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/blank-screen-v1\` was found
+The release [entry/blank-screen-v1](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1) was found
 
 ## ✔️ bundle
 The bundle was found

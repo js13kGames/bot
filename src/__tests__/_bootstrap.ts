@@ -1,4 +1,4 @@
-import { create, GithubClient } from "../services/github";
+import { create, GithubClient, Release } from "../services/github";
 import { analyze } from "../analyze";
 import { setCheckRuns } from "../checkRuns";
 import { generateReport } from "../report";
@@ -10,7 +10,7 @@ import { Control } from "../analyze/control";
 jest.setTimeout(60000);
 
 export const bootstrap = ({ pullRequest, installation }) => {
-  let re;
+  let re: { release: Release; commitSha: string } | null;
   let controls: Control[];
   let github: GithubClient;
 
@@ -29,12 +29,14 @@ export const bootstrap = ({ pullRequest, installation }) => {
 
   it("should get the latest release", async () => {
     re = await getLatestRelease({ github })(pullRequest);
-
-    // expect(re).toBeTruthy();
   });
 
   it("should analyze", async () => {
-    controls = await analyze({ github })(pullRequest, re && re.release);
+    controls = await analyze({ github })(
+      pullRequest,
+      re && re.commitSha,
+      re && re.release
+    );
 
     expect(controls.length).toBeGreaterThan(1);
 
@@ -42,7 +44,7 @@ export const bootstrap = ({ pullRequest, installation }) => {
   });
 
   it("should generate report", () => {
-    const report = generateReport(re && re.release, controls);
+    const report = generateReport(controls);
 
     expect(report).toMatchSnapshot();
   });
@@ -54,19 +56,16 @@ export const bootstrap = ({ pullRequest, installation }) => {
   });
 
   it("should report", async () => {
-    await setComment({ github })(
-      pullRequest,
-      generateReport(re && re.release, controls)
-    );
+    await setComment({ github })(pullRequest, generateReport(controls));
   });
 
   it("should report checks", async () => {
-    re &&
-      (await setCheckRuns({ github })(
-        pullRequest.base.repo,
-        re.sha,
+    if (re)
+      await setCheckRuns({ github })(
+        pullRequest,
+        re && re.commitSha,
         re && re.release.id,
         generateCheckRuns(controls)
-      ));
+      );
   });
 };

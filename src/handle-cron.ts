@@ -1,12 +1,9 @@
+import fetch from "node-fetch";
 import "./polyfill.fromEntries";
 import { create, listInstallations } from "./services/github";
-import { collectAnalyzeReport } from "./collectAnalyzeReport";
-
-const shuffle = <T>([a, ...rest]: T[]): T[] => {
-  if (!a) return [];
-
-  return Math.random() > 0.5 ? [...shuffle(rest), a] : [a, ...shuffle(rest)];
-};
+import { getLatestRelease } from "./getLatestRelease";
+import * as config from "./config";
+import { getCheckRuns } from "./checkRuns";
 
 export const handle = async () => {
   const installations = await listInstallations();
@@ -32,8 +29,40 @@ export const handle = async () => {
           `--  -- pullRequest #${pullRequest.number} ${pullRequest.title}`
         );
 
-        await collectAnalyzeReport({ github })(pullRequest);
+        const re = await getLatestRelease({ github })(pullRequest);
+
+        if (
+          re &&
+          !(await getCheckRuns({ github })(
+            pullRequest,
+            re.commitSha,
+            re.release.id
+          ))
+        ) {
+          console.log(
+            `--  --  -- new release ${re.release.tag_name} on ${re.commitSha}`
+          );
+
+          fetch(config.github.webhook_url, {
+            method: "POST",
+            headers: {
+              ["X-GitHub-Event"]: "x-release",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              installation,
+              pullRequest,
+              release: re.release,
+              releaseCommitSha: re.commitSha
+            })
+          });
+        }
       }
     }
   }
+};
+
+const shuffle = <T>([a, ...rest]: T[]): T[] => {
+  if (!a) return [];
+  return Math.random() > 0.5 ? [...shuffle(rest), a] : [a, ...shuffle(rest)];
 };

@@ -45,6 +45,7 @@ Array [
     "branch": "entry/oversize-bundle",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/oversize-bundle-v1",
     "tagName": "entry/oversize-bundle-v1",
   },
   Object {
@@ -143,7 +144,7 @@ This entry should yield an error because the bundle is over the size limit
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/oversize-bundle-v1\` was found
+The release [entry/oversize-bundle-v1](https://github.com/Platane/entry/releases/tag/entry/oversize-bundle-v1) was found
 
 ## ✔️ bundle
 The bundle was found

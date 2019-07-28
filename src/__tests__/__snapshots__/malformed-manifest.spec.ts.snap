@@ -41,6 +41,7 @@ Array [
     "branch": "entry/malformed-manifest",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/malformed-manifest-v1",
     "tagName": "entry/malformed-manifest-v1",
   },
   Object {
@@ -120,7 +121,7 @@ The manifest does not appear to be a valid json file
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/malformed-manifest-v1\` was found
+The release [entry/malformed-manifest-v1](https://github.com/Platane/entry/releases/tag/entry/malformed-manifest-v1) was found
 
 ## ✔️ bundle
 The bundle was found

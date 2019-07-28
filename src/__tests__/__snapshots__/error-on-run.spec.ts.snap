@@ -45,6 +45,7 @@ Array [
     "branch": "entry/error-on-run",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/error-on-run-v1",
     "tagName": "entry/error-on-run-v1",
   },
   Object {
@@ -145,7 +146,7 @@ This entry should yield an error because when running, the game yield error in t
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/error-on-run-v1\` was found
+The release [entry/error-on-run-v1](https://github.com/Platane/entry/releases/tag/entry/error-on-run-v1) was found
 
 ## ✔️ bundle
 The bundle was found

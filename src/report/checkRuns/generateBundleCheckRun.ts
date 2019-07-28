@@ -19,7 +19,9 @@ export const generateBundleCheckRun = (controls: Control[]): CheckRun => {
       "> Read this [guide](.) if you are stuck"
     );
   else {
-    summary.push(`The release \`${c["release-found"].tagName}\` was found`);
+    summary.push(
+      `The release [${c["release-found"].tagName}](${c["release-found"].releaseUrl}) was found`
+    );
 
     // parsing
     summary.push(

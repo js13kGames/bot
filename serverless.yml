@@ -13,8 +13,9 @@ provider:
   name: aws
   runtime: nodejs10.x
   memorySize: 256
-  timeout: 280
+  timeout: 120
   region: eu-west-1
+  stage: stage
   logRetentionInDays: 14
   iamRoleStatements:
     - Effect: "Allow"
@@ -22,11 +23,28 @@ provider:
         - "s3:*"
       Resource:
         - "*"
+    - Effect: "Allow"
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource:
+        - "*"
   environment:
     AWS_BUCKET_NAME: js13kgames-entry-preview
+    GITHUB_WEBHOOK_URL:
+      Fn::Join:
+        - ""
+        - - "https://"
+          - Ref: "ApiGatewayRestApi"
+          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}"
 
 functions:
-  cron:
+  github-webhook:
+    handler: build/handle-github-webhook.handle
+    events:
+      - http: POST webhook
+
+  detect-new-release:
     handler: build/handle-cron.handle
     events:
-      - schedule: rate(5 minutes)
+      - schedule: rate(2 minutes)

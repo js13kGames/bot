@@ -45,6 +45,7 @@ Array [
     "branch": "entry/missing-index",
     "conclusion": "success",
     "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/missing-index-v1",
     "tagName": "entry/missing-index-v1",
   },
   Object {
@@ -121,7 +122,7 @@ This entry should yield an error because the index.html is missing from the bund
     "output": Object {
       "summary": "
 ## ✔️ release
-The release \`entry/missing-index-v1\` was found
+The release [entry/missing-index-v1](https://github.com/Platane/entry/releases/tag/entry/missing-index-v1) was found
 
 ## ✔️ bundle
 The bundle was found

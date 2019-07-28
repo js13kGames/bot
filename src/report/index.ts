@@ -1,10 +1,6 @@
 import { Control, extractInfo } from "../analyze/control";
-import { Release } from "../services/github";
 
-export const generateReport = (
-  latestRelease?: Release,
-  controls?: Control[]
-) => {
+export const generateReport = (controls?: Control[]) => {
   /**
    * header
    */
@@ -19,7 +15,7 @@ export const generateReport = (
   /**
    * release
    */
-  if (!latestRelease) {
+  if (c["release-found"].conclusion === "failure") {
     /**
      * no release
      */
@@ -33,7 +29,7 @@ export const generateReport = (
      * release header
      */
     body.push(
-      `I reviewed your latest release, [${latestRelease.tag_name}](${latestRelease.html_url})` +
+      `I reviewed your latest release, [${c["release-found"].tagName}](${c["release-found"].releaseUrl})` +
         ([
           "bundle-found",
           "bundle-unzipped",
