@@ -52,3 +52,8 @@ export const rules = {
   },
   bundleSizeLimit: 13 * 1024
 };
+
+export const legacyFormSubmission = {
+  endpoint: "https://js13kgames.com/submit",
+  token: "xxx"
+};

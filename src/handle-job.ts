@@ -13,6 +13,8 @@ import { generateReport } from "./report";
 import { setComment } from "./comment";
 import { setCheckRuns } from "./checkRuns";
 import { generateCheckRuns } from "./report/checkRuns";
+import { extractInfoFormCheckRuns } from "./report/checkRuns/generateSubmitCheckRun";
+import { submit } from "./services/submit";
 
 type ReleaseEvent = {
   eventName: "x-release";
@@ -108,6 +110,48 @@ export const handle: SQSHandler = async e => {
       event.check_run.head_sha,
       release
     );
+  }
+
+  /**
+   * manully submit
+   */
+  if (event.eventName === "check_run" && event.action === "requested_action") {
+    const github = await create(event.installation.id);
+
+    const [releaseId, pullRequestNumber] = event.check_run.external_id.split(
+      "#"
+    );
+
+    const res = extractInfoFormCheckRuns([event.check_run]);
+
+    // submit
+    await submit({
+      user: { name: res.username },
+      game: {
+        name: res.name,
+        description: res.description,
+        categories: [],
+        repositoryUrl: `https://github.com/${res.username}/${res.repositoryName}`
+      },
+      bundleUrl: res.bundleUrl,
+      imagesUrls: res.images
+    });
+
+    // add label
+    github.issues.addLabels({
+      owner: event.repository.owner.login,
+      repo: event.repository.name,
+      number: +pullRequestNumber,
+      labels: ["submitted"]
+    });
+
+    // close PR
+    await github.pullRequests.update({
+      owner: event.repository.owner.login,
+      repo: event.repository.name,
+      number: +pullRequestNumber,
+      state: "closed"
+    });
   }
 };
 

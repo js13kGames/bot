@@ -10,7 +10,7 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
 ): Promise<Control[]> => {
   let files: { [key: string]: any };
   let bundleSize: number;
-  let bundleHash: string;
+  let upload;
 
   const controls: Control[] = [];
 
@@ -21,13 +21,19 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
     const res = await readBundle({ github })(release.assets);
     files = res.files;
     bundleSize = res.bundleSize;
-    bundleHash = res.bundleHash;
+
+    /**
+     * upload bundle
+     */
+    upload = (await createUploader(res.bundleHash)).upload;
+    const bundleUrl = await upload("bundle.zip", res.bundleContent);
 
     controls.push(
       {
         name: "bundle-found",
         conclusion: "success",
-        assetFiles: release.assets.map(a => a.name)
+        assetFiles: release.assets.map(a => a.name),
+        bundleUrl
       },
       { name: "bundle-unzipped", conclusion: "success" }
     );
@@ -71,8 +77,6 @@ export const analyzeRelease = ({ github }: { github: GithubClient }) => async (
   /**
    * upload files
    */
-  const { upload } = await createUploader(bundleHash);
-
   let index: string;
   for (const [filename, content] of Object.entries(files)) {
     const url = await upload(filename, content as any);

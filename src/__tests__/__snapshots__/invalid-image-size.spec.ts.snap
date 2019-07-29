@@ -5,6 +5,7 @@ Array [
   Object {
     "conclusion": "success",
     "name": "username-found",
+    "repositoryName": "entry",
     "username": "platane",
   },
   Object {
@@ -68,6 +69,7 @@ Array [
     "assetFiles": Array [
       "bundle.zip",
     ],
+    "bundleUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/bundle.zip",
     "conclusion": "success",
     "name": "bundle-found",
   },

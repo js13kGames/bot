@@ -23,7 +23,8 @@ export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
   controls.push({
     conclusion: "success",
     name: "username-found",
-    username: pullRequest.head.repo.owner.login
+    username: pullRequest.head.repo.owner.login,
+    repositoryName: pullRequest.head.repo.name
   });
 
   /**

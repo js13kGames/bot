@@ -5,6 +5,7 @@ Array [
   Object {
     "conclusion": "success",
     "name": "username-found",
+    "repositoryName": "entry",
     "username": "platane",
   },
   Object {
@@ -57,6 +58,7 @@ Array [
     "assetFiles": Array [
       "bundle.zip",
     ],
+    "bundleUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/bundle.zip",
     "conclusion": "success",
     "name": "bundle-found",
   },
@@ -190,6 +192,22 @@ The game made request to internal resources only, which is fine
 ## ✔️ blank screen
 The game seems to display something
 <img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/game_preview_screenshot.png\\"/>",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "actions": Array [
+      Object {
+        "description": "Submit your entry and close this PR",
+        "identifier": "submit",
+        "label": "Submit",
+      },
+    ],
+    "conclusion": "neutral",
+    "name": "submit",
+    "output": Object {
+      "summary": "<!--{\\"bundleUrl\\":\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/bundle.zip\\",\\"deployUrl\\":\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\",\\"releaseUrl\\":\\"https://github.com/Platane/entry/releases/tag/entry/valid-v1\\",\\"username\\":\\"platane\\",\\"repositoryName\\":\\"entry\\",\\"name\\":\\"valid\\",\\"description\\":\\"This entry should pass\\",\\"images\\":{\\"image_thumbnail\\":\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\",\\"image_large\\":\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\"}}-->",
       "text": "",
       "title": "",
     },

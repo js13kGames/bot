@@ -26,6 +26,7 @@ export const handle: APIGatewayProxyHandler = async e => {
     (event.eventName === "pull_request" && event.action === "synchronize") ||
     (event.eventName === "pull_request" && event.action === "opened") ||
     (event.eventName === "check_run" && event.action === "rerequested") ||
+    (event.eventName === "check_run" && event.action === "requested_action") ||
     (event.eventName === "check_suite" && event.action === "rerequested")
   ) {
     await sendMessage(event);

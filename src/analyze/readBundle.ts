@@ -49,6 +49,7 @@ const readZipFile = ({ github }: { github: GithubClient }) => async (
     return {
       files,
       bundleSize: asset.size,
+      bundleContent: Buffer.from(bundleContent),
       bundleHash
     };
   } catch (err) {

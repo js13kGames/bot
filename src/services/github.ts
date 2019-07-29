@@ -85,6 +85,14 @@ export type Event = (
     }
   | {
       eventName: "check_run";
+      action: "requested_action";
+      check_run: CheckRun;
+      requested_action: {
+        identifier: "submit";
+      };
+    }
+  | {
+      eventName: "check_run";
       action: "rerequested";
       check_run: CheckRun;
     }) &
