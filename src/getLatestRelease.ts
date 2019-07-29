@@ -32,9 +32,11 @@ export const getLatestRelease = ({
    */
   for (const sha of removeAfter(commits.map(c => c.sha), commitSha).reverse()) {
     const tagNames = tags.filter(t => t.commit.sha === sha).map(t => t.name);
-    const [release] = releases
+    const releasesOnPr = releases
       .filter(r => tagNames.includes(r.tag_name))
-      .sort((a, b) => (a.created_at < b.created_at ? -1 : 1));
+      .sort((a, b) => (a.published_at < b.published_at ? 1 : -1));
+
+    const [release] = releasesOnPr;
 
     if (release) return { release, commitSha: sha };
   }

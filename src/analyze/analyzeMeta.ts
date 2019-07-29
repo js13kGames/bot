@@ -18,6 +18,15 @@ export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
   const files = await getFiles({ github })(pullRequest, commitSha);
 
   /**
+   * grab the github username
+   */
+  controls.push({
+    conclusion: "success",
+    name: "username-found",
+    username: pullRequest.head.repo.owner.login
+  });
+
+  /**
    * look for the manifest file
    */
   const manifestFile = files.find(

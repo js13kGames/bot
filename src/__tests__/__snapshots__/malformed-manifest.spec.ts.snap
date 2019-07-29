@@ -4,6 +4,11 @@ exports[`integration  malformed-manifest should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
+    "name": "username-found",
+    "username": "platane",
+  },
+  Object {
+    "conclusion": "success",
     "files": Array [
       "asset/image/1659821.jpeg",
       "asset/script.js",
@@ -177,5 +182,5 @@ I reviewed your latest release, [entry/malformed-manifest-v1](https://github.com
 
 I could not read the manifest. It seems that it contains malformed json
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>game</strong>  </a>  <br>   </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>game</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>   </div> <br></blockquote>"
 `;

@@ -4,6 +4,11 @@ exports[`integration  blank-screen should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
+    "name": "username-found",
+    "username": "platane",
+  },
+  Object {
+    "conclusion": "success",
     "files": Array [
       "asset/image/1659821.jpeg",
       "asset/script.js",
@@ -45,8 +50,8 @@ Array [
     "branch": "entry/blank-screen",
     "conclusion": "success",
     "name": "release-found",
-    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1",
-    "tagName": "entry/blank-screen-v1",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/blank-screen-v2",
+    "tagName": "entry/blank-screen-v2",
   },
   Object {
     "assetFiles": Array [
@@ -144,7 +149,7 @@ This entry should yield an error because when running, the game display a blank 
     "output": Object {
       "summary": "
 ## ✔️ release
-The release [entry/blank-screen-v1](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1) was found
+The release [entry/blank-screen-v2](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v2) was found
 
 ## ✔️ bundle
 The bundle was found
@@ -198,10 +203,10 @@ exports[`integration  blank-screen should generate report 1`] = `
 "Hello 👋
 I am a bot. My job is to review your submission.
 
-I reviewed your latest release, [entry/blank-screen-v1](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v1)
+I reviewed your latest release, [entry/blank-screen-v2](https://github.com/Platane/entry/releases/tag/entry/blank-screen-v2)
 Your game seems to have error at launch, all I can see is a [blank screen](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/game_preview_screenshot.png)
 Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html)
 
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html\\">   <strong>blank-screen</strong>  </a>  <br>  This entry should yield an error because when running, the game display a blank screen </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html\\">   <strong>blank-screen</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  This entry should yield an error because when running, the game display a blank screen </div> <br></blockquote>"
 `;

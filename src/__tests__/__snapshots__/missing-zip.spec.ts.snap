@@ -4,6 +4,11 @@ exports[`integration  missing-zip should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
+    "name": "username-found",
+    "username": "platane",
+  },
+  Object {
+    "conclusion": "success",
     "files": Array [
       "image_large.jpg",
       "image_thumbnail.jpg",
@@ -148,5 +153,5 @@ I found:
 Are you sure you included a .zip file ?
 
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>missing zip</strong>  </a>  <br>  This entry should yield an error because no zip file can be found in the release assets </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>missing zip</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  This entry should yield an error because no zip file can be found in the release assets </div> <br></blockquote>"
 `;

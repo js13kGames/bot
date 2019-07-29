@@ -175,7 +175,9 @@ export const generateReport = (controls?: Control[]) => {
 };
 
 const buildCard = controls => {
-  const { deployUrl, name, description, images } = extractInfo(controls);
+  const { deployUrl, username, name, description, images } = extractInfo(
+    controls
+  );
 
   return [
     "<blockquote>",
@@ -190,6 +192,12 @@ const buildCard = controls => {
     `  <a href="${deployUrl}">`,
     `   <strong>${name || "game"}</strong>`,
     `  </a>`,
+    "  <i>",
+    "   <span>&nbsp;&nbsp;by</span>",
+    `   <a href="https://github.com/${username}">`,
+    `    ${username || "username"}`,
+    `   </a>`,
+    "  </i>",
     "  <br>",
     "  " + (description ? description.split("\n").join("<br>") : ""),
     " </div>",

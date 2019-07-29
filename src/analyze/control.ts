@@ -1,6 +1,7 @@
 export type Control = (
   | { name: "description-found"; gameDescription: string }
   | { name: "name-found"; gameName: string }
+  | { name: "username-found"; username: string }
   | { name: "manifest-read"; manifest?: Object }
   | { name: "manifest-found"; files: string[] }
   | {
@@ -31,12 +32,15 @@ export const extractInfo = controls => {
   const deployUrl = (controls.find(c => c.name === "index-found") || {})
     .deployUrl;
   const name = (controls.find(c => c.name === "name-found") || {}).gameName;
+  const username = (controls.find(c => c.name === "username-found") || {})
+    .username;
   const description = (controls.find(c => c.name === "description-found") || {})
     .gameDescription;
   const images = (controls.find(c => c.name === "images-found") || {}).images;
 
   return {
     deployUrl,
+    username,
     name,
     description,
     images: Object.fromEntries(
