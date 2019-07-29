@@ -66,7 +66,7 @@ The release tagname does not matter.
 
 ## FAQ
 
-### Can I see a fully featured exemple ?
+### Can I see a full featured example ?
 
 [sure ](https://github.com/js13kGames/entry/pull/13)
 
