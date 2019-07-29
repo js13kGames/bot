@@ -10,6 +10,7 @@
     "aws-sdk": "2.495.0",
     "base-64": "0.1.0",
     "cloudinary": "1.14.0",
+    "form-data": "2.3.3",
     "get-pixels": "3.3.2",
     "github-app": "4.0.1",
     "mime-types": "2.1.24",
