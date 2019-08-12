@@ -50,7 +50,8 @@ export const rules = {
       height: 200
     }
   },
-  bundleSizeLimit: 13 * 1024
+  bundleSizeLimit: 13 * 1024,
+  categories: ["desktop", "mobile", "server", "webxr"]
 };
 
 export const legacyFormSubmission = {

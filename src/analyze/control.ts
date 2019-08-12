@@ -1,7 +1,17 @@
 export type Control = (
   | { name: "description-found"; gameDescription: string }
+  | { name: "categories-found"; gameCategories: string }
   | { name: "name-found"; gameName: string }
-  | { name: "username-found"; username: string; repositoryName: string }
+  | {
+      name: "user-found";
+      user: {
+        name: string;
+        github: string;
+        twitter?: string;
+        website?: string;
+      };
+      repositoryName: string;
+    }
   | { name: "manifest-read"; manifest?: Object }
   | { name: "manifest-found"; files: string[] }
   | {
@@ -36,22 +46,24 @@ export const extractInfo = controls => {
   const name = (controls.find(c => c.name === "name-found") || {}).gameName;
   const releaseUrl = (controls.find(c => c.name === "release-found") || {})
     .releaseUrl;
-  const username = (controls.find(c => c.name === "username-found") || {})
-    .username;
-  const repositoryName = (controls.find(c => c.name === "username-found") || {})
+  const user = (controls.find(c => c.name === "user-found") || {}).user;
+  const repositoryName = (controls.find(c => c.name === "user-found") || {})
     .repositoryName;
   const description = (controls.find(c => c.name === "description-found") || {})
     .gameDescription;
+  const categories = (controls.find(c => c.name === "categories-found") || {})
+    .gameCategories;
   const images = (controls.find(c => c.name === "images-found") || {}).images;
 
   return {
     bundleUrl,
     deployUrl,
     releaseUrl,
-    username,
+    user,
     repositoryName,
     name,
     description,
+    categories: Array.isArray(categories) ? categories : [],
     images: Object.fromEntries(
       Object.entries(images || {}).filter(([, x]: any) => !x.error)
     )

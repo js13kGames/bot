@@ -4,12 +4,6 @@ exports[`integration  no-release should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
-    "name": "username-found",
-    "repositoryName": "entry",
-    "username": "platane",
-  },
-  Object {
-    "conclusion": "success",
     "files": Array [
       "image_large.jpg",
       "image_thumbnail.jpg",
@@ -37,6 +31,20 @@ Array [
   },
   Object {
     "conclusion": "success",
+    "name": "user-found",
+    "repositoryName": "entry",
+    "user": Object {
+      "github": "platane",
+      "name": "platane",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "gameCategories": undefined,
+    "name": "categories-found",
+  },
+  Object {
+    "conclusion": "success",
     "images": Object {
       "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
@@ -56,7 +64,7 @@ Array [
 exports[`integration  no-release should generate checks 1`] = `
 Array [
   Object {
-    "conclusion": "success",
+    "conclusion": "failure",
     "name": "meta",
     "output": Object {
       "summary": "
@@ -72,12 +80,17 @@ The manifest was found :
 }
 \`\`\`
 
-## ✔️ game info
+## ❌ game info
 The game name is \\"no release\\"
+
+The manifest does not contain categories
+
+> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
 
 The game description is:
 
 This entry should yield an error because there is no relese on the pullrequest branch
+
 
 ## ✔️ game images
  - image_thumbnail
@@ -128,6 +141,7 @@ Please create a release with your bundled zip file so I can start reviewing 👀
 If you have trouble doing so, please read the [guide](https://github.com/js13kGames/bot/blob/master/doc/how-to-submit.md#release). Or ask for help here.
 
 
+I could not found categories in the the manifest.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>no release</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  This entry should yield an error because there is no relese on the pullrequest branch </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>no release</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because there is no relese on the pullrequest branch </div> <br></blockquote>"
 `;

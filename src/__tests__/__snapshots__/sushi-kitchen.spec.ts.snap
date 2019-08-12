@@ -1,0 +1,351 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`integration  sushi-kitchen should analyze 1`] = `
+Array [
+  Object {
+    "conclusion": "success",
+    "files": Array [
+      ".babelrc.js",
+      ".editorconfig",
+      ".flowconfig",
+      ".gitignore",
+      ".prettierrc",
+      "package.json",
+      "script/build.sh",
+      "script/bundlehtml.js",
+      "script/clearShader.js",
+      "script/rollup.config.js",
+      "script/webpack.config.js",
+      "script/webpack.config.test.js",
+      "src/__fixtures__/blank.js",
+      "src/__fixtures__/cycle.js",
+      "src/__fixtures__/game.js",
+      "src/__fixtures__/machine.js",
+      "src/__fixtures__/rect.js",
+      "src/__tests__/bot-carry.spec.js",
+      "src/__tests__/bot-swarm.spec.js",
+      "src/__tests__/bot-wall.spec.js",
+      "src/__tests__/bot-wallCorner.spec.js",
+      "src/__tests__/index.js",
+      "src/__tests__/machine-activate.spec.js",
+      "src/__tests__/machine-loop.spec.js",
+      "src/__tests__/util/createRenderer.js",
+      "src/config/blueprints.js",
+      "src/config/index.js",
+      "src/config/menu.js",
+      "src/config/palette.js",
+      "src/config/physic.js",
+      "src/index.html",
+      "src/index.js",
+      "src/logic/actionLayer/command.js",
+      "src/logic/actionLayer/index.js",
+      "src/logic/actionLayer/placeBot.js",
+      "src/logic/actionLayer/placeMachine.js",
+      "src/logic/actionLayer/select.js",
+      "src/logic/botDecisionMaking/activator.js",
+      "src/logic/botDecisionMaking/carrier.js",
+      "src/logic/botDecisionMaking/index.js",
+      "src/logic/botDecisionMaking/wanderer.js",
+      "src/logic/botMoving.js",
+      "src/logic/customerProcessing/index.js",
+      "src/logic/droppedTokensCoolDown.js",
+      "src/logic/index.js",
+      "src/logic/machineProcessing/index.js",
+      "src/renderer/canvas/index.js",
+      "src/renderer/texture/floor.js",
+      "src/renderer/texture/index.js",
+      "src/renderer/texture/machine.js",
+      "src/renderer/texture/svg/arrow.js",
+      "src/renderer/texture/svg/chef.js",
+      "src/renderer/texture/svg/fish.js",
+      "src/renderer/texture/svg/rice-ball.js",
+      "src/renderer/texture/svg/rice-grain.js",
+      "src/renderer/texture/svg/sushi.js",
+      "src/renderer/texture/tex.js",
+      "src/renderer/ui/index.js",
+      "src/renderer/ui/tutorial.js",
+      "src/renderer/webglFlat/flatEntity/entities/bots.js",
+      "src/renderer/webglFlat/flatEntity/entities/floor.js",
+      "src/renderer/webglFlat/flatEntity/entities/machines.js",
+      "src/renderer/webglFlat/flatEntity/entities/overlay.js",
+      "src/renderer/webglFlat/flatEntity/entities/util.js",
+      "src/renderer/webglFlat/flatEntity/fragment_fs.glsl",
+      "src/renderer/webglFlat/flatEntity/index.js",
+      "src/renderer/webglFlat/flatEntity/vertex_vs.glsl",
+      "src/renderer/webglFlat/index.js",
+      "src/renderer/webglFlat/util/shader-dev.js",
+      "src/renderer/webglFlat/util/shader.js",
+      "src/service/aStar/__tests__/findPath.spec.js",
+      "src/service/aStar/index.js",
+      "src/service/aStar/smoothPath.js",
+      "src/service/camera/__tests__/camera.spec.js",
+      "src/service/camera/index.js",
+      "src/service/machine/__tests__/getClosestPointToMachine.spec.js",
+      "src/service/machine/index.js",
+      "src/service/map/__tests__/rayCastCheck.spec.js",
+      "src/service/map/constant.js",
+      "src/service/map/index.js",
+      "src/service/map/line.js",
+      "src/service/point/__tests__/closestPointOnSegment.spec.js",
+      "src/service/point/index.js",
+      "src/type.js",
+      "src/util/hash.js",
+      "src/util/pointer.js",
+      "src/util/time.js",
+      "yarn.lock",
+      "README.md",
+      "doc/screenshot/medium2.png",
+      "doc/screenshot/small.png",
+      "manifest.json",
+    ],
+    "name": "manifest-found",
+  },
+  Object {
+    "conclusion": "success",
+    "manifest": Object {
+      "description": "Command a fleet of cook to craft sushi!
+
+Buy new machines, hired more crew, expand your kitchen.
+
+This is a management game.
+
+Manual:
+Each machine have a recipe to transform inputs into something else.
+
+Worker can do two activities:
+- activate a machine ( click on the worker, then click on the machine )
+- carry something from a point A to point B ( click on the worker, then drag from A to B )",
+      "images": Object {
+        "image_large": "doc/screenshot/medium2.png",
+        "image_thumbnail": "doc/screenshot/small.png",
+      },
+      "name": "Sushi Kitchen",
+    },
+    "name": "manifest-read",
+  },
+  Object {
+    "conclusion": "success",
+    "gameName": "Sushi Kitchen",
+    "name": "name-found",
+  },
+  Object {
+    "conclusion": "success",
+    "gameDescription": "Command a fleet of cook to craft sushi!
+
+Buy new machines, hired more crew, expand your kitchen.
+
+This is a management game.
+
+Manual:
+Each machine have a recipe to transform inputs into something else.
+
+Worker can do two activities:
+- activate a machine ( click on the worker, then click on the machine )
+- carry something from a point A to point B ( click on the worker, then drag from A to B )",
+    "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "user-found",
+    "repositoryName": "entry",
+    "user": Object {
+      "github": "platane",
+      "name": "platane",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "gameCategories": undefined,
+    "name": "categories-found",
+  },
+  Object {
+    "conclusion": "success",
+    "images": Object {
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/0ea1691a5b8878559087fa6793eb97b3.jpg",
+      "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/f1bb10aad0870c0eec84d4e95f7452bc.jpg",
+    },
+    "name": "images-found",
+  },
+  Object {
+    "branch": "entry/sushi-kitchen",
+    "conclusion": "success",
+    "name": "release-found",
+    "releaseUrl": "https://github.com/Platane/entry/releases/tag/entry/sushi-kitchen-v2",
+    "tagName": "entry/sushi-kitchen-v2",
+  },
+  Object {
+    "assetFiles": Array [
+      "bundle.zip",
+      "index.html",
+    ],
+    "bundleUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/bundle.zip",
+    "conclusion": "success",
+    "name": "bundle-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle-unzipped",
+  },
+  Object {
+    "bundleSize": 13297,
+    "conclusion": "success",
+    "name": "bundle-size",
+    "sizeLimit": 13312,
+  },
+  Object {
+    "bundleFiles": Array [
+      "index.html",
+    ],
+    "conclusion": "success",
+    "deployUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/index.html",
+    "name": "index-found",
+  },
+  Object {
+    "conclusion": "success",
+    "errors": Array [],
+    "name": "run-without-error",
+  },
+  Object {
+    "conclusion": "failure",
+    "externalUrls": Array [
+      "http://adl.windows.com/appraiseradl/2019_08_08_05_04_AMD64.cab",
+      "https://maps.windows.com/windows-app-web-link",
+    ],
+    "name": "run-without-external-http",
+    "urls": Array [
+      "http://adl.windows.com/appraiseradl/2019_08_08_05_04_AMD64.cab",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/index.html",
+      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/favicon.ico",
+      "https://maps.windows.com/windows-app-web-link",
+    ],
+  },
+  Object {
+    "conclusion": "success",
+    "name": "run-without-blank-screen",
+    "screenShotUrl": "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/game_preview_screenshot.png",
+  },
+]
+`;
+
+exports[`integration  sushi-kitchen should generate checks 1`] = `
+Array [
+  Object {
+    "conclusion": "failure",
+    "name": "meta",
+    "output": Object {
+      "summary": "
+## ✔️ manifest found
+The pull requet contains a file named \`manifest.json\`
+
+## ✔️ manifest parsed
+The manifest was found :
+\`\`\`json
+{
+  \\"name\\": \\"Sushi Kitchen\\",
+  \\"description\\": \\"Command a fleet of cook to craft sushi!\\\\n\\\\nBuy new machines, hired more crew, expand your kitchen.\\\\n\\\\nThis is a management game.\\\\n\\\\nManual:\\\\nEach machine have a recipe to transform inputs into something else.\\\\n\\\\nWorker can do two activities:\\\\n- activate a machine ( click on the worker, then click on the machine )\\\\n- carry something from a point A to point B ( click on the worker, then drag from A to B )\\",
+  \\"images\\": {
+    \\"image_large\\": \\"doc/screenshot/medium2.png\\",
+    \\"image_thumbnail\\": \\"doc/screenshot/small.png\\"
+  }
+}
+\`\`\`
+
+## ❌ game info
+The game name is \\"Sushi Kitchen\\"
+
+The manifest does not contain categories
+
+> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
+
+The game description is:
+
+Command a fleet of cook to craft sushi!
+
+Buy new machines, hired more crew, expand your kitchen.
+
+This is a management game.
+
+Manual:
+Each machine have a recipe to transform inputs into something else.
+
+Worker can do two activities:
+- activate a machine ( click on the worker, then click on the machine )
+- carry something from a point A to point B ( click on the worker, then drag from A to B )
+
+
+## ✔️ game images
+ - image_thumbnail
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/f1bb10aad0870c0eec84d4e95f7452bc.jpg\\" />
+ - image_large
+
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/0ea1691a5b8878559087fa6793eb97b3.jpg\\" />",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "success",
+    "name": "bundle",
+    "output": Object {
+      "summary": "
+## ✔️ release
+The release [entry/sushi-kitchen-v2](https://github.com/Platane/entry/releases/tag/entry/sushi-kitchen-v2) was found
+
+## ✔️ bundle
+The bundle was found
+
+## ✔️ game info
+The bundle was unzipped\\"
+
+## ✔️ index file
+The index was found
+
+## ✔️ bundle size
+The bundle size is ok",
+      "text": "",
+      "title": "",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "name": "game",
+    "output": Object {
+      "summary": "
+## ✔️ deploy
+The game is deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/index.html)
+
+## ✔️ errors
+The game did not had any error
+
+## ❌ external resources
+The game appear to make calls to external resources
+\`\`\`
+ - http://adl.windows.com/appraiseradl/2019_08_08_05_04_AMD64.cab
+ - https://maps.windows.com/windows-app-web-link
+\`\`\`
+
+> This is cheating
+
+## ✔️ blank screen
+The game seems to display something
+<img height=\\"120\\" src=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/game_preview_screenshot.png\\"/>",
+      "text": "",
+      "title": "",
+    },
+  },
+]
+`;
+
+exports[`integration  sushi-kitchen should generate report 1`] = `
+"Hello 👋
+I am a bot. My job is to review your submission.
+
+I reviewed your latest release, [entry/sushi-kitchen-v2](https://github.com/Platane/entry/releases/tag/entry/sushi-kitchen-v2)
+It seems that your game is making call to external resources, which is forbidden.
+Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/index.html)
+
+I could not found categories in the the manifest.
+
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/f1bb10aad0870c0eec84d4e95f7452bc.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/0ea1691a5b8878559087fa6793eb97b3.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/44c99f4279502e5c1d477b6209be8f58/index.html\\">   <strong>Sushi Kitchen</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  Command a fleet of cook to craft sushi!<br><br>Buy new machines, hired more crew, expand your kitchen.<br><br>This is a management game.<br><br>Manual:<br>Each machine have a recipe to transform inputs into something else.<br><br>Worker can do two activities:<br>- activate a machine ( click on the worker, then click on the machine )<br>- carry something from a point A to point B ( click on the worker, then drag from A to B ) </div> <br></blockquote>"
+`;

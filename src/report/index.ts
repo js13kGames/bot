@@ -1,4 +1,5 @@
 import { Control, extractInfo } from "../analyze/control";
+import * as config from "../config";
 
 export const generateReport = (controls?: Control[]) => {
   /**
@@ -147,6 +148,15 @@ export const generateReport = (controls?: Control[]) => {
     if (c["description-found"].conclusion === "failure") {
       body.push("I could not found a description in the the manifest.");
     }
+    if (c["categories-found"].conclusion === "failure") {
+      if (c["categories-found"].gameCategories)
+        body.push(
+          `The categories in manifest must be an array containing one or more ${config.rules.categories.join(
+            ","
+          )}`
+        );
+      else body.push("I could not found categories in the the manifest.");
+    }
   }
 
   if (c["images-found"].conclusion === "failure") {
@@ -175,9 +185,14 @@ export const generateReport = (controls?: Control[]) => {
 };
 
 const buildCard = controls => {
-  const { deployUrl, username, name, description, images } = extractInfo(
-    controls
-  );
+  const {
+    deployUrl,
+    user,
+    name,
+    categories,
+    description,
+    images
+  } = extractInfo(controls);
 
   return [
     "<blockquote>",
@@ -194,10 +209,12 @@ const buildCard = controls => {
     `  </a>`,
     "  <i>",
     "   <span>&nbsp;&nbsp;by</span>",
-    `   <a href="https://github.com/${username}">`,
-    `    ${username || "username"}`,
+    `   <a href="https://github.com/${user && user.github}">`,
+    `    ${(user && user.name) || "username"}`,
     `   </a>`,
     "  </i>",
+    "  <br>",
+    `  ${categories.join(",")}`,
     "  <br>",
     "  " + (description ? description.split("\n").join("<br>") : ""),
     " </div>",

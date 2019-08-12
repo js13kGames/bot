@@ -126,12 +126,12 @@ export const handle: SQSHandler = async e => {
 
     // submit
     await submit({
-      user: { name: res.username },
+      user: res.user,
       game: {
         name: res.name,
         description: res.description,
         categories: [],
-        repositoryUrl: `https://github.com/${res.username}/${res.repositoryName}`
+        repositoryUrl: `https://github.com/${res.user.github}/${res.repositoryName}`
       },
       bundleUrl: res.bundleUrl,
       imagesUrls: res.images

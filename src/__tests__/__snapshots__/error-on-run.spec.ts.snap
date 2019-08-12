@@ -4,12 +4,6 @@ exports[`integration  error-on-run should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
-    "name": "username-found",
-    "repositoryName": "entry",
-    "username": "platane",
-  },
-  Object {
-    "conclusion": "success",
     "files": Array [
       "asset/image/1659821.jpeg",
       "asset/script.js",
@@ -38,6 +32,20 @@ Array [
     "conclusion": "success",
     "gameDescription": "This entry should yield an error because when running, the game yield error in the console",
     "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "user-found",
+    "repositoryName": "entry",
+    "user": Object {
+      "github": "platane",
+      "name": "platane",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "gameCategories": undefined,
+    "name": "categories-found",
   },
   Object {
     "conclusion": "success",
@@ -113,7 +121,7 @@ Array [
 exports[`integration  error-on-run should generate checks 1`] = `
 Array [
   Object {
-    "conclusion": "success",
+    "conclusion": "failure",
     "name": "meta",
     "output": Object {
       "summary": "
@@ -129,12 +137,17 @@ The manifest was found :
 }
 \`\`\`
 
-## ✔️ game info
+## ❌ game info
 The game name is \\"error on run\\"
+
+The manifest does not contain categories
+
+> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
 
 The game description is:
 
 This entry should yield an error because when running, the game yield error in the console
+
 
 ## ✔️ game images
  - image_thumbnail
@@ -218,6 +231,7 @@ http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f924
 \`\`\`
 Can you take a look ? I have it deployed [here](http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html)
 
+I could not found categories in the the manifest.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html\\">   <strong>error on run</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  This entry should yield an error because when running, the game yield error in the console </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html\\">   <strong>error on run</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because when running, the game yield error in the console </div> <br></blockquote>"
 `;

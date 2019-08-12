@@ -4,12 +4,6 @@ exports[`integration  missing-image should analyze 1`] = `
 Array [
   Object {
     "conclusion": "success",
-    "name": "username-found",
-    "repositoryName": "entry",
-    "username": "platane",
-  },
-  Object {
-    "conclusion": "success",
     "files": Array [
       "asset/image/1659821.jpeg",
       "asset/script.js",
@@ -38,6 +32,20 @@ Array [
     "conclusion": "success",
     "gameDescription": "This entry should yield an error because one image is missing",
     "name": "description-found",
+  },
+  Object {
+    "conclusion": "success",
+    "name": "user-found",
+    "repositoryName": "entry",
+    "user": Object {
+      "github": "platane",
+      "name": "platane",
+    },
+  },
+  Object {
+    "conclusion": "failure",
+    "gameCategories": undefined,
+    "name": "categories-found",
   },
   Object {
     "conclusion": "failure",
@@ -134,12 +142,17 @@ The manifest was found :
 }
 \`\`\`
 
-## ✔️ game info
+## ❌ game info
 The game name is \\"missing image\\"
+
+The manifest does not contain categories
+
+> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
 
 The game description is:
 
 This entry should yield an error because one image is missing
+
 
 ## ❌ game images
  - image_thumbnail
@@ -212,7 +225,8 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [entry/missing-image-v1](https://github.com/Platane/entry/releases/tag/entry/missing-image-v1). Its looking all good 👍
 
+I could not found categories in the the manifest.
 The image \`image_large\` was not found.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>missing image</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  This entry should yield an error because one image is missing </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>missing image</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because one image is missing </div> <br></blockquote>"
 `;

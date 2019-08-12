@@ -18,16 +18,6 @@ export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
   const files = await getFiles({ github })(pullRequest, commitSha);
 
   /**
-   * grab the github username
-   */
-  controls.push({
-    conclusion: "success",
-    name: "username-found",
-    username: pullRequest.head.repo.owner.login,
-    repositoryName: pullRequest.head.repo.name
-  });
-
-  /**
    * look for the manifest file
    */
   const manifestFile = files.find(
@@ -82,6 +72,35 @@ export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
       gameDescription: manifest.description
     }
   );
+
+  /**
+   * read the user
+   */
+  controls.push({
+    conclusion: "success",
+    name: "user-found",
+    user: {
+      name: pullRequest.head.repo.owner.login,
+      github: pullRequest.head.repo.owner.login,
+      ...manifest.user
+    },
+    repositoryName: pullRequest.head.repo.name
+  });
+
+  /**
+   * read categories
+   */
+  controls.push({
+    conclusion:
+      Array.isArray(manifest.categories) &&
+      manifest.categories.every(c =>
+        config.rules.categories.includes(c.toLowerCase())
+      )
+        ? "success"
+        : "failure",
+    name: "categories-found",
+    gameCategories: manifest.categories
+  });
 
   /**
    * read images

@@ -52,7 +52,13 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
       // meta
       summary.push(
         "",
-        `## ${c["name-found"].conclusion === "failure" ? "❌" : "✔️"} game info`
+        `## ${
+          c["name-found"].conclusion === "failure" ||
+          c["description-found"].conclusion === "failure" ||
+          c["categories-found"].conclusion === "failure"
+            ? "❌"
+            : "✔️"
+        } game info`
       );
       if (c["name-found"].conclusion === "failure")
         summary.push(
@@ -62,6 +68,22 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
           '> Make sure you the manifest declare the property `"name"`'
         );
       else summary.push(`The game name is "${c["name-found"].gameName}"`);
+
+      summary.push("");
+
+      if (c["categories-found"].conclusion === "failure")
+        summary.push(
+          "The manifest does not contain categories",
+
+          "",
+          '> Make sure you the manifest declare the property `"categories"`, an array of categories'
+        );
+      else
+        summary.push(
+          "The game categories are:",
+          "",
+          c["categories-found"].gameCategories.join(", ")
+        );
 
       summary.push("");
 
@@ -78,6 +100,8 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
           "",
           c["description-found"].gameDescription
         );
+
+      summary.push("");
 
       // images
       summary.push(
@@ -117,6 +141,7 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
       "description-found",
       "images-found",
       "name-found",
+      "categories-found",
       "manifest-found",
       "manifest-read"
     ].every(name => c[name].conclusion !== "failure")
