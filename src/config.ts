@@ -51,7 +51,7 @@ export const rules = {
     }
   },
   bundleSizeLimit: 13 * 1024,
-  categories: ["desktop", "mobile", "server", "webxr"]
+  categories: ["desktop", "mobile", "server", "webxr", "web monetization"]
 };
 
 export const legacyFormSubmission = {
