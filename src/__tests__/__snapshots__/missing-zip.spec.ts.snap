@@ -14,6 +14,9 @@ Array [
   Object {
     "conclusion": "success",
     "manifest": Object {
+      "categories": Array [
+        "desktop",
+      ],
       "description": "This entry should yield an error because no zip file can be found in the release assets",
       "name": "missing zip",
     },
@@ -39,14 +42,16 @@ Array [
     },
   },
   Object {
-    "conclusion": "failure",
-    "gameCategories": undefined,
+    "conclusion": "success",
+    "gameCategories": Array [
+      "desktop",
+    ],
     "name": "categories-found",
   },
   Object {
     "conclusion": "success",
     "images": Object {
-      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg",
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
     },
     "name": "images-found",
@@ -73,7 +78,7 @@ Array [
 exports[`integration  missing-zip should generate checks 1`] = `
 Array [
   Object {
-    "conclusion": "failure",
+    "conclusion": "success",
     "name": "meta",
     "output": Object {
       "summary": "
@@ -85,16 +90,19 @@ The manifest was found :
 \`\`\`json
 {
   \\"name\\": \\"missing zip\\",
-  \\"description\\": \\"This entry should yield an error because no zip file can be found in the release assets\\"
+  \\"description\\": \\"This entry should yield an error because no zip file can be found in the release assets\\",
+  \\"categories\\": [
+    \\"desktop\\"
+  ]
 }
 \`\`\`
 
-## ❌ game info
+## ✔️ game info
 The game name is \\"missing zip\\"
 
-The manifest does not contain categories
+The game categories are:
 
-> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
+desktop
 
 The game description is:
 
@@ -107,7 +115,7 @@ This entry should yield an error because no zip file can be found in the release
 <img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
  - image_large
 
-<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\" />",
       "text": "",
       "title": "",
     },
@@ -166,7 +174,6 @@ I found:
 
 Are you sure you included a .zip file ?
 
-I could not found categories in the the manifest.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>missing zip</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because no zip file can be found in the release assets </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\" /> <div>  <a href=\\"undefined\\">   <strong>missing zip</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  desktop  <br>  This entry should yield an error because no zip file can be found in the release assets </div> <br></blockquote>"
 `;

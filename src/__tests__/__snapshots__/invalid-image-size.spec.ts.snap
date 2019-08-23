@@ -18,6 +18,9 @@ Array [
   Object {
     "conclusion": "success",
     "manifest": Object {
+      "categories": Array [
+        "desktop",
+      ],
       "description": "This entry should yield an error because one image does not meet the ratio required",
       "name": "invalid image size",
     },
@@ -43,8 +46,10 @@ Array [
     },
   },
   Object {
-    "conclusion": "failure",
-    "gameCategories": undefined,
+    "conclusion": "success",
+    "gameCategories": Array [
+      "desktop",
+    ],
     "name": "categories-found",
   },
   Object {
@@ -58,8 +63,8 @@ Array [
           "width": 200,
         },
         "target": Object {
-          "height": 200,
-          "width": 300,
+          "height": 250,
+          "width": 400,
         },
       },
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
@@ -142,16 +147,19 @@ The manifest was found :
 \`\`\`json
 {
   \\"name\\": \\"invalid image size\\",
-  \\"description\\": \\"This entry should yield an error because one image does not meet the ratio required\\"
+  \\"description\\": \\"This entry should yield an error because one image does not meet the ratio required\\",
+  \\"categories\\": [
+    \\"desktop\\"
+  ]
 }
 \`\`\`
 
-## ❌ game info
+## ✔️ game info
 The game name is \\"invalid image size\\"
 
-The manifest does not contain categories
+The game categories are:
 
-> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
+desktop
 
 The game description is:
 
@@ -164,7 +172,7 @@ This entry should yield an error because one image does not meet the ratio requi
 <img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
  - image_large
 
- The image does meet the size required. It should have a ratio of 300x200. But is 200x300 instead.",
+ The image does meet the size required. It should have a ratio of 400x250. But is 200x300 instead.",
       "text": "",
       "title": "",
     },
@@ -229,8 +237,7 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [invalid-image-size-v1](https://github.com/Platane/entry/releases/tag/invalid-image-size-v1). Its looking all good 👍
 
-I could not found categories in the the manifest.
-The image \`image_large\` does not meet the requirement, it should have a ratio of 300x200 (instead of 200x300)
+The image \`image_large\` does not meet the requirement, it should have a ratio of 400x250 (instead of 200x300)
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>invalid image size</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because one image does not meet the ratio required </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>invalid image size</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  desktop  <br>  This entry should yield an error because one image does not meet the ratio required </div> <br></blockquote>"
 `;

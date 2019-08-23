@@ -18,6 +18,9 @@ Array [
   Object {
     "conclusion": "success",
     "manifest": Object {
+      "categories": Array [
+        "desktop",
+      ],
       "description": "This entry should yield an error because one image is missing",
       "name": "missing image",
     },
@@ -43,8 +46,10 @@ Array [
     },
   },
   Object {
-    "conclusion": "failure",
-    "gameCategories": undefined,
+    "conclusion": "success",
+    "gameCategories": Array [
+      "desktop",
+    ],
     "name": "categories-found",
   },
   Object {
@@ -54,8 +59,8 @@ Array [
         "error": "not-found",
         "filename": "image_large",
         "target": Object {
-          "height": 200,
-          "width": 300,
+          "height": 250,
+          "width": 400,
         },
       },
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
@@ -138,16 +143,19 @@ The manifest was found :
 \`\`\`json
 {
   \\"name\\": \\"missing image\\",
-  \\"description\\": \\"This entry should yield an error because one image is missing\\"
+  \\"description\\": \\"This entry should yield an error because one image is missing\\",
+  \\"categories\\": [
+    \\"desktop\\"
+  ]
 }
 \`\`\`
 
-## ❌ game info
+## ✔️ game info
 The game name is \\"missing image\\"
 
-The manifest does not contain categories
+The game categories are:
 
-> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
+desktop
 
 The game description is:
 
@@ -225,8 +233,7 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [entry/missing-image-v1](https://github.com/Platane/entry/releases/tag/entry/missing-image-v1). Its looking all good 👍
 
-I could not found categories in the the manifest.
 The image \`image_large\` was not found.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>missing image</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should yield an error because one image is missing </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>missing image</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  desktop  <br>  This entry should yield an error because one image is missing </div> <br></blockquote>"
 `;

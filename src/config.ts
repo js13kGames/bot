@@ -46,8 +46,8 @@ export const rules = {
       height: 100
     },
     image_large: {
-      width: 300,
-      height: 200
+      width: 400,
+      height: 250
     }
   },
   bundleSizeLimit: 13 * 1024,

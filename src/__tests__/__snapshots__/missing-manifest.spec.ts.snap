@@ -45,7 +45,7 @@ Array [
   Object {
     "conclusion": "success",
     "images": Object {
-      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg",
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
     },
     "name": "images-found",
@@ -208,5 +208,5 @@ I found:
 
 Are you sure you committed a \`manifest.json\` file ?
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>game</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>   </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>game</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>   </div> <br></blockquote>"
 `;

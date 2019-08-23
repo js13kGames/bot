@@ -9,7 +9,7 @@ import { Control } from "../analyze/control";
 
 jest.setTimeout(60000);
 
-export const bootstrap = ({ pullRequest, installation }) => {
+export const bootstrap = ({ commitSha, pullRequest, installation }) => {
   let re: { release: Release; commitSha: string } | null;
   let controls: Control[];
   let github: GithubClient;
@@ -34,7 +34,7 @@ export const bootstrap = ({ pullRequest, installation }) => {
   it("should analyze", async () => {
     controls = await analyze({ github })(
       pullRequest,
-      re && re.commitSha,
+      commitSha,
       re && re.release
     );
 
@@ -63,7 +63,7 @@ export const bootstrap = ({ pullRequest, installation }) => {
     if (re)
       await setCheckRuns({ github })(
         pullRequest,
-        re && re.commitSha,
+        commitSha,
         re && re.release.id,
         generateCheckRuns(controls)
       );

@@ -18,6 +18,9 @@ Array [
   Object {
     "conclusion": "success",
     "manifest": Object {
+      "categories": Array [
+        "desktop",
+      ],
       "description": "This entry should pass",
       "name": "valid",
     },
@@ -43,14 +46,16 @@ Array [
     },
   },
   Object {
-    "conclusion": "failure",
-    "gameCategories": undefined,
+    "conclusion": "success",
+    "gameCategories": Array [
+      "desktop",
+    ],
     "name": "categories-found",
   },
   Object {
     "conclusion": "success",
     "images": Object {
-      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg",
+      "image_large": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg",
       "image_thumbnail": "https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg",
     },
     "name": "images-found",
@@ -119,7 +124,7 @@ Array [
 exports[`integration  valid should generate checks 1`] = `
 Array [
   Object {
-    "conclusion": "failure",
+    "conclusion": "success",
     "name": "meta",
     "output": Object {
       "summary": "
@@ -131,16 +136,19 @@ The manifest was found :
 \`\`\`json
 {
   \\"name\\": \\"valid\\",
-  \\"description\\": \\"This entry should pass\\"
+  \\"description\\": \\"This entry should pass\\",
+  \\"categories\\": [
+    \\"desktop\\"
+  ]
 }
 \`\`\`
 
-## ❌ game info
+## ✔️ game info
 The game name is \\"valid\\"
 
-The manifest does not contain categories
+The game categories are:
 
-> Make sure you the manifest declare the property \`\\"categories\\"\`, an array of categories
+desktop
 
 The game description is:
 
@@ -153,7 +161,7 @@ This entry should pass
 <img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" />
  - image_large
 
-<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" />",
+<img height=\\"100\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\" />",
       "text": "",
       "title": "",
     },
@@ -209,6 +217,22 @@ The game seems to display something
       "title": "",
     },
   },
+  Object {
+    "actions": Array [
+      Object {
+        "description": "Submit your entry and close this PR",
+        "identifier": "submit",
+        "label": "Submit",
+      },
+    ],
+    "conclusion": "neutral",
+    "name": "submit",
+    "output": Object {
+      "summary": "<!--{\\"bundleUrl\\":\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/bundle.zip\\",\\"deployUrl\\":\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\",\\"releaseUrl\\":\\"https://github.com/Platane/entry/releases/tag/entry/valid-v1\\",\\"user\\":{\\"name\\":\\"platane\\",\\"github\\":\\"platane\\"},\\"repositoryName\\":\\"entry\\",\\"name\\":\\"valid\\",\\"description\\":\\"This entry should pass\\",\\"categories\\":[\\"desktop\\"],\\"images\\":{\\"image_thumbnail\\":\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\",\\"image_large\\":\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\"}}-->",
+      "text": "",
+      "title": "",
+    },
+  },
 ]
 `;
 
@@ -218,7 +242,6 @@ I am a bot. My job is to review your submission.
 
 I reviewed your latest release, [entry/valid-v1](https://github.com/Platane/entry/releases/tag/entry/valid-v1). Its looking all good 👍
 
-I could not found categories in the the manifest.
 
-<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_200,w_300/81d8ad1eef5dbf6feda2665a0df3bf19.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>valid</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>    <br>  This entry should pass </div> <br></blockquote>"
+<blockquote> <br> <img height=\\"80\\" width=\\"80\\" title=\\"thumbnail\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_100,w_100/61191dccc4c29b4d785cae9b2f2eae2d.jpg\\" /> <img height=\\"80\\" title=\\"large image\\" src=\\"https://res.cloudinary.com/dy3iszldp/image/upload/c_fit,h_250,w_400/a5b59ae446445ac970d026a7e08499bc.jpg\\" /> <div>  <a href=\\"http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html\\">   <strong>valid</strong>  </a>  <i>   <span>&nbsp;&nbsp;by</span>   <a href=\\"https://github.com/platane\\">    platane   </a>  </i>  <br>  desktop  <br>  This entry should pass </div> <br></blockquote>"
 `;
