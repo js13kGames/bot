@@ -1,3 +1,4 @@
+import path from "path";
 import fetch from "node-fetch";
 import Zip from "node-zip";
 import { GithubClient, Asset } from "../services/github";
@@ -20,7 +21,12 @@ const readZipFile = ({ github }: { github: GithubClient }) => async (
   /*
    * search for a zip file
    */
-  const asset = assets.find(a => a.content_type === "application/zip");
+  const asset = assets.find(
+    a =>
+      a.content_type === "application/zip" ||
+      a.content_type === "application/x-zip-compressed" ||
+      path.extname(a.name) === ".zip"
+  );
 
   if (!asset) throw new Error("could not find a zip file");
 
