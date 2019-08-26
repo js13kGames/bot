@@ -1,5 +1,6 @@
 import { Control, extractInfo } from "../analyze/control";
 import * as config from "../config";
+import { getSubmitUrl } from "../services/formPrefill/getSubmitUrl";
 
 export const generateReport = (controls?: Control[]) => {
   /**
@@ -178,6 +179,28 @@ export const generateReport = (controls?: Control[]) => {
         })
     );
   }
+
+  if (
+    [
+      "bundle-found",
+      "bundle-unzipped",
+      "index-found",
+      "bundle-size",
+      "run-without-error",
+      "run-without-blank-screen",
+      "run-without-external-http",
+      "images-found",
+      "categories-found",
+      "description-found",
+      "name-found"
+    ].every(name => c[name] && c[name].conclusion !== "failure")
+  )
+    body.push(
+      "",
+      `Everything is in order 🎉 [submit](${getSubmitUrl(
+        extractInfo(controls)
+      )})`
+    );
 
   body.push("", buildCard(controls));
 
