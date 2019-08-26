@@ -95,8 +95,6 @@
       [...event.target.elements].forEach(el => {
         const name = el.name;
 
-        debugger;
-
         if (el.tagName === "TEXTAREA") fd.append(name, el.value);
 
         switch (el.type) {
@@ -137,7 +135,11 @@
       await fetch(window.location.origin + "/submit", {
         method: "post",
         body: fd
-      }).then(async res => console.log(await res.text()));
+      })
+        .then(res => res.text())
+        .then(res => {
+          document.body.innerHTML = res;
+        });
     });
   }
 }
