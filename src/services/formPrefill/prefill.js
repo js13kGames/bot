@@ -62,10 +62,19 @@
           const el = document.querySelector(`input[name="${name}"]`);
           el.style.boxShadow = "0 0 1px 1px grey";
 
-          files[name] = await fetch(query[name]).then(res => res.blob());
+          files[name] = "loading";
+          files[name] = await fetch(query[name])
+            .then(res => res.blob())
+            .catch(error => {
+              alert("failed to load the file into the form");
+              console.error(error);
+            });
 
-          el.style.boxShadow = "0 0 1px 1px green";
-          el.required = false;
+          if (files[name]) {
+            el.style.boxShadow = "0 0 1px 1px green";
+            el.required = false;
+            console.log(el);
+          }
         } catch (err) {
           console.error(err);
         }
@@ -96,8 +105,12 @@
             break;
 
           case "file":
-            if (el.value) fd.append(name, el.value);
-            else if (files[name]) {
+            if (el.value) {
+              fd.append(name, el.value);
+            } else if (files[name] === "loading") {
+              alert("loading the file into the form ... please retry");
+              throw new Error("file loading");
+            } else if (files[name]) {
               customFile = true;
               fd.append(
                 name,
@@ -111,7 +124,7 @@
 
       event.preventDefault();
 
-      await fetch(window.location.origin + "/submit2", {
+      await fetch(window.location.origin + "/submit", {
         method: "post",
         body: fd
       });

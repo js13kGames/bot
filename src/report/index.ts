@@ -197,7 +197,7 @@ export const generateReport = (controls?: Control[]) => {
   )
     body.push(
       "",
-      `Everything is in order 🎉 [submit](${getSubmitUrl(
+      `Everything is in order 🎉 [submit now !](${getSubmitUrl(
         extractInfo(controls)
       )})`
     );
