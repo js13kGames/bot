@@ -4,43 +4,58 @@ import mime from "mime-types";
 import { wait } from "../utils/wait";
 
 const prepareBucket = ({ s3 }) => async (bucketName: string) => {
-  /**
-   * ensure bucket exist
-   */
-  await s3
-    .createBucket({
-      Bucket: bucketName,
-      ACL: "public-read"
-    })
-    .promise()
-    .catch(error => {
-      if (error.code === "BucketAlreadyOwnedByYou") return;
+  try {
+    /**
+     * ensure bucket exist
+     */
+    await s3
+      .createBucket({
+        Bucket: bucketName,
+        ACL: "public-read"
+      })
+      .promise()
+      .catch(error => {
+        if (error.code === "BucketAlreadyOwnedByYou") return;
 
-      if (error.code === "OperationAborted")
-        return wait(100).then(() => prepareBucket({ s3 })(bucketName));
+        throw error;
+      });
 
-      throw error;
-    });
-
-  /**
-   * and have the proper configuration
-   */
-  await s3
-    .putBucketWebsite({
-      Bucket: bucketName,
-      WebsiteConfiguration: {
-        IndexDocument: {
-          Suffix: "index.html"
+    /**
+     * and have the proper configuration
+     */
+    await s3
+      .putBucketWebsite({
+        Bucket: bucketName,
+        WebsiteConfiguration: {
+          IndexDocument: {
+            Suffix: "index.html"
+          }
         }
-      }
-    })
-    .promise()
-    .catch(error => {
-      if (error.code === "OperationAborted")
-        return wait(100).then(() => prepareBucket({ s3 })(bucketName));
+      })
+      .promise();
 
-      throw error;
-    });
+    await s3
+      .putBucketCors({
+        Bucket: bucketName,
+        CORSConfiguration: {
+          CORSRules: [
+            {
+              AllowedHeaders: [],
+              AllowedMethods: ["GET"],
+              AllowedOrigins: ["*"],
+              ExposeHeaders: [],
+              MaxAgeSeconds: 3000
+            }
+          ]
+        }
+      })
+      .promise();
+  } catch (error) {
+    if (error.code === "OperationAborted")
+      return wait(100).then(() => prepareBucket({ s3 })(bucketName));
+
+    throw error;
+  }
 };
 
 export const createUploader = async (key: string) => {
