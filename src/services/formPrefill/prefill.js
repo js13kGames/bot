@@ -95,7 +95,9 @@
       [...event.target.elements].forEach(el => {
         const name = el.name;
 
-        if (el.tagName === "TEXTAREA") fd.append(name, el.innerText);
+        debugger;
+
+        if (el.tagName === "TEXTAREA") fd.append(name, el.value);
 
         switch (el.type) {
           case "text":
@@ -104,6 +106,14 @@
             fd.append(name, el.value);
             break;
 
+          case "checkbox": {
+            const value = [...document.querySelectorAll(`[name="${name}"]`)]
+              .filter(el => el.checked)
+              .map(el => el.value);
+
+            fd.append(name, value);
+            break;
+          }
           case "file":
             if (el.value) {
               fd.append(name, el.value);
@@ -127,9 +137,7 @@
       await fetch(window.location.origin + "/submit", {
         method: "post",
         body: fd
-      });
-
-      window.location.href = window.location.origin + "/submit";
+      }).then(async res => console.log(await res.text()));
     });
   }
 }
