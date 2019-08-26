@@ -34,7 +34,7 @@ Once your submission is ready, open a pull request.
 In addition to your games sources, the pull request should includes. A manifest containing information about your game, as well as some images.
 
 It should includes: 
-- a large image, with a 300:200 ratio
+- a large image, with a 400:250 ratio
 - a thumbnail image, with a 100:100 ratio
 
 The images can actually be larger as long as the ratio is the same.
