@@ -69,7 +69,7 @@
         try {
           const el = document.querySelector(`input[name="${name}"]`);
           el.style.boxShadow = "0 0 1px 1px grey";
-
+          el.value = null;
           files[name] = "loading";
           files[name] = await fetch(query[name])
             .then(res => res.blob())
