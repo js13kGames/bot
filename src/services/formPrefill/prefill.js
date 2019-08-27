@@ -59,8 +59,6 @@
         break;
 
       case "checkbox": {
-        debugger;
-
         [...document.querySelectorAll(`[name="${name}"]`)].forEach(el => {
           el.checked = query[name].includes(el.value);
         });
@@ -135,6 +133,7 @@
               .map(el => el.value);
 
             fd.append(name, value);
+            fd.append(name.replace("[]", ""), value);
             break;
           }
           case "file":
