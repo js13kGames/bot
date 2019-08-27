@@ -51,19 +51,19 @@
 
     if (el.tagName === "TEXTAREA") el.innerText = query[name];
 
+    // special case for categories checkbox
+    {
+      [...document.querySelectorAll(`[name="categories[]"]`)].forEach(el => {
+        el.checked = query["categories[]"].includes(el.value);
+      });
+    }
+
     switch (el.type) {
       case "text":
       case "number":
       case "email":
         el.value = query[name];
         break;
-
-      case "checkbox": {
-        [...document.querySelectorAll(`[name="${name}"]`)].forEach(el => {
-          el.checked = query[name].includes(el.value);
-        });
-        break;
-      }
 
       case "file":
         try {
@@ -118,35 +118,24 @@
       [...event.target.elements].forEach(el => {
         const name = el.name;
 
-        if (el.tagName === "TEXTAREA") fd.append(name, el.value);
+        if (el.tagName === "TEXTAREA") fd.set(name, el.value);
 
         switch (el.type) {
           case "text":
           case "number":
           case "email":
-            fd.append(name, el.value);
+            fd.set(name, el.value);
             break;
 
-          case "checkbox": {
-            if (fd.has(name)) break;
-
-            const value = [...document.querySelectorAll(`[name="${name}"]`)]
-              .filter(el => el.checked)
-              .map(el => el.value);
-
-            fd.append(name, value);
-            fd.append(name.replace("[]", ""), value);
-            break;
-          }
           case "file":
             if (el.value) {
-              fd.append(name, el.value);
+              fd.set(name, el.value);
             } else if (files[name] === "loading") {
               alert("loading the file into the form ... please retry");
               throw new Error("file loading");
             } else if (files[name]) {
               customFile = true;
-              fd.append(
+              fd.set(
                 name,
                 new File([files[name]], name, { type: files[name].type })
               );
@@ -154,11 +143,21 @@
         }
       });
 
+      // special case for categories checkbox
+      {
+        [...document.querySelectorAll(`[name="categories[]"]`)]
+          .filter(el => el.checked)
+          .forEach(el => {
+            fd.append("categories[]", el.value);
+          });
+      }
+
+      // fallback to classic form if no need to inject file
       if (!customFile) return;
 
       event.preventDefault();
 
-      fd.append("delivery", "bot");
+      fd.set("delivery", "bot");
 
       await fetch(window.location.origin + "/submit", {
         method: "post",
