@@ -33,6 +33,7 @@
   [
     //
     "description",
+    "categories[]",
     "author",
     "twitter",
     "website_url",
@@ -57,6 +58,15 @@
         el.value = query[name];
         break;
 
+      case "checkbox": {
+        debugger;
+
+        [...document.querySelectorAll(`[name="${name}"]`)].forEach(el => {
+          el.checked = query[name].includes(el.value);
+        });
+        break;
+      }
+
       case "file":
         try {
           const el = document.querySelector(`input[name="${name}"]`);
@@ -73,7 +83,22 @@
           if (files[name]) {
             el.style.boxShadow = "0 0 1px 1px green";
             el.required = false;
-            console.log(el);
+
+            const tooltip = document.createElement("div");
+            tooltip.style.backgroundColor = "#cccccc";
+            tooltip.style.position = "relative";
+            tooltip.style.display = "inline-block";
+            tooltip.style.padding = "4px";
+            tooltip.style.borderRadius = "4px";
+            tooltip.style.top = "-6px";
+            tooltip.style.left = "10px";
+
+            tooltip.innerHTML = `👍 successfully loaded from pull request, <a href="${query[name]}">${name}</a>`;
+            el.parentNode.appendChild(tooltip);
+
+            el.addEventListener("change", () => {
+              el.parentNode.removeChild(tooltip);
+            });
           }
         } catch (err) {
           console.error(err);
@@ -131,6 +156,8 @@
       if (!customFile) return;
 
       event.preventDefault();
+
+      fd.append("delivery", "bot");
 
       await fetch(window.location.origin + "/submit", {
         method: "post",

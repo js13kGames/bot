@@ -8,7 +8,8 @@ export const getSubmitUrl = ({
   description,
   images,
   repositoryName,
-  bundleUrl
+  bundleUrl,
+  categories
 }: ReturnType<typeof extractInfo>) =>
   config.legacyFormSubmission.endpoint +
   "?" +
@@ -19,7 +20,12 @@ export const getSubmitUrl = ({
     title: name,
     description: description,
     github_url: `https://github.com/${user.github}/${repositoryName}`,
-    file: bundleUrl.replace("http://", "https://").replace("s3-website", "s3"),
+    file: (bundleUrl || "")
+      .replace("http://", "https://")
+      .replace("s3-website", "s3"),
     small_screenshot: images.image_thumbnail,
-    big_screenshot: images.image_large
+    big_screenshot: images.image_large,
+    "categories[]": (categories || [])
+      .map(c => config.rules.categories.indexOf(c.toLowerCase().trim()) + 22)
+      .join(",")
   });
