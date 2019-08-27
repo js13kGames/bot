@@ -43,6 +43,59 @@ function drawAtmosphere(x, y, radius, atmoRadius, colorAtmo)
 	ctx.fill();
 }
 
+function drawPlanetShadow(planet)
+{
+	var dist2 = (planet.x * planet.x + planet.y * planet.y);
+	var td = Math.sqrt(dist2 + planet.radius * planet.radius);
+	var xangle = Math.PI / 2.0 - Math.atan2(-planet.y, -planet.x);
+	var angle = Math.acos(planet.radius / td);
+	var alpha = xangle - angle;
+	var beta = xangle + angle;
+	// Draw shadow
+
+
+	var radius = planet.radius * 1.0;
+	if(planet.atmoRadius != 0.0)
+	{
+		radius = planet.atmoRadius;
+	}
+
+	var t0xpos = planet.x + Math.sin(alpha) * radius;
+	var t0ypos = planet.y + Math.cos(alpha) * radius;
+	var t1xpos = planet.x + Math.sin(beta) * radius;
+	var t1ypos = planet.y + Math.cos(beta) * radius;
+
+	var offdist = planet.radius * 32.0;
+
+	var t0l = Math.sqrt(t0xpos * t0xpos + t0ypos * t0ypos);
+	var t1l = Math.sqrt(t1xpos * t1xpos + t1ypos * t1ypos);
+	var pl = Math.sqrt(dist2);
+
+	var t0xoff = t0xpos / t0l;
+	var t0yoff = t0ypos / t0l;
+	var t1xoff = t1xpos / t1l;
+	var t1yoff = t1ypos / t1l;
+
+	var shgrd = ctx.createLinearGradient(planet.x, planet.y, 
+		planet.x + planet.x / pl * offdist, planet.y + planet.y / pl * offdist);
+
+	var ext = 0.005 + Math.max((planet.atmoRadius - planet.radius) / 32000.0, 0.0);
+
+	shgrd.addColorStop(0, 'rgba(0, 0, 0, 0)');
+	shgrd.addColorStop(ext, 'rgba(0, 0, 0, 255)');
+	shgrd.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
+
+	ctx.fillStyle = shgrd;
+	ctx.beginPath();
+
+	ctx.moveTo(t0xpos, t0ypos)
+	ctx.lineTo(t0xpos + t0xoff * offdist, t0ypos + t0yoff * offdist);
+	ctx.lineTo(t1xpos + t1xoff * offdist, t1ypos + t1yoff * offdist);
+	ctx.lineTo(t1xpos, t1ypos);
+	ctx.closePath();
+	ctx.fill();
+}
+
 function drawPlanet(planet)
 {
 
@@ -124,21 +177,4 @@ function drawPlanet(planet)
 		ctx.fill();
 
 	}
-
-	
-	var angle = Math.PI * 0.5 - Math.atan2(-planet.y, -planet.x);
-	var alpha = angle;
-	var beta = Math.PI - alpha;
-	// Draw shadow
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-	ctx.beginPath();
-
-	var radius = planet.radius * 1.5;
-	if(planet.atmoRadius != 0.0)
-	{
-		radius = planet.atmoRadius;
-	}
-
-	ctx.arc(planet.x, planet.y, radius, beta, 2.0 * Math.PI - alpha);
-	ctx.fill();
 }

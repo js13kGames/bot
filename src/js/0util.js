@@ -1,15 +1,15 @@
 
-var seed = 35;
 
 function srandom() {
     var x = Math.sin(seed++) * 10000;
     return x - Math.floor(x);
 }
 
-function orbit(cx, cy, radius, time)
+function orbit(cx, cy, cmass, radius, time)
 {
-	var grav = 0.0001;
-	var speed = Math.sqrt(grav / radius);
+	var grav = 10.0 * cmass;
+	var orbitLength = 2.0 * Math.PI * radius;
+	var speed = Math.sqrt(grav / radius) / orbitLength;
 
 	return {x: Math.cos(time * speed) * radius + cx, y: Math.sin(time * speed) * radius + cy};
 }
@@ -86,17 +86,6 @@ if (!String.prototype.splice) {
 	};
 }
 
-
-function drawPixel (x, y, r, g, b, a) 
-{
-    var index = (x + y * canvas.width) * 4;
-
-    canvasData.data[index + 0] = r;
-    canvasData.data[index + 1] = g;
-    canvasData.data[index + 2] = b;
-    canvasData.data[index + 3] = a;
-}
-
 function imageDataToImage(data)
 {
 	var tmpCanvas = document.createElement("canvas");
@@ -123,6 +112,6 @@ function drawBright(x, y, size, alpha)
 	ctx.drawImage(brightImage, -brightData.width / 2.0, -brightData.height / 2.0);
 	ctx.scale(1.0 / size, 1.0 / size);
 	ctx.translate(-x, -y);
-	
+
 	ctx.globalCompositeOperation = old;
 }
