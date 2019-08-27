@@ -128,6 +128,8 @@
             break;
 
           case "checkbox": {
+            if (fd.has(name)) break;
+
             const value = [...document.querySelectorAll(`[name="${name}"]`)]
               .filter(el => el.checked)
               .map(el => el.value);
