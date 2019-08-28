@@ -7,7 +7,7 @@ function srandom() {
 
 function orbit(cx, cy, cmass, radius, time)
 {
-	var grav = 10.0 * cmass;
+	var grav = 0.5 * cmass;
 	var orbitLength = 2.0 * Math.PI * radius;
 	var speed = Math.sqrt(grav / radius) / orbitLength;
 
@@ -21,41 +21,41 @@ function randomColor(type, mult)
 	if(type == 0)
 	{
 		// Rocky
-		var val = randomIntRange(128, 180);
+		var val = rrg(128, 180);
 		r = val; g = val; b = val;
 	}
 	else if(type == 1)
 	{
 		// Terra ground
-		if(randomIntRange(0, 100) >= 50)
+		if(rrg(0, 100) >= 50)
 		{
 			// Grassy 
-			r = randomIntRange(50, 170) * mult;
-			g = randomIntRange(90, 200) * mult;
-		 	b = randomIntRange(80, 170) * mult;
+			r = rrg(50, 170);
+			g = rrg(90, 200);
+		 	b = rrg(80, 170);
 		}
 		else
 		{
 			// Muddy
-			r =  randomIntRange(100, 200);
-			g = randomIntRange(80, 170);
-			b = randomIntRange(50, 100);	
+			r =  rrg(100, 200);
+			g = rrg(80, 170);
+			b = rrg(50, 100);	
 		}
 
 	}
 	else if(type == 2)
 	{
 		// Desert ground
-		r =  randomIntRange(100, 250);
-		g = randomIntRange(40, 100);
-		b = randomIntRange(50, 100);
+		r = rrg(100, 250);
+		g = rrg(40, 100);
+		b = rrg(50, 100);
 	}
 	else if(type == 3)
 	{
 		// Gas planet
-		r = randomIntRange(50, 200);
-		g = randomIntRange(50, 200);
-		b = randomIntRange(50, 200);
+		r = rrg(50, 200);
+		g = rrg(50, 200);
+		b = rrg(50, 200);
 	}
 	else
 	{
@@ -75,7 +75,7 @@ function makeColorAlpha(color)
 	return colorCopy;
 }
 
-function randomIntRange(min, max) 
+function rrg(min, max) 
 {
 	return Math.floor(min + srandom()*(max + 1 - min))
 }
@@ -114,4 +114,27 @@ function drawBright(x, y, size, alpha)
 	ctx.translate(-x, -y);
 
 	ctx.globalCompositeOperation = old;
+}
+
+function doCameraTransform()
+{
+	ctx.translate(canvas.width / 2.0, canvas.height / 2.0);
+	ctx.scale(camera.zoom, camera.zoom);
+	ctx.translate(-camera.x, -camera.y);
+}
+
+function sanitizeAngle(angle)
+{
+	var a = angle;
+	if(Math.abs(a) >= Math.PI * 2.0)
+	{
+		a = a % (Math.PI * 2.0);
+	}
+
+	if(a <= 0.0)
+	{
+		a = Math.PI * 2.0 + a;
+	}
+
+	return a;
 }

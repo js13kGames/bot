@@ -13,10 +13,10 @@ function createRing(center, minRadius, maxRadius, density)
 
 	for(var i = 0; i < points; i++)
 	{
-		var orbitRadius = randomIntRange(minRadius, maxRadius);
-		var offset = randomIntRange(-10000, 10000);
+		var orbitRadius = rrg(minRadius, maxRadius);
+		var offset = rrg(-10000, 10000);
 
-		var size = randomIntRange(5, 50);
+		var size = rrg(5, 50);
 
 		var color = randomColor(2, 0.6);
 
@@ -44,6 +44,7 @@ function drawRing(ring, time)
 	var cx = planets[ring.center].x;
 	var cy = planets[ring.center].y;
 
+
 	if(camera.zoom >= 0.01 && distance(camera.x, camera.y, cx, cy) <= maxCameraReach() + ring.maxRadius)
 	{
 		for(var i = 0; i < ring.rocks.length; i++)
@@ -59,4 +60,6 @@ function drawRing(ring, time)
 			ctx.fill();
 		}
 	}
+
+
 }

@@ -82,7 +82,7 @@ function drawPlanetShadow(planet)
 	var ext = 0.005 + Math.max((planet.atmoRadius - planet.radius) / 32000.0, 0.0);
 
 	shgrd.addColorStop(0, 'rgba(0, 0, 0, 0)');
-	shgrd.addColorStop(ext, 'rgba(0, 0, 0, 255)');
+	shgrd.addColorStop(ext, 'rgba(0, 0, 0, 0.8)');
 	shgrd.addColorStop(1.0, 'rgba(0, 0, 0, 0)');
 
 	ctx.fillStyle = shgrd;

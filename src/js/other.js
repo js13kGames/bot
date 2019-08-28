@@ -5,8 +5,6 @@ function generateBright()
 	{
 		for(var x = 0; x < brightSize; x++)
 		{
-			var b = 0.0;
-
 			var i = y * brightSize + x;
 
 			var xabs = (x - brightSize / 2.0);
@@ -14,7 +12,7 @@ function generateBright()
 
 			var factor = brightSize / ((xabs * xabs + yabs * yabs) / 6.0);
 
-			b = factor;
+			var b = factor;
 			var polar = Math.atan2(yabs, xabs);
 			b += noise.perlin2(polar * 15.0, 0.0) * 0.6;
 			b -= 1.0 - Math.pow(factor, 0.03);
@@ -58,7 +56,7 @@ function generateStarfield()
 			g = r * 0.7 + noise3 * 60;
 			b = r * 0.5 + noise3 * 128;
 
-			if(randomIntRange(0, 10000) >= 9995)
+			if(rrg(0, 10000) >= 9995)
 			{
 				r = 255; g = 255; b = 255;
 			}
@@ -86,47 +84,47 @@ function generatePlanet(type, radiusScale)
 	if(type == 0)
 	{
 		// Rocky planet
-		var radius = randomIntRange(250, 850) * radiusScale;
-		newPlanet = createPlanet(randomIntRange(25, 60), randomIntRange(140, 150), radius, 0.0, 
+		var radius = rrg(250, 850) * radiusScale;
+		newPlanet = createPlanet(rrg(25, 60), rrg(140, 150), radius, 0.0, 
 		randomColor(0, 1.0), randomColor(0, 0.5), randomColor(0, 1.0),
-		'0, 0, 0', randomIntRange(0, 10000), 64);
+		'0, 0, 0', rrg(0, 10000), 64);
 
 	}
 	else if(type == 1)
 	{
 		// Terra planet
-		var radius = randomIntRange(300, 600) * radiusScale;
+		var radius = rrg(300, 600) * radiusScale;
 
-		newPlanet = createPlanet(randomIntRange(25, 30), randomIntRange(90, 160), 
-		radius, radius + randomIntRange(120, 170), randomColor(1, 1.0), randomColor(1, 0.5), randomColor(1, 1.0),
-		'120, 120, 255', randomIntRange(0, 10000), 64);
+		newPlanet = createPlanet(rrg(25, 30), rrg(90, 160), 
+		radius, radius + rrg(120, 170), randomColor(1, 1.0), randomColor(1, 0.5), randomColor(1, 1.0),
+		'120, 120, 255', rrg(0, 10000), 64);
 	}
 	else if(type == 2)
 	{
 		// Desert planet
-		var radius = randomIntRange(350, 900) * radiusScale;
+		var radius = rrg(350, 900) * radiusScale;
 
-		newPlanet = createPlanet(randomIntRange(15, 25), randomIntRange(80, 120), 
-		radius, radius + randomIntRange(120, 170), randomColor(2, 1.0), randomColor(2, 0.5), randomColor(2, 1.0),
-		'255, 120, 120', randomIntRange(0, 10000), 64);
+		newPlanet = createPlanet(rrg(15, 25), rrg(80, 120), 
+		radius, radius + rrg(120, 170), randomColor(2, 1.0), randomColor(2, 0.5), randomColor(2, 1.0),
+		'255, 120, 120', rrg(0, 10000), 64);
 	}
 	else if(type == 3)
 	{
 		// Gas giant
-		var radius = randomIntRange(700, 1800) * radiusScale;
+		var radius = rrg(700, 1800) * radiusScale;
 
 		var themeColor = randomColor(3, 1.0);
 	
-		newPlanet = createGasPlanet(radius, radius + randomIntRange(50, 300),
+		newPlanet = createGasPlanet(radius, radius + rrg(50, 300),
 		makeColorAlpha(themeColor), themeColor, randomColor(3, 1.0));
 	}
 	else if(type == 4)
 	{
 		// Asteroid
-		var radius = randomIntRange(40, 120) * radiusScale;
-		newPlanet = createPlanet(randomIntRange(25, 60), randomIntRange(140, 150), radius, 0.0, 
+		var radius = rrg(40, 120) * radiusScale;
+		newPlanet = createPlanet(rrg(25, 60), rrg(140, 150), radius, 0.0, 
 		randomColor(2, 1.0), randomColor(2, 0.5), randomColor(2, 1.0),
-		'0, 0, 0', randomIntRange(0, 10000), 32);
+		'0, 0, 0', rrg(0, 10000), 32);
 	}
 
 	newPlanet.mass = 4.0 * Math.PI * newPlanet.radius * newPlanet.radius;
@@ -141,9 +139,9 @@ function generate()
 	// Create a set of random planets
 	for(var i = 0; i < planetCount; i++)
 	{
-		var type = randomIntRange(0, 4);
+		var type = rrg(0, 4);
 		
-		var orbitRadius = randomIntRange(9000, 120000);
+		var orbitRadius = rrg(9000, 120000);
 
 		if(type == 1 && (orbitRadius <= 40000 || orbitRadius >= 80000))
 		{
@@ -154,7 +152,7 @@ function generate()
 		var newPlanet = generatePlanet(type, 1.0);
 
 		newPlanet.orbitRadius = orbitRadius
-		newPlanet.orbitOffset = randomIntRange(-50000, 50000);
+		newPlanet.orbitOffset = rrg(-50000, 50000);
 		newPlanet.center = -1;
 		newPlanet.type = type;
 
@@ -165,15 +163,15 @@ function generate()
 	// Create some moons and rings
 	for(var i = 0; i < planetCount; i++)
 	{
-		var moons = randomIntRange(0, planets[i].radius / 350);
+		var moons = rrg(0, planets[i].radius / 350);
 		for(var j = 0; j < moons; j++)
 		{
-			var type = randomIntRange(0, 4);
+			var type = rrg(0, 4);
 			if(type == 3)
 			{
 				type = 0;
 			}
-			var newPlanet = generatePlanet(type, randomIntRange(25, 60) * 0.01);
+			var newPlanet = generatePlanet(type, rrg(25, 60) * 0.01);
 
 			if(newPlanet.radius >= planets[i].radius * 0.6)
 			{
@@ -183,19 +181,19 @@ function generate()
 			var minOrbit = planets[i].radius + newPlanet.radius * 5.0;
 			var maxOrbit = planets[i].orbitRadius / 4000;
 
-			newPlanet.orbitRadius = randomIntRange(minOrbit, minOrbit + planets[i].radius * maxOrbit);
-			newPlanet.orbitOffset = randomIntRange(0, 500000);
+			newPlanet.orbitRadius = rrg(minOrbit, minOrbit + planets[i].radius * maxOrbit);
+			newPlanet.orbitOffset = rrg(0, 500000);
 			newPlanet.center = i;
 			newPlanet.type = type;
 
 			planets.push(newPlanet);
 		}
 
-		if(randomIntRange(0, 1000) >= 900 && planets[i].radius >= 600)
+		if(rrg(0, 1000) >= 900 && planets[i].radius >= 600)
 		{
-			var minRadius = randomIntRange(planets[i].radius * 1.5, planets[i].radius * 6.0);
-			var maxRadius = minRadius + randomIntRange(0, 400) * 0.01 * planets[i].radius;
-			var density = randomIntRange(80, 400) * 0.00000003;
+			var minRadius = rrg(planets[i].radius * 1.5, planets[i].radius * 6.0);
+			var maxRadius = minRadius + rrg(0, 400) * 0.01 * planets[i].radius;
+			var density = rrg(80, 400) * 0.00000003;
 
 			var ring = createRing(i, minRadius, maxRadius, density);
 			rings.push(ring);
@@ -231,7 +229,7 @@ function generate()
 	if(foundTerra == false || foundGas == false || foundDesert == false || foundAsteroid == false || rings.length <= 1)
 	{
 		planets = [];
-		seed += randomIntRange(1, 5000);
+		seed += rrg(1, 5000);
 		generate();
 	}
 

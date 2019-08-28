@@ -23,16 +23,24 @@ var sun = createStar(0, 0, 5000, "rgb(255, 240, 200)", "White");
 sun.mass = 5.0 * Math.PI * sun.radius * sun.radius;
 
 var planets = Array();
-var planetCount = randomIntRange(5, 11);
+var planetCount = rrg(5, 11);
+
+// Ship 0 is always the player ship
+var ships = Array();
 
 var rings = Array();
 
 var camera = {x: 0, y: 0, zoom: 0.5};
 
+var aimPoint = {x: 0, y: 0}
+
 generateStarfield();
 generateBright();
 generate();
 
+ships.push(createShip(2, 32400));
+ships[0].x = 100000.0;
+ships[0].y = 100000.0;
 
 function update(dt)
 {
@@ -56,9 +64,20 @@ function update(dt)
 		planet.x = planetPos.x; planet.y = planetPos.y;
 	}
 
-	camera.x = planets[2].x;
-	camera.y = planets[2].y;
-	camera.zoom = 0.05;
+	ships[0].rot += dt * 0.4;
+	var pos = orbit(planets[1].x, planets[1].y, planets[0].mass, 1200, time + 1000);
+	ships[0].x = pos.x;
+	ships[0].y = pos.y;
+	//ships[0].rot = Math.PI * 0.0;
+	//setShipThrust(ships[0], 1.0, 1.0);
+	aimPoint.x = ships[0].x + Math.sin(time * 0.1) * 150.0;
+	aimPoint.y = ships[0].y + Math.cos(time * 0.1) * 150.0;
+	//aimPoint.x = ships[0].x;
+	//aimPoint.y = ships[0].y + 100.0;
+
+	aimShipGuns(ships[0], aimPoint, dt);
+	camera.x = ships[0].x;
+	camera.y = ships[0].y;
 
 
 	time = time + dt * 10.0;
@@ -70,9 +89,7 @@ function render()
 
 	ctx.putImageData(starFieldData, 0, 0);
 
-	ctx.translate(canvas.width / 2.0, canvas.height / 2.0);
-	ctx.scale(camera.zoom, camera.zoom);
-	ctx.translate(-camera.x, -camera.y);
+	doCameraTransform();
 
 	for(var i = 0; i < rings.length; i++)
 	{
@@ -86,10 +103,17 @@ function render()
 		drawPlanet(planets[i]);
 	}
 
+	for(var i = 0; i < ships.length; i++)
+	{
+		drawShip(ships[i]);
+	}
+
 	for(var i = 0; i < planets.length; i++)
 	{
 		drawPlanetShadow(planets[i]);
 	}
+
+	drawBright(aimPoint.x, aimPoint.y, 0.1);
 
 	drawStar(sun);
 
@@ -114,4 +138,20 @@ window.requestAnimationFrame(time =>
 document.onkeydown = function(evt)
 {
 	
+}
+
+document.getElementById("canvas").addEventListener("wheel", onwheel)
+
+function onwheel(evt)
+{
+	camera.zoom -= camera.zoom * 0.02 * evt.deltaY;
+
+	if(camera.zoom <= 0.5)
+	{	
+		// Map mode
+	}
+	else
+	{
+		// Normal mode
+	}
 }
