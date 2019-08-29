@@ -7,11 +7,51 @@ function srandom() {
 
 function orbit(cx, cy, cmass, radius, time)
 {
-	var grav = 0.5 * cmass;
+	
 	var orbitLength = 2.0 * Math.PI * radius;
-	var speed = Math.sqrt(grav / radius) / orbitLength;
+	var speed = orbitSpeed(cmass, radius) / orbitLength;
 
 	return {x: Math.cos(time * speed) * radius + cx, y: Math.sin(time * speed) * radius + cy};
+}
+
+function orbitSpeed(cmass, radius)
+{
+	var grav = G() * cmass;
+	var speed = Math.sqrt(grav / radius);
+
+	return speed;
+}
+
+// Computes gravity from all attractors
+function gravity(point)
+{
+	var forceTotal = {x: 0.0, y: 0.0};
+
+	// Sun gravity
+	var force = gravityFrom(point, 0, 0, sun.mass);
+	forceTotal.x += force.x;
+	forceTotal.y += force.y;
+
+	for(var i = 0; i < planets.length; i++)
+	{
+		var force = gravityFrom(point, planets[i].x, planets[i].y, planets[i].mass);
+		forceTotal.x += force.x;
+		forceTotal.y += force.y;
+	}
+}
+
+function gravityFrom(point, cx, cy, cmass)
+{
+	var dist2 = distance2(point.x, point.y, cx, cy, cmass);
+	var diff = normalize(cx - point.x, cy - point.y)
+	var force = G() * (cmass / dist2);
+
+	return {x: diff.x * force, y: diff.y * force};
+}
+
+function G()
+{
+	return 0.5;
 }
 
 function randomColor(type, mult)
@@ -97,7 +137,7 @@ function imageDataToImage(data)
 	var image = new Image();
 	image.src = tmpCanvas.toDataURL();
 
-	tmpCanvas.outerHTML = "";
+	tmpCanvas.innerHTML = "";
 
 	return image;
 }
@@ -137,4 +177,22 @@ function sanitizeAngle(angle)
 	}
 
 	return a;
+}
+
+function normalize(x1, y1)
+{
+	var length = Math.sqrt(x1 * x1 + y1 * y1);
+	return {x: x1 / length, y: y1 / length};
+}
+
+function distance2(x1, y1, x2, y2)
+{
+	let xdiff = x1 - x2;
+	let ydiff = y1 - y2;
+	return xdiff * xdiff + ydiff * ydiff;
+}
+
+function distance(x1, y1, x2, y2)
+{
+	return Math.sqrt(distance2(x1, y1, x2, y2));
 }
