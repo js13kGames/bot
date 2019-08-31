@@ -5,44 +5,149 @@ function srandom() {
     return x - Math.floor(x);
 }
 
-function orbit(cx, cy, cmass, radius, time)
+function planetAtTime(planetid, gtime)
 {
-	
-	var orbitLength = 2.0 * Math.PI * radius;
-	var speed = orbitSpeed(cmass, radius) / orbitLength;
+	var planet = planets[planetid];
 
-	return {x: Math.cos(time * speed) * radius + cx, y: Math.sin(time * speed) * radius + cy};
+	if(planetid == 0)
+	{
+		return {x: 0.0, y: 0.0};
+	}
+
+	if(planet.center == 0)
+	{
+		return orbit(0, 0, planets[planet.center].mass, planet.mass, planet.orbitRadius, gtime + planet.orbitOffset);
+	}
+	else 
+	{
+		var child = planetAtTime(planet.center, gtime);
+		return orbit(child.x, child.y, planets[planet.center].mass, planet.mass, planet.orbitRadius, gtime + planet.orbitOffset);
+	}
 }
 
-function orbitSpeed(cmass, radius)
+function orbit(cx, cy, cmass, omass, radius, gtime)
 {
-	var grav = G() * cmass;
+	var speed = orbitSpeed(cmass, omass, radius) / radius;
+
+	return {x: Math.cos(gtime * speed) * radius + cx, y: Math.sin(gtime * speed) * radius + cy};
+}
+
+function orbitSpeed(cmass, omass, radius)
+{
+	var grav = G() * (cmass + omass);
 	var speed = Math.sqrt(grav / radius);
 
 	return speed;
 }
 
+function orbitVelocityLow(cx, cy, cmass, omass, radius, ntime)
+{
+	var a = orbit(cx, cy, cmass, omass, radius, ntime);
+	var b = orbit(cx, cy, cmass, omass, radius, ntime + 0.01);
+	var sumX = b.x - a.x; 
+	var sumY = b.y - a.y;
+	var out = normalize(sumX, sumY);
+	var speed = orbitSpeed(cmass, omass, radius);
+	out.x *= speed;
+	out.y *= speed;
+
+	return out;
+}
+
+// Gets accumulated orbit velocity
+function orbitVelocity(id, omass, radius, time, offset)
+{
+	if(id == 0)
+	{
+		if(radius == 0.0)
+		{
+
+			return {x: 0.0, y: 0.0};
+		}
+		else
+		{
+			return orbitVelocityLow(0, 0, planets[0].mass, omass, radius, time + offset);
+		}
+	}
+	else
+	{
+		var planet = planets[id];
+		var cx = planets[planet.center].x;
+		var cy = planets[planet.center].y;
+		var cmass = planets[planet.center].mass;
+
+		var ourVel = orbitVelocityLow(cx, cy, cmass, planet.mass, planet.orbitRadius, time + planet.orbitOffset);
+		var childVel = orbitVelocity(planet.center, omass, 0.0, time, offset);
+
+		var sum0 = {x: ourVel.x + childVel.x, y: ourVel.y + childVel.y};
+
+		if(radius == 0.0)
+		{
+			return sum0;
+		}
+		else
+		{
+			var topVel = orbitVelocityLow(planet.x, planet.y, planet.mass, omass, radius, time + offset);
+			var sum1 = {x: sum0.x + topVel.x, y: sum0.y + topVel.y}
+			return sum1;
+		}
+	}
+}
+
 // Computes gravity from all attractors
-function gravity(point)
+function gravity(point, ntime)
 {
 	var forceTotal = {x: 0.0, y: 0.0};
 
-	// Sun gravity
-	var force = gravityFrom(point, 0, 0, sun.mass);
-	forceTotal.x += force.x;
-	forceTotal.y += force.y;
+	if(ntime === -1.0)
+	{
+		for(var i = 0; i < planets.length; i++)
+		{
+			var pos = planets[i];
+			var force = gravityFrom(point, pos.x, pos.y, planets[i].mass);
+			forceTotal.x += force.x;
+			forceTotal.y += force.y;
+		}
+	}
+	else 
+	{
+		for(var i = 0; i < planets.length; i++)
+		{
+			var pos = planetAtTime(i, ntime);
+			var force = gravityFrom(point, pos.x, pos.y, planets[i].mass);
+			forceTotal.x += force.x;
+			forceTotal.y += force.y;
+		}
+	}
 
+	return forceTotal;
+}
+
+function collidesWithAny(point, ntime)
+{
 	for(var i = 0; i < planets.length; i++)
 	{
-		var force = gravityFrom(point, planets[i].x, planets[i].y, planets[i].mass);
-		forceTotal.x += force.x;
-		forceTotal.y += force.y;
+		var pos = planetAtTime(i, ntime);
+		var dist = distance(point.x, point.y, pos.x, pos.y);
+		if(dist <= planets[i].radius)
+		{
+			var diff = {x: point.x - pos.x, y: point.y - pos.y}
+			var diffNrm = normalize(diff.x, diff.y);
+			var x = diffNrm.x * planets[i].radius;
+			var y = diffNrm.y * planets[i].radius;
+			var xn = diffNrm.x;
+			var yn = diffNrm.y;
+
+			return {planet: i, sx: x, sy: y, nx: xn, ny: yn};
+		}
 	}
+
+	return null;
 }
 
 function gravityFrom(point, cx, cy, cmass)
 {
-	var dist2 = distance2(point.x, point.y, cx, cy, cmass);
+	var dist2 = distance2(point.x, point.y, cx, cy);
 	var diff = normalize(cx - point.x, cy - point.y)
 	var force = G() * (cmass / dist2);
 
@@ -51,7 +156,16 @@ function gravityFrom(point, cx, cy, cmass)
 
 function G()
 {
-	return 0.5;
+	return 2.5;
+}
+
+function putShipInOrbit(ship, id, radius, offset, prograde)
+{
+	var pos = orbit(planets[id].x, planets[id].y, planets[id].mass, shipMass, radius, time + offset);
+	var vel = orbitVelocity(id, shipMass, radius, time, offset);
+	ship.x = pos.x; ship.y = pos.y;
+	ship.speed.x = vel.x; ship.speed.y = vel.y;
+	
 }
 
 function randomColor(type, mult)
@@ -99,9 +213,9 @@ function randomColor(type, mult)
 	}
 	else
 	{
-		r = 255;
-		g = 0;
-		b = 255;
+		r = rrg(0, 255);
+		g = rrg(0, 255);
+		b = rrg(0, 255);
 	}
 
 	return 'rgb(' + r * mult + ',' + g * mult + ',' + b * mult + ')';
@@ -159,6 +273,12 @@ function drawBright(x, y, size, alpha)
 function doCameraTransform()
 {
 	ctx.translate(canvas.width / 2.0, canvas.height / 2.0);
+
+	if(lockCamera)
+	{
+		ctx.rotate(-ships[0].rot - Math.PI);
+	}
+
 	ctx.scale(camera.zoom, camera.zoom);
 	ctx.translate(-camera.x, -camera.y);
 }
@@ -195,4 +315,12 @@ function distance2(x1, y1, x2, y2)
 function distance(x1, y1, x2, y2)
 {
 	return Math.sqrt(distance2(x1, y1, x2, y2));
+}
+
+function rotate(x, y, angle)
+{
+	var polar = Math.atan2(y, x);
+	var radius = Math.sqrt(x * x + y * y);
+	polar += angle;
+	return {x: radius * Math.cos(polar), y: radius * Math.sin(polar)}
 }

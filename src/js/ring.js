@@ -26,13 +26,6 @@ function createRing(center, minRadius, maxRadius, density)
 	return {center: center, minRadius: minRadius, maxRadius: maxRadius, rocks: rocks}
 }
 
-function distance(x1, y1, x2, y2)
-{
-	var xdiff = x2 - x1;
-	var ydiff = y2 - y1;
-	return Math.sqrt(xdiff * xdiff + ydiff * ydiff);
-}
-
 function maxCameraReach()
 {
 	var maxSize = Math.max(canvas.width, canvas.height);
@@ -47,11 +40,13 @@ function drawRing(ring, time)
 
 	if(camera.zoom >= 0.01 && distance(camera.x, camera.y, cx, cy) <= maxCameraReach() + ring.maxRadius)
 	{
+		console.log("Rendering ring at " + planets[ring.center].name + " of radius " + ring.maxRadius);
+
 		for(var i = 0; i < ring.rocks.length; i++)
 		{
 			var rock = ring.rocks[i];
 
-			var pos = orbit(cx, cy, planets[ring.center].mass, 
+			var pos = orbit(cx, cy, planets[ring.center].mass, 0.001, 
 				rock.orbitRadius, time + rock.offset);
 			
 			ctx.fillStyle = rock.color;

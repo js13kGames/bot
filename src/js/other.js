@@ -37,11 +37,11 @@ function generateBright()
 
 function generateStarfield()
 {
-	for(var y = 0; y < canvas.height * backdropScale; y++)
+	for(var y = 0; y < starFieldSize; y++)
 	{
-		for(var x = 0; x < canvas.width * backdropScale; x++)
+		for(var x = 0; x < starFieldSize; x++)
 		{
-			var i = y * canvas.width * backdropScale + x;
+			var i = y * starFieldSize + x;
 
 			var r = 0;
 			var g = 0;
@@ -77,9 +77,10 @@ function generateStarfield()
 }
 
 
-function generatePlanet(type, radiusScale)
+function generatePlanet(type, radiusScale, id, moon)
 {
 	var newPlanet;
+	var name;
 
 	if(type == 0)
 	{
@@ -88,7 +89,7 @@ function generatePlanet(type, radiusScale)
 		newPlanet = createPlanet(rrg(25, 60), rrg(140, 150), radius, 0.0, 
 		randomColor(0, 1.0), randomColor(0, 0.5), randomColor(0, 1.0),
 		'0, 0, 0', rrg(0, 10000), 64);
-
+		name = rockNames[id % (rockNames.length)];
 	}
 	else if(type == 1)
 	{
@@ -98,6 +99,8 @@ function generatePlanet(type, radiusScale)
 		newPlanet = createPlanet(rrg(25, 30), rrg(90, 160), 
 		radius, radius + rrg(120, 170), randomColor(1, 1.0), randomColor(1, 0.5), randomColor(1, 1.0),
 		'120, 120, 255', rrg(0, 10000), 64);
+
+		name = terraNames[id % (terraNames.length)];
 	}
 	else if(type == 2)
 	{
@@ -107,6 +110,8 @@ function generatePlanet(type, radiusScale)
 		newPlanet = createPlanet(rrg(15, 25), rrg(80, 120), 
 		radius, radius + rrg(120, 170), randomColor(2, 1.0), randomColor(2, 0.5), randomColor(2, 1.0),
 		'255, 120, 120', rrg(0, 10000), 64);
+
+		name = desertNames[id % (desertNames.length)];
 	}
 	else if(type == 3)
 	{
@@ -117,17 +122,32 @@ function generatePlanet(type, radiusScale)
 	
 		newPlanet = createGasPlanet(radius, radius + rrg(50, 300),
 		makeColorAlpha(themeColor), themeColor, randomColor(3, 1.0));
+
+		name = gasNames[id % (gasNames.length)];
 	}
 	else if(type == 4)
 	{
+		let letters = ['A', 'E', 'I', 'O', 'U', 'N', 'G', 'R', 'J', 'R'];
 		// Asteroid
 		var radius = rrg(40, 120) * radiusScale;
 		newPlanet = createPlanet(rrg(25, 60), rrg(140, 150), radius, 0.0, 
 		randomColor(2, 1.0), randomColor(2, 0.5), randomColor(2, 1.0),
 		'0, 0, 0', rrg(0, 10000), 32);
+
+		name = letters[rrg(0, letters.length - 1)] + letters[rrg(0, letters.length - 1)] + id;
 	}
 
 	newPlanet.mass = 4.0 * Math.PI * newPlanet.radius * newPlanet.radius;
+
+	newPlanet.orbitColor = randomColor(-1, 2.0);
+
+	if(moon != -1)
+	{
+		name = planets[moon].name + ' ' + id;
+	}
+
+
+	newPlanet.name = name;
 
 	return newPlanet;
 }
@@ -135,13 +155,19 @@ function generatePlanet(type, radiusScale)
 
 function generate()
 {
-	
+	sun = createStar(0, 0, 5000, "rgb(255, 240, 200)", "White");
+
+	sun.mass = 5.0 * Math.PI * sun.radius * sun.radius;
+	sun.sun = true;
+	// Planet 0 is sun
+	planets.push(sun);
+
 	// Create a set of random planets
 	for(var i = 0; i < planetCount; i++)
 	{
 		var type = rrg(0, 4);
 		
-		var orbitRadius = rrg(9000, 120000);
+		var orbitRadius = rrg(9000, 80000);
 
 		if(type == 1 && (orbitRadius <= 40000 || orbitRadius >= 80000))
 		{
@@ -149,11 +175,11 @@ function generate()
 			type = 2;
 		}
 
-		var newPlanet = generatePlanet(type, 1.0);
+		var newPlanet = generatePlanet(type, 1.0, i, -1);
 
 		newPlanet.orbitRadius = orbitRadius
 		newPlanet.orbitOffset = rrg(-50000, 50000);
-		newPlanet.center = -1;
+		newPlanet.center = 0;
 		newPlanet.type = type;
 
 		planets.push(newPlanet);
@@ -161,9 +187,9 @@ function generate()
 	}
 
 	// Create some moons and rings
-	for(var i = 0; i < planetCount; i++)
+	for(var i = 1; i < planetCount + 1; i++)
 	{
-		var moons = rrg(0, planets[i].radius / 350);
+		var moons = rrg(0, planets[i].radius / 300);
 		for(var j = 0; j < moons; j++)
 		{
 			var type = rrg(0, 4);
@@ -171,7 +197,7 @@ function generate()
 			{
 				type = 0;
 			}
-			var newPlanet = generatePlanet(type, rrg(25, 60) * 0.01);
+			var newPlanet = generatePlanet(type, rrg(25, 60) * 0.01, j + 1, i);
 
 			if(newPlanet.radius >= planets[i].radius * 0.6)
 			{
@@ -179,7 +205,7 @@ function generate()
 			}
 
 			var minOrbit = planets[i].radius + newPlanet.radius * 5.0;
-			var maxOrbit = planets[i].orbitRadius / 4000;
+			var maxOrbit = planets[i].orbitRadius / 16000;
 
 			newPlanet.orbitRadius = rrg(minOrbit, minOrbit + planets[i].radius * maxOrbit);
 			newPlanet.orbitOffset = rrg(0, 500000);
@@ -189,11 +215,11 @@ function generate()
 			planets.push(newPlanet);
 		}
 
-		if(rrg(0, 1000) >= 900 && planets[i].radius >= 600)
+		if(rrg(0, 1000) >= 900 && planets[i].radius >= 150)
 		{
-			var minRadius = rrg(planets[i].radius * 1.5, planets[i].radius * 6.0);
-			var maxRadius = minRadius + rrg(0, 400) * 0.01 * planets[i].radius;
-			var density = rrg(80, 400) * 0.00000003;
+			var minRadius = rrg(planets[i].radius * 1.5, planets[i].radius * 8.0);
+			var maxRadius = minRadius + rrg(50, 300) * 0.01 * planets[i].radius;
+			var density = rrg(80, 400) * 0.0000003;
 
 			var ring = createRing(i, minRadius, maxRadius, density);
 			rings.push(ring);
@@ -201,9 +227,11 @@ function generate()
 		}
 	}
 
-	var foundTerra = false, foundGas = false, foundDesert = false, foundAsteroid = false;
+	update(0.0);
 
-	for(var i = 0; i < planets.length; i++)
+	var foundTerra = false, foundGas = false, foundDesert = false, foundAsteroid = false, minDist = false;
+
+	for(var i = 1; i < planets.length; i++)
 	{
 		if(planets[i].type == 1)
 		{
@@ -224,13 +252,30 @@ function generate()
 		{
 			foundAsteroid = true;
 		}
+
+		if(i < planetCount)
+		{
+			for(var j = 1; j < planetCount; j++)
+			{
+				if(j != i)
+				{
+					var dist = distance(planets[i].x, planets[i].y, planets[j].x, planets[j].y);
+					if(dist <= 9000.0)
+					{
+						minDist = true;
+					}
+				}
+			}
+		}
 	}
 
-	if(foundTerra == false || foundGas == false || foundDesert == false || foundAsteroid == false || rings.length <= 1)
+	if(foundTerra == false || foundGas == false || foundDesert == false || foundAsteroid == false || rings.length <= 1 || minDist)
 	{
 		planets = [];
 		seed += rrg(1, 5000);
 		generate();
 	}
+
+	//console.log("Bodies: " + planets.length + ", planets: " + planetCount + ", Moons: " + (planets.length - planetCount));
 
 }
