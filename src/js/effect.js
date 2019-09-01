@@ -6,7 +6,7 @@ function explode(x, y, vx, vy, size, speed, shock, bright)
 
 function drawExplosion(expl)
 {
-	if(expl.time <= 0.1 && expl.bright == true)
+	if(expl.time <= 0.1 * expl.speed && expl.bright == true)
 	{
 		drawBright(expl.x, expl.y, expl.size / 256.0, 128);
 	}

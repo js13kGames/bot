@@ -144,15 +144,15 @@ function createShip(type, nseed)
 		thrusters.push({x:centerWidth * 0.5, y: waistLength, size: 12.0, t: 0.0, dir: -Math.PI * 1.15});
 
 		// One huge center weapon
-		weapons.push({x: 0.0, y: waistLength, dir: 0, size: 32.0, angle: Math.PI / 2.0, speed: 2.0, ftime: 1.0, ftimer: 0.0});
+		weapons.push({x: 0.0, y: waistLength, dir: 0, size: 32.0, angle: Math.PI, speed: 2.0, ftime: 1.0, ftimer: 0.0});
 
 		// Two side
 		weapons.push({x: centerWidth / 2.2, y: waistLength * 1.8, dir: -Math.PI / 2.5, size: 20.0, angle: Math.PI / 2.0, speed: 2.0, ftime: 0.4, ftimer: 0.0});
 		weapons.push({x: -centerWidth / 2.2, y: waistLength * 1.8, dir: Math.PI / 2.5, size: 20.0, angle: Math.PI / 2.0, speed: 2.0, ftime: 0.4, ftimer: 0.0});
 
 		// Two front
-		weapons.push({x: centerWidth / 1.8, y: length * 0.95, dir: 0, size: 20.0, angle: Math.PI / 2.5, speed: 4.0, ftime: 0.2, ftimer: 0.0});
-		weapons.push({x: -centerWidth / 1.8, y: length * 0.95, dir: 0, size: 20.0, angle: Math.PI / 2.5, speed: 4.0, ftime: 0.2, ftimer: 0.0});
+		weapons.push({x: centerWidth / 1.8, y: length * 0.95, dir: 0, size: 12.0, angle: Math.PI / 2.5, speed: 4.0, ftime: 0.1, ftimer: 0.0});
+		weapons.push({x: -centerWidth / 1.8, y: length * 0.95, dir: 0, size: 12.0, angle: Math.PI / 2.5, speed: 4.0, ftime: 0.1, ftimer: 0.0});
 	}
 
 	stats.maneouver = shipValues[type * 5 + 0];
@@ -419,17 +419,18 @@ function aimShipGuns(ship, p, dt)
 
 		var slong = rotate(0.0, -ship.length / 2.0, ship.rot);
 		var off = weapon.size * 1.5;
-		var dx = Math.cos(weapon.rdir - ship.rot + Math.PI / 2.0);
-		var dy = Math.sin(weapon.rdir - ship.rot + Math.PI / 2.0);
-		var x = weapon.x + off * dx;
-		var y = weapon.y + off * dy;
+		var dx = Math.cos(weapon.rdir + Math.PI / 2.0);
+		var dy = Math.sin(weapon.rdir + Math.PI / 2.0);
 
-		var rpos = rotate(x * ship.scale, y * ship.scale, ship.rot);
+		var rpos = rotate(weapon.x * ship.scale, weapon.y * ship.scale, ship.rot);
+
+		rpos.x += off * dx * ship.scale;
+		rpos.y += off * dy * ship.scale;
 
 		weapon.muzzle = {
 			x: ship.x + rpos.x + ship.scale * slong.x, 
 			y: ship.y + rpos.y + ship.scale * slong.y,
-			dx: -dx, dy: -dy};
+			dx: dx, dy: dy};
 	}
 }
 
@@ -587,15 +588,23 @@ function simulateShip(ship, dt)
 	{
 		if(ship.firing && ship.weapons[i].aim == true && ship.weapons[i].ftimer <= 0.0)
 		{
-			var muzzle = ship.weapons[i].muzzle;
+			var weapon = ship.weapons[i];
+
+			var muzzle = weapon.muzzle;
 			var muzzledir = normalize(muzzle.dx, muzzle.dy);
 
+
+			var size = weapon.size / 8.0;
+			var speed = 650.0 - (weapon.size / 32.0) * 350.0;
+
 			explode(muzzle.x, muzzle.y, 
-				ship.speed.x + muzzledir.x * 35.0, 
-				ship.speed.y + muzzledir.y * 35.0, 1.0, 4.5, 2.5, false);
+				ship.speed.x + muzzledir.x * 15.0, 
+				ship.speed.y + muzzledir.y * 15.0, size * 4.0, 1.0, 0.5, true);
 
 			// Fire
-			ship.weapons[i].ftimer = ship.weapons[i].ftime;
+			weapon.ftimer = weapon.ftime;
+
+			shoot(muzzle.x, muzzle.y, muzzledir.x * speed + ship.speed.x, muzzledir.y * speed + ship.speed.y, 0, size, 10.0);
 		}
 
 		ship.weapons[i].ftimer -= dt;

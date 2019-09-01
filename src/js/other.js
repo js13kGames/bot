@@ -202,6 +202,7 @@ function generate()
 			if(newPlanet.radius >= planets[i].radius * 0.6)
 			{
 				newPlanet.radius *= 0.5;
+				newPlanet.atmoRadius *= 0.5;
 			}
 
 			var minOrbit = planets[i].radius + newPlanet.radius * 5.0;

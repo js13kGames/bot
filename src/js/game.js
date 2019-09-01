@@ -3,7 +3,7 @@ var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "New Earth", "Jericho"
 var gasNames = ["Bespin", "Nuvo", "New Jupiter", "Vol", "Lightbulb", "Big Boy"];
 var desertNames = ["Rhodes", "New Jairo", "Jakku", "Savareen", "Arrakis", "New Sahara"]
 
-seed = 55725;
+seed = 825;
 noise.seed(seed);
 
 // Init
@@ -30,6 +30,7 @@ var planets = Array();
 var planetCount = rrg(9, 14);
 
 var explosions = Array();
+var bullets = Array();
 
 var sun;
 
@@ -62,7 +63,7 @@ generateBright();
 generate();
 
 
-ships.push(createShip(2, 2400));
+ships.push(createShip(0, 2400));
 putShipInOrbit(ships[0], 2, 800.0, 0.0, true);
 ships[0].predict = new Array();
 ships[0].frame = 2;
@@ -106,6 +107,15 @@ function update()
 				if(updateExplosion(explosions[i], dt))
 				{
 					explosions.splice(i, 1);
+					i--;
+				}
+			}
+
+			for(var i = 0; i < bullets.length; i++)
+			{
+				if(updateBullet(bullets[i], dt))
+				{
+					bullets.splice(i, 1);
 					i--;
 				}
 			}
@@ -259,6 +269,11 @@ function render()
 	for(var i = 0; i < explosions.length; i++)
 	{
 		drawExplosion(explosions[i]);
+	}
+
+	for(var i = 0; i < bullets.length; i++)
+	{
+		drawBullet(bullets[i]);
 	}
 
 	drawStar(sun);
