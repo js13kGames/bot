@@ -1,6 +1,6 @@
 var letters = {
 	'A': [
-		[, 1],
+		[1, 1, 1],
 		[1, , 1],
 		[1, , 1],
 		[1, 1, 1],
@@ -119,7 +119,7 @@ var letters = {
 		[1, 1, 1, 1]
 	],
 	'R': [
-		[1, 1],
+		[1, 1, 1],
 		[1, , 1],
 		[1, , 1],
 		[1, 1],
@@ -251,6 +251,20 @@ var letters = {
 		[0,0,1],
 		[1,1,1]
 	],
+	':':[
+		[,,],
+		[,1,],
+		[,,],
+		[,1,],
+		[,,]
+	],
+	'/':[
+		[0,0,1],
+		[0,1,0],
+		[0,1,0],
+		[0,1,0],
+		[1,0,0]
+	],
 	' ': [
 		[, ,],
 		[, ,],
@@ -260,10 +274,10 @@ var letters = {
 	]
 };
 
-function drawText(string, x, y, size, color)
+function getNeededText(str)
 {
 	var needed = [];
-	string = string.toUpperCase();
+	string = str.toUpperCase();
 	for (var i = 0; i < string.length; i++) 
 	{
 		var letter = letters[string.charAt(i)];
@@ -273,6 +287,26 @@ function drawText(string, x, y, size, color)
 		}
 	}
 
+
+	return needed;
+}
+
+function getTextSize(string, size)
+{
+	var needed = getNeededText(string);
+	var x = 0;
+
+	for(let i = 0; i < needed.length; i++)
+	{
+		x += needed[0].length * size;
+	}
+
+	return x;
+}
+
+function drawText(string, x, y, size, color)
+{
+	var needed = getNeededText(string);
 	ctx.fillStyle = color;
 
 	var xoff = 0;
@@ -300,4 +334,6 @@ function drawText(string, x, y, size, color)
 
 		xoff += size + addx;
 	}
+
+	return xoff;
 }

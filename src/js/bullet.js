@@ -12,14 +12,37 @@ function updateBullet(bullet, dt)
 	bullet.vx += acc.x * dt;
 	bullet.vy += acc.y * dt;
 
-	var coll = collidesWithAny(bullet, time);
-	if(coll != null)
+	var damage = bullet.size;
+
+	var collAll = collidesWithAny(bullet, time);
+
+	
+
+	if(collAll.planet != null)
 	{
+		var coll = collAll.planet;
 		var planet = planets[coll.planet];
 		var planetVel = orbitVelocity(planet.center, planet.mass, planet.orbitRadius, time, planet.orbitOffset);
 		explode(bullet.x, bullet.y, planetVel.x, planetVel.y, bullet.size * 17.0, 2.4, 0.4, true);
+
+		if(collAll.city != null)
+		{
+			var coll = collAll.city;
+			var planet = planets[coll.planet];
+			var city = planet.cities[coll.idx];
+			city.health -= damage;
+			if(city.health <= 0.0)
+			{
+				explode(coll.rx, coll.ry, planetVel.x, planetVel.y, city.size * 7.0, 1.5, 1.0, true);
+				planet.cities.splice(coll.idx, 1);
+				planet.maxForces = getMaxForces(planet);
+			}
+		}
+
 		return true;
 	}
+
+
 
 	bullet.timer -= dt;
 	if(bullet.timer <= 0.0)

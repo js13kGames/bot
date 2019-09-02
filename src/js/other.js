@@ -90,6 +90,16 @@ function generatePlanet(type, radiusScale, id, moon)
 		randomColor(0, 1.0), randomColor(0, 0.5), randomColor(0, 1.0),
 		'0, 0, 0', rrg(0, 10000), 64);
 		name = rockNames[id % (rockNames.length)];
+
+		if(rrg(0, 1000) >= 700)
+		{
+			createCities(newPlanet, rrg(-100, 40) * 0.01, srandom());
+		}
+		else
+		{
+			newPlanet.ore = rrg(100, radius * 2.0);
+			newPlanet.fuel = rrg(50, 100);
+		}
 	}
 	else if(type == 1)
 	{
@@ -101,6 +111,8 @@ function generatePlanet(type, radiusScale, id, moon)
 		'120, 120, 255', rrg(0, 10000), 64);
 
 		name = terraNames[id % (terraNames.length)];
+
+		createCities(newPlanet, rrg(-50, 100) * 0.01, srandom());
 	}
 	else if(type == 2)
 	{
@@ -112,6 +124,16 @@ function generatePlanet(type, radiusScale, id, moon)
 		'255, 120, 120', rrg(0, 10000), 64);
 
 		name = desertNames[id % (desertNames.length)];
+
+		if(rrg(0, 1000) >= 200)
+		{
+			createCities(newPlanet, rrg(-100, 60) * 0.01, srandom());
+		}
+		else
+		{
+			newPlanet.ore = rrg(50, radius * 2.0);
+			newPlanet.fuel = rrg(200, 500);
+		}
 	}
 	else if(type == 3)
 	{
@@ -124,10 +146,13 @@ function generatePlanet(type, radiusScale, id, moon)
 		makeColorAlpha(themeColor), themeColor, randomColor(3, 1.0));
 
 		name = gasNames[id % (gasNames.length)];
+
+		newPlanet.ore = 0;
+		newPlanet.fuel = rrg(1000, 2000);
 	}
 	else if(type == 4)
 	{
-		let letters = ['A', 'E', 'I', 'O', 'U', 'N', 'G', 'R', 'J', 'R'];
+		let letters = "AEIOUNGRJ";
 		// Asteroid
 		var radius = rrg(40, 120) * radiusScale;
 		newPlanet = createPlanet(rrg(25, 60), rrg(140, 150), radius, 0.0, 
@@ -135,6 +160,9 @@ function generatePlanet(type, radiusScale, id, moon)
 		'0, 0, 0', rrg(0, 10000), 32);
 
 		name = letters[rrg(0, letters.length - 1)] + letters[rrg(0, letters.length - 1)] + id;
+
+		newPlanet.ore = rrg(100, radius * 4.0);
+		newPlanet.fuel = rrg(10, 100);
 	}
 
 	newPlanet.mass = 4.0 * Math.PI * newPlanet.radius * newPlanet.radius;

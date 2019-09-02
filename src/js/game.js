@@ -1,9 +1,9 @@
 var rockNames = ["Lygkos", "Lithos", "Guamedo", "Eadu", "Anoth", "Dikti", "Big Iron", "Impetu"]
-var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "New Earth", "Jericho", "Nile", "New London"];
+var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "Boston", "Jericho", "Nile", "New London"];
 var gasNames = ["Bespin", "Nuvo", "New Jupiter", "Vol", "Lightbulb", "Big Boy"];
 var desertNames = ["Rhodes", "New Jairo", "Jakku", "Savareen", "Arrakis", "New Sahara"]
 
-seed = 825;
+seed = 7774;
 noise.seed(seed);
 
 // Init
@@ -57,16 +57,35 @@ var timestep = 1.0;
 var dtval = 0.0;
 var lockCamera = false;
 
+var timestepVals = [0.0, 1.0, 2.0, 4.0, 10.0, 25.0, 50.0, 100.0];
+var timestepVal = 1;
+var eventTimer = 0.0;
+var eventStr = "";
 
 generateStarfield();
 generateBright();
 generate();
 
+sun.name = "The Sun";
 
-ships.push(createShip(0, 2400));
-putShipInOrbit(ships[0], 2, 800.0, 0.0, true);
+// Find terra planet
+var terra = 1;
+for(var i = 0; i < planets.length; i++)
+{
+	if(planets[i].type == 1)
+	{
+		terra = i;
+		planets[i].name = "New Earth";
+		planets[i].cities = [];
+		createCities(planets[i], 0.5, 0);
+		break;
+	}
+}
+
+ships.push(createShip(1, 2400, 2));
+putShipInOrbit(ships[0], terra, 800.0, 0.0, true);
 ships[0].predict = new Array();
-ships[0].frame = 2;
+ships[0].frame = terra;
 
 var chooseFrame = false;
 var chooseFocus = false;
@@ -74,8 +93,14 @@ var predictTimer = 0.0;
 
 var camFocus = -1;
 
+var tooltipTime = 0.0;
+var tooltipFocus = -1;
+var tooltipEnabled = false;
+
 function update()
 {
+	var dt = dtval;
+
 	for(var nn = 0; nn < timestep; nn++)
 	{
 	//	console.log("Doing " + timestep + " updates");
@@ -102,6 +127,7 @@ function update()
 		{
 			aimShipGuns(ships[0], aimPoint, dt);
 			simulateShip(ships[0], dt);
+			updateShipAI(ships[0], dt);
 			for(var i = 0; i < explosions.length; i++)
 			{
 				if(updateExplosion(explosions[i], dt))
@@ -156,17 +182,24 @@ function update()
 		}
 		
 
+		var coll = collidesWithPlanet(aimPoint, time);
+
 		if(chooseFrame)
 		{
-			var coll = collidesWithAny(aimPoint, time);
 			if(coll != null)
 			{
-				ships[0].frame = coll.planet;
+				if(ships[0].frame != coll.planet)
+				{
+					ships[0].frame = coll.planet;
+					showEvent("Changed reference frame to " + planets[coll.planet].name, 2.0);
+				}
 			}
 		}
 
 		if(chooseFocus)
 		{
+			var oldFocus = camFocus;
+
 			var distToShip = distance(aimPoint.x, aimPoint.y, ships[0].x, ships[0].y);
 			if(distToShip < 100.0)
 			{
@@ -174,13 +207,40 @@ function update()
 			}
 			else 
 			{
-				var coll = collidesWithAny(aimPoint, time);
 				if(coll != null)
 				{
 					camFocus = coll.planet;
+				}		
+			}
+
+			if(oldFocus != camFocus)
+			{
+				if(camFocus == -1)
+				{
+					showEvent("Focusing on ship", 2.0);
+				}
+				else 
+				{
+					showEvent("Focusing on " + planets[camFocus].name, 2.0);
 				}
 			}
 		}
+
+		if(coll == null)
+		{
+			tooltipTime = 0.0;
+			tooltipFocus = -1;
+		}
+		else 
+		{
+			if(coll.planet != tooltipFocus)
+			{
+				tooltipTime = 0.0;
+				tooltipFocus = coll.planet;
+			}
+		}
+
+	
 
 		if(predictTimer < 0.0 || ships[0].thrust.fw != 0.0 || ships[0].thrust.side != 0.0)
 		{
@@ -212,7 +272,11 @@ function update()
 			mapMode = 0.0;
 		}
 
+		tooltipTime += dt;
+		eventTimer -= dt;
+
 	}
+
 
 }
 
@@ -279,6 +343,8 @@ function render()
 	drawStar(sun);
 
 
+
+
 	if(mapMode > 0.0)
 	{
 		ctx.globalAlpha = mapMode;
@@ -295,8 +361,30 @@ function render()
 
 	drawShipHud(ships[0]);
 
+	if(tooltipFocus > 0 && tooltipEnabled)
+	{
+		drawTooltip(planets[tooltipFocus], aimPoint.x, aimPoint.y);
+	}
+
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	// Static GUI
+
+	if(eventTimer >= 0.0)
+	{
+		ctx.globalAlpha = eventTimer;
+		
+		var size = getTextSize(eventStr, 2.0);
+		drawText(eventStr, canvas.width / 2.0 - size / 2.0, 20.0, 2.0, 'white');
+		ctx.globalAlpha = 1.0;
+	}
+
+	if(timestep == 0)
+	{
+		var size = getTextSize("Paused", 2.0);
+		drawText("Paused", canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
+	}
+
+
 }
 
 const loop = time => 
@@ -319,7 +407,6 @@ window.requestAnimationFrame(time =>
 function onkey(evt)
 {
 	var release = evt.type == "keyup";
-//	console.log("Key: " + evt.code);
 
 	var key = evt.code;
 	var thrust = ships[0].thrust;
@@ -328,6 +415,11 @@ function onkey(evt)
 	if(release)
 	{
 		val = 0.0;
+	}
+
+	if(key == 'KeyT')
+	{
+		tooltipEnabled = !release;
 	}
 
 	if(mode == 0)
@@ -361,24 +453,61 @@ function onkey(evt)
 
 	if(!release)
 	{
+
 		if(key == 'KeyL')
 		{
 			lockCamera = !lockCamera;
+			if(lockCamera)
+			{
+				showEvent("Camera aligned to ship", 2.0);
+			}
+			else 
+			{
+				showEvent("Camera aligned to space", 2.0);
+			}
 		}
 
 		if(key == 'KeyU')
 		{
+			shipBehaviourLand(ships[0], ships[0].frame);
 		}
 
+		if(key == 'KeyI')
+		{
+			shipBehaviourOrbit(ships[0], ships[0].frame, 400.0);
+		}
+
+		
 		if(key == 'KeyP')
 		{
-			timestep = timestep + 1;
+			timestepVal++;
+			if(timestepVal > timestepVals.length - 1)
+			{
+				timestepVal = timestepVals.length - 1;
+			}
+			else 
+			{
+				timestep = timestepVals[timestepVal];
+				showEvent(timestep.toString() + "x Timewarp", 2.0);
+			}
 		}
 
 		if(key == 'KeyO')
 		{
-			timestep = timestep - 1;
+			timestepVal--;
+			if(timestepVal < 0)
+			{
+				timestepVal = 0;
+			}
+			else 
+			{
+				timestep = timestepVals[timestepVal];
+				showEvent(timestep.toString() + "x Timewarp", 2.0);
+			}
 		}
+
+
+
 	}
 }
 

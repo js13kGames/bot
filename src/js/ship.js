@@ -1,7 +1,7 @@
 
 // A ship is made out of a shaped hull, 
 // weapon attachment points, and thrusters
-function createShip(type, nseed)
+function createShip(type, nseed, side)
 {
 
 	let shipValues = [
@@ -164,25 +164,18 @@ function createShip(type, nseed)
 	
 	var thrust = {fw: 0.0, side: 0.0, rot: 0.0};
 
-	var scale = rrg(16, 22) * 0.01;
+	var scale = rrg(14, 25) * 0.01;
+	var color = sideColor(side);
 
 	return {type: type, stats: stats, hull: hull, weapons: weapons, thrusters: thrusters, width: width, length: length, 
 		x: 0.0, y: 0.0, rot: Math.PI, angspeed: 0.0, speed: {x: 0.0, y: 0.0}, thrust: thrust, acc: {x: 0.0, y: 0.0}, landed: false,
-	scale: scale, firing: false}
+	scale: scale, firing: false, side: side, color: color}
 }
 
-function drawShip(ship)
+function drawShipLow(ship)
 {
-	ctx.translate(ship.x, ship.y);
-
-	ctx.scale(ship.scale, ship.scale);
-
-	ctx.rotate(ship.rot);
-
-	ctx.translate(0.0, -ship.length / 2.0)
-
 	// Draw hull
-	ctx.fillStyle = 'rgb(100, 100, 100)';
+	ctx.fillStyle = ship.color;
 	ctx.strokeStyle = 'rgb(255, 255, 255)';
 	ctx.lineWidth = 2.0;
 	ctx.beginPath();
@@ -268,6 +261,19 @@ function drawShip(ship)
 		ctx.stroke();
 	}
 
+}
+
+function drawShip(ship)
+{
+	ctx.translate(ship.x, ship.y);
+
+	ctx.scale(ship.scale, ship.scale);
+
+	ctx.rotate(ship.rot);
+
+	ctx.translate(0.0, -ship.length / 2.0)
+
+	drawShipLow(ship);
 	
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
@@ -434,16 +440,18 @@ function aimShipGuns(ship, p, dt)
 	}
 }
 
+
 function predictShip(ship)
 {
 	ship.predict = [];
+	ship.collides = -1;
 	
 	ship.predict.push({x: ship.x, y: ship.y, sx: ship.speed.x, sy: ship.speed.y, time: time});
 
 
 	var step = 0.5;
 	var max = 500;
-	var minDist = 25.0;
+	var minDist = 15.0;
 
 	if(ship.frame == 0)
 	{
@@ -491,11 +499,12 @@ function predictShip(ship)
 			}
 		}
 
-		var coll = collidesWithAny(point, ntime);
+		var coll = collidesWithPlanet(point, ntime);
 		if(coll != null)
 		{
 			var pos0 = planetAtTime(coll.planet, ntime);
 			ship.predict.push({x: coll.sx + pos0.x, y: coll.sy + pos0.y, sx: 0.0, sy: 0.0, time: ntime});
+			ship.collides = coll.planet;
 			break;
 		}
 		else
@@ -506,6 +515,52 @@ function predictShip(ship)
 		prevDist = dist;
 		
 	}
+}
+
+function getSpeedVectorRelative(ship)
+{
+	var frame = planets[ship.frame];
+	var frameVel;
+	if(ship.frame == 0)
+	{
+		frameVel = {x: 0.0, y: 0.0};
+	}
+	else
+	{
+		frameVel = orbitVelocity(frame.center, frame.mass, frame.orbitRadius, time, frame.orbitOffset);
+	}
+
+	return {x: ship.speed.x - frameVel.x, y: ship.speed.y - frameVel.y};
+}
+
+function getProgradeVector(ship)
+{
+	var vec = getSpeedVectorRelative(ship);
+	return normalize(vec.x, vec.y);
+}
+
+function getAltitude(ship)
+{
+	var frame = planets[ship.frame];
+	return distance(0, 0, ship.x - frame.x, ship.y - frame.y);
+}
+
+function getAltitudeGround(ship)
+{
+	var alt = getAltitude(ship);
+	return alt - planets[ship.frame].radius;
+}
+
+function getProgradeAngle(ship)
+{
+	var vector = getProgradeVector(ship);
+	return Math.atan2(vector.y, vector.x) - Math.PI / 2.0;
+}
+
+function getFrameSpeed(ship)
+{
+	var vec = getSpeedVectorRelative(ship);
+	return distance(0, 0, vec.x, vec.y);
 }
 
 function simulateShip(ship, dt)
@@ -544,7 +599,7 @@ function simulateShip(ship, dt)
 		// Acceleration 
 		var point = {x: ship.x, y: ship.y};
 		
-		var coll = collidesWithAny(point, time);
+		var coll = collidesWithPlanet(point, time);
 		if(coll != null)
 		{
 			// TODO: Check speed
@@ -643,34 +698,47 @@ function drawShipMap(ship)
 
 function drawShipHud(ship)
 {
-	ctx.strokeStyle = 'rgb(187,128,255)';
-	// Predicted orbit
-	if(ship.predict != undefined)
+	ctx.strokeStyle = 'rgb(204,168,255)';
+	ctx.lineWidth = Math.max(1.0 / camera.zoom, 1.0);
+
+	if(camera.zoom <= 1.5 && camera.zoom >= 1.0)
 	{
-		ctx.beginPath();
-		var frame = planets[ship.frame];
+		ctx.globalAlpha = 1.0 - (camera.zoom - 1.0) * 2.0;
+	}
 
-		for(var i = 0; i < ship.predict.length; i++)
+	if(camera.zoom <= 1.5 && !ship.landed)
+	{
+
+		// Predicted orbit
+		if(ship.predict != undefined)
 		{
-			var frameThen = planetAtTime(ship.frame, ship.predict[i].time);
+			ctx.beginPath();
+			var frame = planets[ship.frame];
 
-			var px = ship.predict[i].x - frameThen.x + frame.x;
-			var py = ship.predict[i].y - frameThen.y + frame.y;
-
-			if(i == 0)
+			for(var i = 0; i < ship.predict.length; i++)
 			{
-				ctx.moveTo(px, py);
+				var frameThen = planetAtTime(ship.frame, ship.predict[i].time);
+
+				var px = ship.predict[i].x - frameThen.x + frame.x;
+				var py = ship.predict[i].y - frameThen.y + frame.y;
+
+				if(i == 0)
+				{
+					ctx.moveTo(px, py);
+				}
+				else
+				{
+
+					ctx.lineTo(px, py);
+				}
 			}
-			else
-			{
 
-				ctx.lineTo(px, py);
-			}
-		}
+			ctx.stroke();
+		}	
 
-		ctx.stroke();
-	}	
+	}
 
+	ctx.globalAlpha = 1.0;
 
 	var size = 32.0;
 	var rsize = Math.max(size / camera.zoom, size);
@@ -688,19 +756,7 @@ function drawShipHud(ship)
 	ctx.lineTo(ship.x + forward.x * rsize, ship.y + forward.y * rsize);
 	ctx.stroke();
 
-	var frame = planets[ship.frame];
-	var frameVel;
-	if(ship.frame == 0)
-	{
-		frameVel = {x: 0.0, y: 0.0};
-	}
-	else
-	{
-		frameVel = orbitVelocity(frame.center, frame.mass, frame.orbitRadius, time, frame.orbitOffset);
-	}
-	
-
-	var prograde = normalize(ship.speed.x - frameVel.x, ship.speed.y - frameVel.y);
+	var prograde = getProgradeVector(ship);
 	var retrograde = {x: -prograde.x, y: -prograde.y}
 	var normal = {x: -prograde.y, y: prograde.x};
 	var antinormal = {x: prograde.y, y: -prograde.x};

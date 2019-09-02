@@ -2,6 +2,8 @@ function explode(x, y, vx, vy, size, speed, shock, bright)
 {
 	var expl = {x: x, y: y, vx: vx, vy: vy, time: 0.0, size: size, speed: speed, shock: shock, bright: bright};
 	explosions.push(expl);
+
+	explosionSound(size / 100.0);
 }
 
 function drawExplosion(expl)

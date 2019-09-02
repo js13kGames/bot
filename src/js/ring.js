@@ -40,8 +40,6 @@ function drawRing(ring, time)
 
 	if(camera.zoom >= 0.01 && distance(camera.x, camera.y, cx, cy) <= maxCameraReach() + ring.maxRadius)
 	{
-		console.log("Rendering ring at " + planets[ring.center].name + " of radius " + ring.maxRadius);
-
 		for(var i = 0; i < ring.rocks.length; i++)
 		{
 			var rock = ring.rocks[i];

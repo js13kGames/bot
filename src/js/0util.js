@@ -123,18 +123,18 @@ function gravity(point, ntime)
 	return forceTotal;
 }
 
-function collidesWithAny(point, ntime)
+function collidesWithPlanet(point, ntime)
 {
 	for(var i = 0; i < planets.length; i++)
 	{
 		var pos = planetAtTime(i, ntime);
 		var dist = distance(point.x, point.y, pos.x, pos.y);
-		if(dist <= planets[i].radius)
+		if(dist <= planets[i].radius * 1.02)
 		{
 			var diff = {x: point.x - pos.x, y: point.y - pos.y}
 			var diffNrm = normalize(diff.x, diff.y);
-			var x = diffNrm.x * planets[i].radius;
-			var y = diffNrm.y * planets[i].radius;
+			var x = diffNrm.x * planets[i].radius * 1.02;
+			var y = diffNrm.y * planets[i].radius * 1.02;
 			var xn = diffNrm.x;
 			var yn = diffNrm.y;
 
@@ -143,6 +143,39 @@ function collidesWithAny(point, ntime)
 	}
 
 	return null;
+}
+
+
+function collidesWithCity(point, ntime)
+{
+	var planetC = collidesWithPlanet(point, ntime);
+	if(planetC != null)
+	{
+		var planet = planets[planetC.planet];
+		if(planet.cities != undefined)
+		{
+			for(var i = 0; i < planet.cities.length; i++)
+			{
+				var city = planet.cities[i];
+				var rx = city.x * planet.radius * 0.98 + planet.x;
+				var ry = city.y * planet.radius * 0.98 + planet.y;
+				if(distance(rx, ry, point.x, point.y) <= city.size * 2.0)
+				{
+					return {city: city, idx: i, planet: planetC.planet, rx: rx, ry: ry};
+				}
+			}
+		}
+	}
+
+	return null;
+}
+
+function collidesWithAny(point, ntime)
+{
+	var city = collidesWithCity(point, ntime);
+	var planet = collidesWithPlanet(point, ntime);
+
+	return {city: city, planet: planet};
 }
 
 function gravityFrom(point, cx, cy, cmass)
@@ -167,6 +200,27 @@ function putShipInOrbit(ship, id, radius, offset, prograde)
 	ship.speed.x = vel.x; ship.speed.y = vel.y;
 	
 }
+
+// 5/10 -> Fighters
+// 4/10 -> Freighters
+// 1/10 -> Destroyer
+function randomShip(side)
+{
+	var value = rrg(0, 100);
+	if(value <= 50)
+	{
+		return createShip(0, srandom(), side);
+	}
+	else if(value <= 90)
+	{
+		return createShip(1, srandom(), side);
+	}
+	else 
+	{
+		return createShip(2, srandom(), side);
+	}
+}
+
 
 function randomColor(type, mult)
 {
@@ -219,6 +273,45 @@ function randomColor(type, mult)
 	}
 
 	return 'rgb(' + r * mult + ',' + g * mult + ',' + b * mult + ')';
+}
+
+function showEvent(str, time)
+{
+	eventStr = str
+	eventTimer = time;
+}
+
+// 2 = player side
+function sideColor(side)
+{
+	var r, g, b;
+
+	if(side == 0)
+	{
+		// Human ships, blueish grey
+		r = rrg(80, 160);
+		g = r * rrg(80, 100) * 0.01;
+		b = r * rrg(100, 130) * 0.01;
+	}
+	else if(side == 1)
+	{
+		// Soft reds
+		r = rrg(120, 210);
+		g = r * rrg(70, 80) * 0.01;
+		b = r * rrg(40, 50) * 0.01;
+		r *= rrg(100, 150) * 0.01;
+		g *= rrg(60, 90) * 0.01;
+		b *= rrg(60, 90) * 0.01;
+	}
+	else 
+	{
+		// Grey
+		r = rrg(80, 110);
+		g = r;
+		b = r;
+	}
+
+	return 'rgb(' + r + ',' + g + ',' + b + ')';
 }
 
 function makeColorAlpha(color)
@@ -297,6 +390,18 @@ function sanitizeAngle(angle)
 	}
 
 	return a;
+}
+
+function angleDiff(a, b)
+{
+	var diff = (a - b);
+
+	if(diff > Math.PI)
+	{
+		diff = -2.0 * Math.PI + diff;
+	}
+
+	return diff;
 }
 
 function normalize(x1, y1)
