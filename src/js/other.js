@@ -210,6 +210,7 @@ function generate()
 		newPlanet.center = 0;
 		newPlanet.type = type;
 
+		newPlanet.idx = planets.length;
 		planets.push(newPlanet);
 
 	}
@@ -241,6 +242,7 @@ function generate()
 			newPlanet.center = i;
 			newPlanet.type = type;
 
+			newPlanet.idx = planets.length;
 			planets.push(newPlanet);
 		}
 

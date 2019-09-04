@@ -114,6 +114,67 @@ function createCities(planet, efactor, seed)
 	createForces(planet);
 }
 
+function updateWar(planet, dt)
+{
+	if(planet.warTime != undefined)
+	{
+		planet.warTime -= dt;
+		if(planet.warTime <= 0.0)
+		{
+			// Make forces come back
+			for(var i = 0; i < planet.deployed; i++)
+			{
+				//shipBehaviourLand(ships[planet.deployed[i]], planet);
+			}
+		}
+		else 
+		{
+			function spawn(array, count)
+			{
+				for(var i = 0; i < aiSpawn; i++)
+				{
+					if(array.length <= 0)
+					{
+						return;
+					}
+
+					var idx = rrg(0, array.length - 1);
+					var force = array[idx];
+					array.splice(idx, 1);
+
+					var pos = normalize(rrg(0, 1000) - 500, rrg(0, 1000) - 500);
+					pos.x *= planet.radius * 1.02;
+					pos.y *= planet.radius * 1.02;
+					force.x = planet.x + pos.x;
+					force.y = planet.y + pos.y;
+					force.rot = Math.atan2(pos.y, pos.x) - Math.PI / 2.0;
+					force.speed = getPlanetSpeed(planet, time);
+
+					force.frame = planet.idx;
+					shipBehaviourOrbit(force, planet.idx, rrg(60, planet.radius));
+
+					ships.push(force);
+				}
+			}
+
+			var aggro = 1.0;
+			if(planet.firstWave || planet.wave <= 0.0)
+			{
+				var aiSpawn = rrg(1, 1 + aggro);
+				var humanSpawn = rrg(aiSpawn * 0.2, aiSpawn * 0.8);
+
+				spawn(planet.aiForces, aiSpawn);
+				spawn(planet.humanForces, humanSpawn);
+
+				console.log("Spawning " + aiSpawn + " AIs, and " + humanSpawn + " humans");
+				planet.firstWave = false;
+			}
+
+
+		}
+	}
+}
+
 function createGasPlanet(radius, atmoRadius, colorAtmo, color0, color1)
 {
 	return {x: 0, y: 0, radius: radius, atmoRadius: atmoRadius, 
@@ -372,161 +433,4 @@ function drawPlanetMap(planet)
 	}
 }
 
-function updateWar(planet, dt)
-{
-	planet.warTime -= dt;
-	if(planet.warTime <= 0.0)
-	{
-		// Make forces come back
-		for(var i = 0; i < planet.deployed; i++)
-		{
-			shipBehaviourLand(ships[planet.deployed[i]], planet);
-		}
-	}
-	else 
-	{
 
-
-		if(planet.firstWave <= 0.0 || planet.wave <= 0.0)
-		{
-			var aiSpawn = rrg(1, 1 + aggro);
-			var humanSpawn = rrg(aiSpawn * 0.2, aiSpawn * 0.8);
-
-
-		}
-
-
-	}
-}
-
-function drawTooltip(planet, x, y)
-{
-
-	if(lockCamera)
-	{
-		ctx.translate(x, y);
-		ctx.rotate(ships[0].rot + Math.PI);
-		ctx.translate(-x, -y);
-	}
-
-
-	var cwidth = 300;
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-	ctx.strokeStyle = 'rgb(255, 255, 255)';
-	ctx.beginPath();
-	ctx.rect(x, y, cwidth / camera.zoom, 350 / camera.zoom);
-	ctx.fill();
-	ctx.stroke();
-
-	var margin = 8 / camera.zoom;
-
-	var titleColor = 'rgb(255, 220, 200)';
-	var textColor = 'rgb(255, 255, 255)';
-
-	// Draw stuff
-	var xoff = 0.0;
-	var yoff = 0.0;
-	xoff += drawText("Name: ", x + margin, y + margin, 2.0 / camera.zoom, titleColor);
-	xoff += drawText(planet.name, x + margin + xoff, y + margin, 2.0 / camera.zoom, textColor);
-
-	xoff = 0.0;
-	yoff += 16.0 / camera.zoom;
-
-	var humanCities = 0;
-	var aiCities = 0;
-	if(planet.cities != undefined)
-	{
-		for(var i = 0; i < planet.cities.length; i++)
-		{
-			if(planet.cities[i].side == 0)
-			{
-				
-				humanCities++;
-			}
-			else 
-			{
-				aiCities++;
-			}
-		}
-	}
-
-	if(humanCities == 0 && aiCities == 0)
-	{
-		xoff += drawText("Planet is uninhabited", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
-
-		// Ores and stuff
-		xoff += drawText("Ore: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(planet.ore.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
-
-		xoff += drawText("Fuel: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(planet.fuel.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-	}
-	else 
-	{
-		xoff += drawText("Cities: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(humanCities.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, 'rgb(0, 255, 0)');
-		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText(aiCities.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, 'rgb(255, 0, 0)');
-
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
-
-		// Ships and stuff
-		xoff += drawText("Human Ships: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(planet.humanForces.length.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText(planet.maxForces.human.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-
-		xoff = margin * 2.0;
-		yoff += 32.0 / camera.zoom;
-
-		function drawShipUI(forces)
-		{
-			for(var i = 0; i < forces.length; i++)
-			{
-				var shipSize = 0.15 / camera.zoom;
-	
-				ctx.translate(x + xoff, y + yoff);
-				ctx.scale(shipSize, shipSize);
-				drawShipLow(forces[i]);
-				ctx.scale(1.0 / shipSize, 1.0 / shipSize);
-				ctx.translate(-x - xoff, -y - yoff);
-	
-	
-				xoff += shipSize * 128.0;
-				if(xoff >= cwidth / camera.zoom - margin)
-				{
-					xoff = margin * 2.0;
-					yoff += shipSize * 350.0;
-				}
-			}
-		}
-
-		// Draw all ships
-		drawShipUI(planet.humanForces);
-
-		yoff += 64.0 / camera.zoom;
-		xoff = 0.0;
-
-		xoff += drawText("AI Ships: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(planet.aiForces.length.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText(planet.maxForces.ai.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-
-		xoff = margin * 2.0;
-		yoff += 32.0 / camera.zoom;
-
-		// Draw all ships
-		drawShipUI(planet.aiForces);
-	}
-
-	
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-	doCameraTransform();
-}

@@ -1,6 +1,6 @@
 function shoot(x, y, vx, vy, side, size, time)
 {
-	bullets.push({x: x, y: y, vx: vx, vy: vy, side: side, size: size, timer: time});
+	bullets.push({x: x, y: y, vx: vx, vy: vy, side: side, size: size, timer: time, color: sideColor(side)});
 }
 
 
@@ -16,32 +16,76 @@ function updateBullet(bullet, dt)
 
 	var collAll = collidesWithAny(bullet, time);
 
-	
+	collAll.ship = null;
+
+	for(var i = 0; i < ships.length; i++)
+	{
+		if(isEnemy(bullet.side, ships[i].side))
+		{
+			var size = 5.0;
+			if(ships[i].type == 1)
+			{
+				size = 14.0;
+			}
+			else if(ships[i].type == 2)
+			{
+				size = 24.0;
+			}
+
+			if(distance(bullet.x, bullet.y, ships[i].x, ships[i].y) <= size)
+			{
+				collAll.ship = ships[i];
+			}
+		}
+	}
 
 	if(collAll.planet != null)
 	{
 		var coll = collAll.planet;
 		var planet = planets[coll.planet];
 		var planetVel = orbitVelocity(planet.center, planet.mass, planet.orbitRadius, time, planet.orbitOffset);
-		explode(bullet.x, bullet.y, planetVel.x, planetVel.y, bullet.size * 17.0, 2.4, 0.4, true);
+		explode(bullet.x, bullet.y, planetVel.x, planetVel.y, bullet.size * 17.0, 2.4, 0.4, true, false);
 
 		if(collAll.city != null)
 		{
-			var coll = collAll.city;
-			var planet = planets[coll.planet];
-			var city = planet.cities[coll.idx];
-			city.health -= damage;
-			if(city.health <= 0.0)
+			// Only player bullets can damage, a bit of a workaround
+			if(bullet.side == 2)
 			{
-				explode(coll.rx, coll.ry, planetVel.x, planetVel.y, city.size * 7.0, 1.5, 1.0, true);
-				planet.cities.splice(coll.idx, 1);
-				planet.maxForces = getMaxForces(planet);
+				var coll = collAll.city;
+				var planet = planets[coll.planet];
+				var city = planet.cities[coll.idx];
+				city.health -= damage;
+				if(planet.warTime <= 0.0)
+				{
+					planet.firstWave = true;
+				}
+
+				planet.warTime = 30.0;
+	
+
+				if(city.health <= 0.0)
+				{
+					explode(coll.rx, coll.ry, planetVel.x, planetVel.y, city.size * 7.0, 1.5, 1.0, true, false);
+					planet.cities.splice(coll.idx, 1);
+					planet.maxForces = getMaxForces(planet);
+				}
+
+
 			}
+			
 		}
 
 		return true;
 	}
 
+	if(collAll.ship != null)
+	{
+		explode(bullet.x, bullet.y, collAll.ship.speed.x, collAll.ship.speed.y, bullet.size * 17.0, 2.4, 0.4, true, false);
+
+		collAll.ship.health -= damage;
+
+		return true;
+	}
 
 
 	bullet.timer -= dt;
@@ -56,6 +100,7 @@ function updateBullet(bullet, dt)
 function drawBullet(bullet)
 {
 	ctx.strokeStyle = 'rgb(255, 200, 200)';
+	ctx.strokeStyle = bullet.color;
 	ctx.lineWidth = bullet.size;
 	ctx.beginPath();
 	ctx.moveTo(bullet.x, bullet.y);

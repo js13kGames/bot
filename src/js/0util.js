@@ -81,6 +81,7 @@ function orbitVelocity(id, omass, radius, time, offset)
 
 		var sum0 = {x: ourVel.x + childVel.x, y: ourVel.y + childVel.y};
 
+
 		if(radius == 0.0)
 		{
 			return sum0;
@@ -207,17 +208,19 @@ function putShipInOrbit(ship, id, radius, offset, prograde)
 function randomShip(side)
 {
 	var value = rrg(0, 100);
+	var level = rrg(0, 5);
+
 	if(value <= 50)
 	{
-		return createShip(0, srandom(), side);
+		return createShip(0, srandom(), side, level);
 	}
 	else if(value <= 90)
 	{
-		return createShip(1, srandom(), side);
+		return createShip(1, srandom(), side, level);
 	}
 	else 
 	{
-		return createShip(2, srandom(), side);
+		return createShip(2, srandom(), side, level);
 	}
 }
 
@@ -273,6 +276,18 @@ function randomColor(type, mult)
 	}
 
 	return 'rgb(' + r * mult + ',' + g * mult + ',' + b * mult + ')';
+}
+
+function getPlanetSpeed(planet, time)
+{
+	if(planet == planets[0])
+	{
+		return {x: 0.0, y: 0.0};
+	}
+	else
+	{
+		return orbitVelocity(planet.center, planet.mass, planet.orbitRadius, time, planet.orbitOffset);
+	}
 }
 
 function showEvent(str, time)

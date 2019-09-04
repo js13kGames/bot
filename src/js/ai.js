@@ -68,13 +68,65 @@ function aiLookAt(ship, dt, task)
 	return Math.abs(diff);
 }
 
+function isEnemy(ourSide, otherSide)
+{
+	if(ourSide == 0)
+	{
+		return otherSide == 1;
+	}
+	else 
+	{
+		return otherSide != ourSide;
+	}
+}
+
+
 function updateShipAI(ship, dt)
 {
+	function findTarget()
+	{
+		if(ship.side == 1)
+		{
+			if(rrg(0, 1000) >= 700)
+			{
+				ship.ai.target = 0;
+			}
+		}
+		
+		ship.ai.target = -1;
+		for(var i = 0; i < ships.length; i++)
+		{
+			if(isEnemy(ship.side, ships[i].side) && rrg(0, 1000) >= 600)
+			{
+				found = true;
+				ship.ai.target = i;
+			}
+		}
+	}
+
 	var lookDev = 1000.0;
 
-	if(ship.ai == undefined)
+	ship.ai.targetTimer -= dt;
+	if(ship.ai.targetTimer <= 0.0)
 	{
-		ship.ai = {task: null, obj: null, beh: null};
+		findTarget();
+		if(ship.ai.target == -1)
+		{
+			ship.ai.targetTimer = rrg(1, 5);
+		}
+		else 
+		{
+			ship.ai.targetTimer = rrg(3, 16);
+		}
+	}
+
+	if(ship.ai.target != -1)
+	{
+		ship.firing = true;
+	}
+	else 
+	{
+		ship.firing = false;
 	}
 
 	// Tasks are low-level actuations over the ship

@@ -4,3 +4,4 @@ env
 yarn-error.log
 build
 .serverless
+tools/

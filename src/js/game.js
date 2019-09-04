@@ -3,7 +3,7 @@ var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "Boston", "Jericho", "
 var gasNames = ["Bespin", "Nuvo", "New Jupiter", "Vol", "Lightbulb", "Big Boy"];
 var desertNames = ["Rhodes", "New Jairo", "Jakku", "Savareen", "Arrakis", "New Sahara"]
 
-seed = 7774;
+seed = 75774;
 noise.seed(seed);
 
 // Init
@@ -31,6 +31,7 @@ var planetCount = rrg(9, 14);
 
 var explosions = Array();
 var bullets = Array();
+var fire = Array();
 
 var sun;
 
@@ -82,7 +83,7 @@ for(var i = 0; i < planets.length; i++)
 	}
 }
 
-ships.push(createShip(1, 2400, 2));
+ships.push(createShip(1, 2400, 2, 5));
 putShipInOrbit(ships[0], terra, 800.0, 0.0, true);
 ships[0].predict = new Array();
 ships[0].frame = terra;
@@ -103,18 +104,19 @@ function update()
 
 	for(var nn = 0; nn < timestep; nn++)
 	{
-	//	console.log("Doing " + timestep + " updates");
 		var dt = dtval;
-		if(timestep > 1)
+		/*if(timestep > 1)
 		{
 			dt = dt * 2.0;
-		}
+		}*/
 
 
 		for(var i = 1; i < planets.length; i++)
 		{
 			var planet = planets[i];
 	
+			updateWar(planet, dt);
+
 			var cx = planets[planet.center].x;
 			var cy = planets[planet.center].y;
 			var cmass = planets[planet.center].mass;
@@ -125,14 +127,48 @@ function update()
 
 		if(dtval > 0.0)
 		{
-			aimShipGuns(ships[0], aimPoint, dt);
-			simulateShip(ships[0], dt);
-			updateShipAI(ships[0], dt);
+			for(var i = 0; i < ships.length; i++)
+			{
+				var ship = ships[i];
+
+				if(ship != undefined)
+				{
+					if(i > 0)
+					{
+						updateShipAI(ship, dt);
+						if(ship.ai.target != -1 && !ship.destroyed)
+						{
+							aimShipGuns(ship, ships[ship.ai.target], dt);
+						}
+					}
+					else 
+					{
+						aimShipGuns(ship, aimPoint, dt);
+					}
+
+					if(simulateShip(ship, dt) && i != 0)
+					{
+						explode(ship.x, ship.y, ship.speed.x, ship.speed.y, rrg(50, 200), 1.0, 1.0, true, false);
+						ships.splice(i, 1);
+						i--;
+					}
+				}
+			}
+			
 			for(var i = 0; i < explosions.length; i++)
 			{
 				if(updateExplosion(explosions[i], dt))
 				{
 					explosions.splice(i, 1);
+					i--;
+				}
+			}
+
+			for(var i = 0; i < fire.length; i++)
+			{
+				if(updateFire(fire[i], dt))
+				{
+					fire.splice(i, 1);
 					i--;
 				}
 			}
@@ -164,6 +200,7 @@ function update()
 			var rot = rotate(aimPoint.x, aimPoint.y, rrot);
 			aimPoint.x = rot.x; aimPoint.y = rot.y;
 		}
+
 		aimPoint.x *= 1.0 / camera.zoom;
 		aimPoint.y *= 1.0 / camera.zoom;
 
@@ -340,6 +377,11 @@ function render()
 		drawBullet(bullets[i]);
 	}
 
+	for(var i = 0; i < fire.length; i++)
+	{
+		drawFire(fire[i]);
+	}
+
 	drawStar(sun);
 
 
@@ -384,6 +426,7 @@ function render()
 		drawText("Paused", canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
 	}
 
+	drawGeneralHUD();
 
 }
 

@@ -309,6 +309,8 @@ function drawText(string, x, y, size, color)
 	var needed = getNeededText(string);
 	ctx.fillStyle = color;
 
+	console.log("Drawing " + string + ", text: " + needed);
+
 	var xoff = 0;
 
 	for(let i = 0; i < needed.length; i++)
