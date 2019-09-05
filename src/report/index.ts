@@ -168,6 +168,8 @@ export const generateReport = (controls?: Control[]) => {
           switch (x.error) {
             case "size":
               return `The image \`${name}\` does not meet the requirement, it should have a ratio of ${x.target.width}x${x.target.height} (instead of ${x.origin.width}x${x.origin.height})`;
+            case "malformed":
+              return `The image \`${name}\` could not be read.`;
             case "not-found":
               return (
                 `The image \`${name}\` was not found.` +

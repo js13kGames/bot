@@ -149,9 +149,19 @@ const analyzeImage = async (
 
   const imageType = imageFile && mime.lookup(imageFile.filename);
 
+  let res;
+  try {
+    res = await promisify(getPixels)(Buffer.from(imageContent), imageType);
+  } catch (err) {
+    return {
+      error: "malformed",
+      filename
+    };
+  }
+
   const {
     shape: [width, height]
-  } = await promisify(getPixels)(Buffer.from(imageContent), imageType);
+  } = res;
 
   if (
     !numberEqual(spec.width / spec.height, width / height) ||

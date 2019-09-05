@@ -113,6 +113,9 @@ export const generateMetaCheckRun = (controls: Control[]): CheckRun => {
       Object.entries(c["images-found"].images).forEach(([label, x]: any) => {
         summary.push(` - ${label}`, "");
         switch (x.error) {
+          case "malformed":
+            summary.push(` The image could not be read.`);
+            return;
           case "size":
             summary.push(
               ` The image does meet the size required. It should have a ratio of ${x.target.width}x${x.target.height}. But is ${x.origin.width}x${x.origin.height} instead.`
