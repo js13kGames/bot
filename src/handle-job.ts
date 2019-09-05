@@ -138,9 +138,7 @@ export const handle: SQSHandler = async e => {
   if (event.eventName === "check_run" && event.action === "requested_action") {
     const github = await create(event.installation.id);
 
-    const [releaseId, pullRequestNumber] = event.check_run.external_id.split(
-      "#"
-    );
+    const [, pullRequestNumber] = event.check_run.external_id.split("#");
 
     const res = extractInfoFormCheckRuns([event.check_run]);
 
@@ -175,7 +173,11 @@ export const handle: SQSHandler = async e => {
   }
 };
 
-const analyzeAndReport = ({ github }: { github: GithubClient }) => async (
+export const analyzeAndReport = ({
+  github
+}: {
+  github: GithubClient;
+}) => async (
   pullRequest: PullRequest,
   commitSha: string,
   release: Release | null
