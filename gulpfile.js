@@ -72,7 +72,7 @@ gulp.task('buildCSS', () => {
 gulp.task('buildJS', () => {
     return gulp.src(paths.src.js)
         .pipe(concat(paths.dist.js))
-        .pipe(minifyJS())
+        //.pipe(minifyJS())             // we use closure compiler, by google
         .pipe(gulp.dest(paths.dist.dir));
 });
 

@@ -83,6 +83,20 @@ function isEnemy(ourSide, otherSide)
 
 function updateShipAI(ship, dt)
 {
+	var a = noise.perlin2(ship.ai.targetTimer + time * 3.0, ship.ai.targetTimer + time * 2.0) * ship.ai.acc;
+	
+	if(ship.ai.target != -1 && !ship.destroyed)
+	{
+		var target = ships[ship.ai.target];
+		var otarget = {x: target.x, y: target.y};
+		// Trailing
+
+		otarget.x += (target.speed.x - ship.speed.x) * a;
+		otarget.y += (target.speed.y - ship.speed.y) * a;
+		aimShipGuns(ship, otarget, dt);
+	}
+	// Add some trailing
+
 	function findTarget()
 	{
 		if(ship.side == 1)

@@ -177,9 +177,9 @@ function createShip(type, nseed, side, level)
 	var scale = rrg(14, 25) * 0.01;
 	var color = sideColor(side);
 
-	return {health: health, destroyed:false, type: type, stats: stats, hull: hull, weapons: weapons, thrusters: thrusters, width: width, length: length, 
+	return {level: level, health: health, destroyed:false, type: type, stats: stats, hull: hull, weapons: weapons, thrusters: thrusters, width: width, length: length, 
 		x: 0.0, y: 0.0, rot: Math.PI, angspeed: 0.0, speed: {x: 0.0, y: 0.0}, thrust: thrust, acc: {x: 0.0, y: 0.0}, landed: false,
-	scale: scale, firing: false, side: side, color: color, ai: {task: null, obj: null, beh: null, level: level, target: -1, targetTimer: 0.0}};
+	scale: scale, firing: false, side: side, color: color, ai: {acc: rrg(5, 22), task: null, obj: null, beh: null, level: level, target: -1, targetTimer: 0.0}};
 }
 
 function drawShipLow(ship)
@@ -612,8 +612,8 @@ function simulateShip(ship, dt)
 		var speed = orbitVelocity(landedPlanet.center, landedPlanet.mass, landedPlanet.orbitRadius, time, landedPlanet.orbitOffset);
 		ship.x = pos.x + ship.coll.sx;
 		ship.y = pos.y + ship.coll.sy;
-		ship.speed.x = 0.0;
-		ship.speed.y = 0.0;
+		ship.speed.x = speed.x;
+		ship.speed.y = speed.y;
 
 		var fwt = ship.thrust.fw;
 		if(fwt > 0.0)
@@ -710,29 +710,21 @@ function simulateShip(ship, dt)
 
 function drawShipMap(ship)
 {
-	ctx.fillStyle = 'rgb(128, 255, 128)';
+	if(ship.side == 0)
+	{
+		ctx.fillStyle = 'rgb(128, 255, 128)';
+	}
+	else if(ship.side == 1)
+	{
+		ctx.fillStyle = 'rgb(255, 128, 128)';
+	}
+	else 
+	{
+		ctx.fillStyle = 'rgb(255, 255, 255)';
+	}
 
-	/*var size = (ship.type + 1) * 45.0;
-
-	var rrot = ship.rot + Math.PI / 2.0;
-
-	var frontX = Math.cos(rrot) * size * 4.0;
-	var frontY = Math.sin(rrot) * size * 4.0;
-
-	var back0X = Math.cos(rrot + Math.PI / 3.0) * size * 0.5;
-	var back0Y = Math.sin(rrot + Math.PI / 3.0) * size * 0.5;
-
-	var back1X = Math.cos(rrot - Math.PI / 3.0) * size * 0.5;
-	var back1Y = Math.sin(rrot - Math.PI / 3.0) * size * 0.5;
-
-	ctx.beginPath();
-	ctx.arc(ship.x, ship.y, size * 1.0, 0.0, Math.PI * 2.0);
-	ctx.moveTo(ship.x + frontX, ship.y + frontY);
-	ctx.lineTo(ship.x - back0X, ship.y - back0Y);
-	ctx.lineTo(ship.x - back1X, ship.y - back1Y);
-	ctx.fill();*/
 
 	ctx.beginPath();
-	ctx.arc(ship.x, ship.y, 25.0, 0.0, Math.PI * 2.0);
+	ctx.arc(ship.x, ship.y, Math.min(5.0 / camera.zoom, 100.0), 0.0, Math.PI * 2.0);
 	ctx.fill();
 }

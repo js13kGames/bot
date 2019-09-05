@@ -1,6 +1,14 @@
+var dark = 'rgba(0, 0, 0, 0.8)';
 
 function drawTooltip(planet, x, y)
 {
+	ctx.globalAlpha = tooltipTime * 4.0;
+
+	function nl()
+	{
+		xoff = 0.0;
+		yoff += 16.0 / camera.zoom;
+	}
 
 	if(lockCamera)
 	{
@@ -11,7 +19,7 @@ function drawTooltip(planet, x, y)
 
 
 	var cwidth = 300;
-	ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+	ctx.fillStyle = dark;
 	ctx.strokeStyle = 'rgb(255, 255, 255)';
 	ctx.beginPath();
 	ctx.rect(x, y, cwidth / camera.zoom, 350 / camera.zoom);
@@ -29,8 +37,7 @@ function drawTooltip(planet, x, y)
 	xoff += drawText("Name: ", x + margin, y + margin, 2.0 / camera.zoom, titleColor);
 	xoff += drawText(planet.name, x + margin + xoff, y + margin, 2.0 / camera.zoom, textColor);
 
-	xoff = 0.0;
-	yoff += 16.0 / camera.zoom;
+	nl();
 
 	var humanCities = 0;
 	var aiCities = 0;
@@ -54,18 +61,11 @@ function drawTooltip(planet, x, y)
 	{
 		xoff += drawText("Planet is uninhabited", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
 
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
+		nl();
 
 		// Ores and stuff
 		xoff += drawText("Ore: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
 		xoff += drawText(planet.ore.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
-
-		xoff += drawText("Fuel: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText(planet.fuel.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 	}
 	else 
 	{
@@ -74,8 +74,7 @@ function drawTooltip(planet, x, y)
 		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 		xoff += drawText(aiCities.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, 'rgb(255, 0, 0)');
 
-		xoff = 0.0;
-		yoff += 16.0 / camera.zoom;
+		nl();
 
 		// Ships and stuff
 		xoff += drawText("Human Ships: ", x + margin, y + margin + yoff, 2.0 / camera.zoom, titleColor);
@@ -129,6 +128,8 @@ function drawTooltip(planet, x, y)
 	
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
+
+	ctx.globalAlpha = 1.0;
 }
 
 
@@ -233,6 +234,135 @@ function drawShipHud(ship)
 
 function drawGeneralHUD()
 {
+	function nl()
+	{
+		xoff = 0.0;
+		yoff += 16.0;
+	}
+
+	var green = 'rgba(166,255,128, 1.0)';
 	// Bottom left, orbit info
-	
+	var margin = 4.0;
+
+	ctx.strokeStyle = green;
+	ctx.lineWidth = 1.0;
+
+	var xoff = 0.0;
+	var yoff = 0.0;
+
+	// Right, landed info
+	if(ships[0].landed)
+	{
+		var br0x = canvas.width - 180.0;
+		var br0y = canvas.height / 2.0 - 178.0;
+
+		ctx.beginPath();
+		ctx.rect(br0x, br0y, 1000.0, 256.0);
+		ctx.stroke();
+
+		xoff += drawText("Ship Landed", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+
+		nl();
+
+		var at = planets[ships[0].coll.planet];
+		var tab0 = 20.0;
+		var tab1 = 120.0;
+		
+		if(at.cities.length != 0)
+		{
+			var ai = 0; 
+			var human = 0;
+
+			for(var i = 0; i < at.cities.length; i++)
+			{
+				if(at.cities[i].side == 0)
+				{
+					human++;
+				}
+				else 
+				{
+					ai++;
+				}
+			}
+
+			if(ai > human)
+			{
+				xoff += drawText("AI World", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			}
+			else 
+			{
+				xoff += drawText("Human World", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			}
+
+			nl();
+			nl();
+
+			var menuItems = 
+			[
+				"R", "Repair", "1000", 
+				"U", "Upgrade", "1000",
+				"S", "Sell Ore", "1000",
+				"1", "Fighter", "1000",
+				"2", "Freighter", "1000",
+				"3", "Destroyer", "1000",
+			]
+
+			for(var i = 0; i < menuItems.length / 3.0; i++)
+			{
+				drawText(menuItems[i * 3.0 + 0], br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+				xoff = tab0;
+				drawText(menuItems[i * 3.0 + 1], br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+				xoff = tab1;
+				drawText(menuItems[i * 3.0 + 2], br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+				nl();
+			}
+		}
+		else 
+		{
+
+			xoff += drawText("Free World", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			nl();
+			nl();
+			drawText("M", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			xoff = tab0;
+			drawText("Mine", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			xoff = tab1;
+			drawText("1000", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+			nl();
+		}
+	}
+
+	// Bottom right, ship info
+	var br0x = canvas.width - 180.0;
+	var br0y = canvas.height - 64.0;
+
+
+	ctx.beginPath();
+	ctx.rect(br0x, br0y, 1000.0, 1000.0);
+	ctx.stroke();
+
+	var xoff = 0.0;
+	var yoff = 0.0;
+	var tab = 80;
+	xoff += drawText("Hull ", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(ships[0].health + "/", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff += drawText(ships[0].stats.armor.toString(), br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Cargo ", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(plOre.toString() + "/", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff += drawText(ships[0].stats.cargo.toString(), br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Money ", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(plMoney.toString(), br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Level ", br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(ships[0].level.toString(), br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
+
+	// Top, game info
+	//ctx.fillStyle = dark;
+	//ctx.fillRect(0, 0, canvas.width, 16);
 }

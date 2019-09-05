@@ -14,30 +14,8 @@ function updateBullet(bullet, dt)
 
 	var damage = bullet.size;
 
-	var collAll = collidesWithAny(bullet, time);
+	var collAll = collidesWithAny(bullet, time, bullet.side);
 
-	collAll.ship = null;
-
-	for(var i = 0; i < ships.length; i++)
-	{
-		if(isEnemy(bullet.side, ships[i].side))
-		{
-			var size = 5.0;
-			if(ships[i].type == 1)
-			{
-				size = 14.0;
-			}
-			else if(ships[i].type == 2)
-			{
-				size = 24.0;
-			}
-
-			if(distance(bullet.x, bullet.y, ships[i].x, ships[i].y) <= size)
-			{
-				collAll.ship = ships[i];
-			}
-		}
-	}
 
 	if(collAll.planet != null)
 	{
@@ -81,9 +59,9 @@ function updateBullet(bullet, dt)
 	if(collAll.ship != null)
 	{
 		explode(bullet.x, bullet.y, collAll.ship.speed.x, collAll.ship.speed.y, bullet.size * 17.0, 2.4, 0.4, true, false);
-
 		collAll.ship.health -= damage;
-
+		collAll.ship.health = Math.floor(collAll.ship.health);
+		
 		return true;
 	}
 
@@ -101,7 +79,7 @@ function drawBullet(bullet)
 {
 	ctx.strokeStyle = 'rgb(255, 200, 200)';
 	ctx.strokeStyle = bullet.color;
-	ctx.lineWidth = bullet.size;
+	ctx.lineWidth = bullet.size / (camera.zoom * 1.5);
 	ctx.beginPath();
 	ctx.moveTo(bullet.x, bullet.y);
 	var vnorm = normalize(bullet.vx - ships[0].speed.x, bullet.vy - ships[0].speed.y);

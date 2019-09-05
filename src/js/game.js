@@ -3,7 +3,7 @@ var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "Boston", "Jericho", "
 var gasNames = ["Bespin", "Nuvo", "New Jupiter", "Vol", "Lightbulb", "Big Boy"];
 var desertNames = ["Rhodes", "New Jairo", "Jakku", "Savareen", "Arrakis", "New Sahara"]
 
-seed = 75774;
+seed = 757764;
 noise.seed(seed);
 
 // Init
@@ -62,6 +62,10 @@ var timestepVals = [0.0, 1.0, 2.0, 4.0, 10.0, 25.0, 50.0, 100.0];
 var timestepVal = 1;
 var eventTimer = 0.0;
 var eventStr = "";
+
+// Player "inventory"
+var plOre = 0.0;
+var plMoney = 0.0;
 
 generateStarfield();
 generateBright();
@@ -136,10 +140,6 @@ function update()
 					if(i > 0)
 					{
 						updateShipAI(ship, dt);
-						if(ship.ai.target != -1 && !ship.destroyed)
-						{
-							aimShipGuns(ship, ships[ship.ai.target], dt);
-						}
 					}
 					else 
 					{
@@ -150,6 +150,13 @@ function update()
 					{
 						explode(ship.x, ship.y, ship.speed.x, ship.speed.y, rrg(50, 200), 1.0, 1.0, true, false);
 						ships.splice(i, 1);
+						var idx = Math.abs(camFocus + 1);
+
+						if(idx == i)
+						{
+							camFocus = -1;
+						}
+
 						i--;
 					}
 				}
@@ -207,10 +214,14 @@ function update()
 		aimPoint.x += camera.x;
 		aimPoint.y += camera.y;
 		
-		if(camFocus == -1)
+		if(camFocus < 0)
 		{
-			camera.x = ships[0].x;
-			camera.y = ships[0].y;
+			var idx = Math.abs(camFocus + 1);
+			if(ships[idx] != undefined)
+			{
+				camera.x = ships[idx].x;
+				camera.y = ships[idx].y;
+			}
 		}
 		else
 		{
@@ -219,16 +230,16 @@ function update()
 		}
 		
 
-		var coll = collidesWithPlanet(aimPoint, time);
+		var coll = collidesWithAny(aimPoint, time, -1, 0.5 / camera.zoom);
 
 		if(chooseFrame)
 		{
-			if(coll != null)
+			if(coll.planet != null)
 			{
-				if(ships[0].frame != coll.planet)
+				if(ships[0].frame != coll.planet.planet)
 				{
-					ships[0].frame = coll.planet;
-					showEvent("Changed reference frame to " + planets[coll.planet].name, 2.0);
+					ships[0].frame = coll.planet.planet;
+					showEvent("Changed reference frame to " + planets[coll.planet.planet].name, 2.0);
 				}
 			}
 		}
@@ -237,24 +248,31 @@ function update()
 		{
 			var oldFocus = camFocus;
 
-			var distToShip = distance(aimPoint.x, aimPoint.y, ships[0].x, ships[0].y);
-			if(distToShip < 100.0)
+			if(coll.ship != null)
 			{
-				camFocus = -1;
+				camFocus = -(coll.ship.idx + 1);
 			}
-			else 
+			else if(coll.planet != null)
 			{
-				if(coll != null)
-				{
-					camFocus = coll.planet;
-				}		
-			}
+				camFocus = coll.planet.planet;
+			}		
 
 			if(oldFocus != camFocus)
 			{
-				if(camFocus == -1)
+				if(camFocus < 0)
 				{
-					showEvent("Focusing on ship", 2.0);
+					var idx = Math.abs(camFocus + 1);
+					var prefix = "player";
+					if(ships[idx].side == 0)
+					{
+						prefix = "human";
+					}
+					else if(ships[idx].side == 1)
+					{
+						prefix = "ai";
+					}
+
+					showEvent("Focusing on " + prefix + " ship", 2.0);
 				}
 				else 
 				{
@@ -263,17 +281,17 @@ function update()
 			}
 		}
 
-		if(coll == null)
+		if(coll.planet == null)
 		{
 			tooltipTime = 0.0;
 			tooltipFocus = -1;
 		}
 		else 
 		{
-			if(coll.planet != tooltipFocus)
+			if(coll.planet.planet != tooltipFocus)
 			{
 				tooltipTime = 0.0;
-				tooltipFocus = coll.planet;
+				tooltipFocus = coll.planet.planet;
 			}
 		}
 
@@ -281,7 +299,7 @@ function update()
 
 		if(predictTimer < 0.0 || ships[0].thrust.fw != 0.0 || ships[0].thrust.side != 0.0)
 		{
-			predictShip(ships[0], dt);
+			predictShip(ships[0]);
 			predictTimer = 0.5;
 		}
 		else 
@@ -340,7 +358,7 @@ function render()
 		drawRing(rings[i], time);
 	}
 
-	drawBright(0, 0, 125);
+	drawBright(0, 0, 125, 1.0);
 
 	for(var i = 1; i < planets.length; i++)
 	{
@@ -396,7 +414,11 @@ function render()
 			drawPlanetMap(planets[i]);
 		}
 
-		drawShipMap(ships[0]);
+		for(var i = 0; i < ships.length; i++)
+		{
+			drawShipMap(ships[i]);
+		}
+
 
 		ctx.globalAlpha = 1.0;
 	}

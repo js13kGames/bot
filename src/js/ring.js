@@ -6,9 +6,9 @@ function createRing(center, minRadius, maxRadius, density)
 
 	var rocks = Array();
 
-	if(points >= 64)
+	if(points >= 100)
 	{
-		points = 64;
+		points = 100;
 	}
 
 	for(var i = 0; i < points; i++)
@@ -43,10 +43,8 @@ function drawRing(ring, time)
 		for(var i = 0; i < ring.rocks.length; i++)
 		{
 			var rock = ring.rocks[i];
-
 			var pos = orbit(cx, cy, planets[ring.center].mass, 0.001, 
 				rock.orbitRadius, time + rock.offset);
-			
 			ctx.fillStyle = rock.color;
 			ctx.beginPath();
 			ctx.arc(pos.x, pos.y, rock.size, 0, 2.0 * Math.PI);

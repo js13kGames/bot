@@ -91,9 +91,7 @@ function createCities(planet, efactor, seed)
 
 			side =  Math.max(Math.min(side + efactor, 1.0), -1.0);
 
-			var x = Math.cos(i);
-			var y = Math.sin(i);
-			var side;
+			var side = 1;
 			var size = Math.min(Math.max(Math.abs(side) * 0.12 * planet.radius, 18.0), 50.0);
 
 			if(side >= 0.0)
@@ -101,13 +99,8 @@ function createCities(planet, efactor, seed)
 				// Human city
 				side = 0;
 			}
-			else 
-			{
-				// AI city
-				side = 1;
-			}
 
-			planet.cities.push({x: x, y: y, size: size, side: side, tone: rrg(80, 200), health: size, mhealth: size});
+			planet.cities.push({x: Math.cos(i), y: Math.sin(i), size: size, side: side, tone: rrg(80, 200), health: size, mhealth: size});
 		}
 	}
 
@@ -188,7 +181,7 @@ function drawAtmosphere(x, y, radius, atmoRadius, colorAtmo)
 		x, y, atmoRadius);
 
 	grd.addColorStop(0, 'rgba(' + colorAtmo + ',0.5)');
-	grd.addColorStop(1, 'rgb(' + colorAtmo + ', 0)');
+	grd.addColorStop(1, 'rgba(' + colorAtmo + ', 0)');
 
 	ctx.fillStyle = grd;
 	ctx.beginPath();
@@ -379,7 +372,7 @@ function drawPlanetOver(planet)
 		ctx.fill();
 
 		// Draw inner circle
-
+		// TODO: Could be removed
 		ctx.fillStyle = planet.colorDetail;
 		ctx.beginPath();
 		ctx.arc(planet.x, planet.y, planet.radius, 0.0, 2.0 * Math.PI);

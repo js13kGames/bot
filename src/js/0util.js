@@ -171,12 +171,39 @@ function collidesWithCity(point, ntime)
 	return null;
 }
 
-function collidesWithAny(point, ntime)
+function collidesWithShip(point, side = -1, extraRadius = 1.0)
+{
+	for(var i = 0; i < ships.length; i++)
+	{
+		if(isEnemy(ships[i].side, side) || side == -1)
+		{
+			var size = 5.0;
+			if(ships[i].type == 1)
+			{
+				size = 14.0;
+			}
+			else if(ships[i].type == 2)
+			{
+				size = 24.0;
+			}
+
+			if(distance(point.x, point.y, ships[i].x, ships[i].y) <= size * extraRadius)
+			{
+				ships[i].idx = i;
+				return ships[i];
+			}
+		}
+	}
+
+	return null;
+}
+
+function collidesWithAny(point, ntime, side = -1, extraRadius = 1.0)
 {
 	var city = collidesWithCity(point, ntime);
 	var planet = collidesWithPlanet(point, ntime);
-
-	return {city: city, planet: planet};
+	var ship = collidesWithShip(point, side, extraRadius);
+	return {city: city, planet: planet, ship: ship};
 }
 
 function gravityFrom(point, cx, cy, cmass)
