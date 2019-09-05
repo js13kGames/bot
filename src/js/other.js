@@ -93,9 +93,9 @@ function generatePlanet(type, radiusScale, id, moon)
 		'0, 0, 0', rrg(0, 10000), 64);
 		nameSrc = rockNames;
 
-		if(rrg(0, 1000) >= 700)
+		if(rrg(0, 1000) >= 850)
 		{
-			createCities(newPlanet, rrg(-100, 40) * 0.01, srandom());
+			createCities(newPlanet, rrg(-100, 50) * 0.01, srandom());
 		}
 		else
 		{
@@ -114,7 +114,7 @@ function generatePlanet(type, radiusScale, id, moon)
 
 		nameSrc = terraNames;
 
-		createCities(newPlanet, rrg(-50, 100) * 0.01, srandom());
+		createCities(newPlanet, rrg(-100, 100) * 0.01, srandom());
 	}
 	else if(type == 2)
 	{
@@ -129,7 +129,7 @@ function generatePlanet(type, radiusScale, id, moon)
 
 		if(rrg(0, 1000) >= 200)
 		{
-			createCities(newPlanet, rrg(-100, 60) * 0.01, srandom());
+			createCities(newPlanet, rrg(-100, 40) * 0.01, srandom());
 		}
 		else
 		{

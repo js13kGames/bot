@@ -3,8 +3,6 @@ var terraNames = ["Delphi", "Trapani", "Erytrae", "Gaia", "Boston", "Jericho", "
 var gasNames = ["Bespin", "Nuvo", "New Jupiter", "Vol", "Lightbulb", "Big Boy"];
 var desertNames = ["Rhodes", "New Jairo", "Jakku", "Savareen", "Arrakis", "New Sahara"]
 
-seed = 757764;
-noise.seed(seed);
 
 // Init
 let previousTime = 0.0;

@@ -14,6 +14,9 @@
  *
  */
 
+
+	var seed = 757764;
+
 	var module = noise = {};
   
 	function Grad(x, y, z) {
@@ -32,10 +35,12 @@
 				 new Grad(1,0,1),new Grad(-1,0,1),new Grad(1,0,-1),new Grad(-1,0,-1),
 				 new Grad(0,1,1),new Grad(0,-1,1),new Grad(0,1,-1),new Grad(0,-1,-1)];
 	
-
-// Encoded the gradients into binary, saves a few bytes
-var p = new Array();
-for(i of atob`l6CJW1oPgw3JX2A1wukH4YwkZx5FjghjJfAVChe+BpT3eOpLABrFPl7828t1IwsgObEhWO2VOFeuFH2Iq6hEr0qlR4aLMBumTZKe51Nv5Xo804Xm3GlcKTcu9Sj0Zo82QRk/oQHYUEnRTIS70FkSqcjEh4J0vJ9WpGRtxq26A0A02eL6fHsFyiaTdn7/UlXUz8474y8QOhG2vRwq37eq1Xf4mAIsmqNG3Zllm6crrAmBFif9E2Jsbk9x4OiyuXBo2vZh5Psi8sHu0pAMv7Oi8VEzkev5Du9rMcDWH7XHap24VMywc3kyLX8Elv6K7M1d3nJDHRhI842Aw05C1z2ctA`)p.push(i.charCodeAt())
+	var p = new Array(256);
+	for(var i = 0; i < 256; i++)
+	{
+		p[i] = rrg(0, 255);
+	}
+	
 	// To remove the need for index wrapping, double the permutation table length
 	var perm = new Array(512);
 	var gradP = new Array(512);
@@ -103,3 +108,4 @@ for(i of atob`l6CJW1oPgw3JX2A1wukH4YwkZx5FjghjJfAVChe+BpT3eOpLABrFPl7828t1IwsgOb
 		 fade(y));
 	};
   
+	noise.seed(seed);

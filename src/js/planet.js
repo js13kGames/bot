@@ -89,12 +89,12 @@ function createCities(planet, efactor, seed)
 		if(Math.abs(side) >= 0.2)
 		{
 
-			side =  Math.max(Math.min(side + efactor, 1.0), -1.0);
+			nside =  Math.max(Math.min(side + efactor, 1.0), -1.0);
 
 			var side = 1;
-			var size = Math.min(Math.max(Math.abs(side) * 0.12 * planet.radius, 18.0), 50.0);
+			var size = Math.min(Math.max(Math.abs(side) * 0.07 * planet.radius, 16.0), 40.0);
 
-			if(side >= 0.0)
+			if(nside >= 0.0)
 			{
 				// Human city
 				side = 0;
