@@ -87,13 +87,6 @@ functions:
     events:
       - http: POST webhook
 
-  handle-process-all:
-    memorySize: 128
-    timeout: 10
-    handler: build/handle-process-all.handle
-    events:
-      - http: POST webhook
-
   detect-new-release:
     memorySize: 256
     timeout: 60
