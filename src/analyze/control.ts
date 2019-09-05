@@ -35,7 +35,8 @@ export type Control = (
       externalUrls: string[];
       urls: string[];
     }) & {
-  conclusion: "success" | "failure";
+  conclusion: "success" | "failure" | "neutral";
+  processingError?: any;
 };
 
 export const extractInfo = controls => {

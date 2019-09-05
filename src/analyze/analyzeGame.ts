@@ -38,9 +38,7 @@ const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
       return null;
     });
 
-export const analyzeGame = ({ upload }) => async (
-  deployUrl: string
-): Promise<Control[]> => {
+const runGame = async deployUrl => {
   /**
    * prepare browserstack
    */
@@ -86,8 +84,53 @@ export const analyzeGame = ({ upload }) => async (
     .logs()
     .get(webdriver.logging.Type.BROWSER);
 
-  // await driver.sleep(500);
   await driver.quit();
+
+  /**
+   * wait for network log to be ready
+   * and get them
+   */
+  await wait(4000);
+  const networkLog = await getBrowserStackNetworkLog(session.getId());
+
+  return { networkLog, browserLogs, base64screenShot };
+};
+
+export const analyzeGame = ({ upload }) => async (
+  deployUrl: string
+): Promise<Control[]> => {
+  let res;
+
+  try {
+    res = await runGame(deployUrl);
+  } catch (err) {
+    console.log(err);
+    return [
+      {
+        name: "run-without-error",
+        conclusion: "neutral",
+        processingError: err,
+        errors: []
+      },
+
+      {
+        name: "run-without-external-http",
+        conclusion: "neutral",
+        processingError: err,
+        urls: [],
+        externalUrls: []
+      },
+
+      {
+        name: "run-without-blank-screen",
+        conclusion: "neutral",
+        processingError: err,
+        screenShotUrl: ""
+      }
+    ];
+  }
+
+  const { browserLogs, networkLog, base64screenShot } = res;
 
   /**
    * look for error in the console
@@ -100,13 +143,6 @@ export const analyzeGame = ({ upload }) => async (
         !(message.includes("favicon.ico") && message.match(/40[34]/))
     )
     .map(({ message }) => message);
-
-  /**
-   * wait for network log to be ready
-   * and get them
-   */
-  await wait(4000);
-  const networkLog = await getBrowserStackNetworkLog(session.getId());
 
   const urls: string[] = networkLog.log.entries
     .map(e => e.request.url)

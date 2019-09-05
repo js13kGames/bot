@@ -24,67 +24,78 @@ export const generateGameCheckRun = (controls: Control[]): CheckRun => {
   else {
     summary.push(`The game is deployed [here](${c["index-found"].deployUrl})`);
 
-    // errors
-    summary.push(
-      "",
-      `## ${
-        c["run-without-error"].conclusion === "failure" ? "❌" : "✔️"
-      } errors`
-    );
-    if (c["run-without-error"].conclusion === "failure")
+    if (c["run-without-error"].processingError) {
       summary.push(
-        "The game appear to yield error in the console",
+        "failed to process the game",
         "```",
-        ...c["run-without-error"].errors.map(error => ` - ${error}`),
-        "```",
-        "",
-        "> That's not a good sign, is the game broken ?"
-      );
-    else summary.push(`The game did not had any error`);
-
-    // external resources
-    summary.push(
-      "",
-      `## ${
-        c["run-without-external-http"].conclusion === "failure" ? "❌" : "✔️"
-      } external resources`
-    );
-    if (c["run-without-external-http"].conclusion === "failure")
-      summary.push(
-        "The game appear to make calls to external resources",
-        "```",
-        ...c["run-without-external-http"].externalUrls.map(url => ` - ${url}`),
-        "```",
-        "",
-        "> This is cheating"
-      );
-    else
-      summary.push(
-        "The game made request to internal resources only, which is fine",
-        "```",
-        ...c["run-without-external-http"].urls.map(url => ` - ${url}`),
+        c["run-without-error"].processingError.toString(),
         "```"
       );
-
-    // external resources
-    summary.push(
-      "",
-      `## ${
-        c["run-without-blank-screen"].conclusion === "failure" ? "❌" : "✔️"
-      } blank screen`
-    );
-    if (c["run-without-blank-screen"].conclusion === "failure")
+    } else {
+      // errors
       summary.push(
-        "The game appear to display a blank screen",
-        `<img height="120" src="${c["run-without-blank-screen"].screenShotUrl}"/>`,
         "",
-        "> That's not a good sign, is the game broken ?"
+        `## ${
+          c["run-without-error"].conclusion === "failure" ? "❌" : "✔️"
+        } errors`
       );
-    else
+      if (c["run-without-error"].conclusion === "failure")
+        summary.push(
+          "The game appear to yield error in the console",
+          "```",
+          ...c["run-without-error"].errors.map(error => ` - ${error}`),
+          "```",
+          "",
+          "> That's not a good sign, is the game broken ?"
+        );
+      else summary.push(`The game did not had any error`);
+
+      // external resources
       summary.push(
-        `The game seems to display something`,
-        `<img height="120" src="${c["run-without-blank-screen"].screenShotUrl}"/>`
+        "",
+        `## ${
+          c["run-without-external-http"].conclusion === "failure" ? "❌" : "✔️"
+        } external resources`
       );
+      if (c["run-without-external-http"].conclusion === "failure")
+        summary.push(
+          "The game appear to make calls to external resources",
+          "```",
+          ...c["run-without-external-http"].externalUrls.map(
+            url => ` - ${url}`
+          ),
+          "```",
+          "",
+          "> This is cheating"
+        );
+      else
+        summary.push(
+          "The game made request to internal resources only, which is fine",
+          "```",
+          ...c["run-without-external-http"].urls.map(url => ` - ${url}`),
+          "```"
+        );
+
+      // external resources
+      summary.push(
+        "",
+        `## ${
+          c["run-without-blank-screen"].conclusion === "failure" ? "❌" : "✔️"
+        } blank screen`
+      );
+      if (c["run-without-blank-screen"].conclusion === "failure")
+        summary.push(
+          "The game appear to display a blank screen",
+          `<img height="120" src="${c["run-without-blank-screen"].screenShotUrl}"/>`,
+          "",
+          "> That's not a good sign, is the game broken ?"
+        );
+      else
+        summary.push(
+          `The game seems to display something`,
+          `<img height="120" src="${c["run-without-blank-screen"].screenShotUrl}"/>`
+        );
+    }
   }
 
   return {
