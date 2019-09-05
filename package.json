@@ -45,6 +45,6 @@
     "test": "jest --config ./jest.config.js --no-cache",
     "type": "tsc --noEmit",
     "lint": "yarn prettier -c './**/*.[tj]s' '!./build/**'",
-    "test0": "babel-node --extensions .ts ./src/test.ts"
+    "process-all": "babel-node --extensions .ts -e \"require('./src/handle-process-all.ts').handle()\""
   }
 }

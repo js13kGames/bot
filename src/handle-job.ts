@@ -23,8 +23,15 @@ type ReleaseEvent = {
   releaseCommitSha: string;
   installation: { id: number };
 };
+type ForceAnalyzeEvent = {
+  eventName: "x-force-analyze";
+  pullRequest: PullRequest;
+  release: Release;
+  commitSha: string;
+  installation: { id: number };
+};
 
-type GithubEvent = Event | ReleaseEvent;
+type GithubEvent = Event | ReleaseEvent | ForceAnalyzeEvent;
 
 /**
  * handle github event
@@ -43,6 +50,19 @@ export const handle: SQSHandler = async e => {
     await analyzeAndReport({ github })(
       event.pullRequest,
       event.releaseCommitSha,
+      event.release
+    );
+  }
+
+  /**
+   * new release
+   */
+  if (event.eventName === "x-force-analyze") {
+    const github = await create(event.installation.id);
+
+    await analyzeAndReport({ github })(
+      event.pullRequest,
+      event.commitSha,
       event.release
     );
   }
