@@ -99,7 +99,7 @@ functions:
     timeout: 60
     handler: build/handle-cron.handle
     events:
-      - schedule: rate(2 minutes)
+      - schedule: rate(8 minutes)
 
   job:
     memorySize: 256
