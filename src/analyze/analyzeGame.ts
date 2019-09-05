@@ -27,7 +27,7 @@ const getBrowserStackNetworkLog = (sessionId: string, retry = 0) =>
       throw new Error(text);
     })
     .catch(async error => {
-      if (retry < 10) {
+      if (retry < 16) {
         await wait(1000);
 
         return getBrowserStackNetworkLog(sessionId, retry + 1);
