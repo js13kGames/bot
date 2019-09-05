@@ -25,7 +25,9 @@ export const handle = async () => {
         state: "open"
       });
 
-      for (const pullRequest of shuffle(pullRequests)) {
+      for (const pullRequest of shuffle(
+        pullRequests.filter(pr => !pr.labels.some(l => l.name === "submitted"))
+      )) {
         console.log(
           `--  -- pullRequest #${pullRequest.number} ${pullRequest.title}`
         );
