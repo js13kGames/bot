@@ -51,15 +51,6 @@ jobs:
 
       - run: yarn serverless deploy
 
-  process-all:
-    executor: node
-    steps:
-      - checkout
-
-      - run: yarn install --frozen-lockfile --no-progress --non-interactive
-
-      - run: yarn process-all
-
 workflows:
   version: 2
   main:
@@ -71,11 +62,3 @@ workflows:
           filters:
             branches:
               only: master
-
-  manual-trigger:
-    jobs:
-      - approval:
-          type: approval
-      - process-all:
-          requires:
-            - approval
