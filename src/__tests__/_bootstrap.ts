@@ -7,7 +7,7 @@ import { getLatestRelease } from "../getLatestRelease";
 import { generateCheckRuns } from "../report/checkRuns";
 import { Control } from "../analyze/control";
 
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 export const bootstrap = ({ commitSha, pullRequest, installation }) => {
   let re: { release: Release; commitSha: string } | null;
