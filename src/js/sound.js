@@ -27,3 +27,14 @@ function explosionSound(size, x, y, isShoot, volBoost = 0.6)
 	 // ZzFX 15338
 }
 
+var spaceSong = 
+[	
+	// Lead0 // Lead1 	// Lead 2	// Drum
+	200 	, 500		, 200		,
+	0		,			, 	 		,
+]
+
+function music(dt)
+{
+	
+}

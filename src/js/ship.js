@@ -273,7 +273,7 @@ function drawShipLow(ship)
 
 }
 
-function drawShip(ship)
+function shipTransform(ship)
 {
 	ctx.translate(ship.x, ship.y);
 
@@ -282,6 +282,11 @@ function drawShip(ship)
 	ctx.rotate(ship.rot);
 
 	ctx.translate(0.0, -ship.length / 2.0)
+}
+
+function drawShip(ship)
+{
+	shipTransform(ship);
 
 	drawShipLow(ship);
 	
@@ -293,14 +298,7 @@ function drawShip(ship)
 // TODO: Could be optimized into drawShip, but exhaust receive shadows
 function drawShipExhaust(ship)
 {
-	ctx.translate(ship.x, ship.y);
-
-	ctx.scale(ship.scale, ship.scale);
-
-	ctx.rotate(ship.rot);
-
-	ctx.translate(0.0, -ship.length / 2.0)
-
+	shipTransform(ship);
 
 	for(var i = 0; i < ship.thrusters.length; i++)
 	{
@@ -407,8 +405,6 @@ function aimShipGuns(ship, p, dt)
 
 		var wdir = weapon.dir + srot;
 
-		var dot = wepx * px + wepy * py;
-		var det = wepx * py - wepy * px;
 		var angle0 = Math.atan2(py - wepy, px - wepx);
 		var angle = Math.atan2(py, px) - Math.atan2(wepy, wepx);
 		if (angle > Math.PI)        { angle -= 2 * Math.PI; }
@@ -477,9 +473,6 @@ function predictShip(ship)
 		}
 	}
 	
-
-	var prevDist = 0.0;
-
 	var frameThen = planetAtTime(ship.frame, time);
 
 	for(var i = 0; i < max / step; i++)
@@ -494,21 +487,6 @@ function predictShip(ship)
 		speed.x += acc.x * step;
 		speed.y += acc.y * step;
 
-		var frameNow = planetAtTime(ship.frame, ntime);
-		
-		var shipNow = {x: ship.x + frameNow.x - frameThen.x, y: ship.y + frameNow.y - frameThen.y};
-
-		var dist = distance(point.x, point.y, shipNow.x, shipNow.y);
-
-		if(dist < prevDist)
-		{
-			if(dist <= minDist)
-			{
-				ship.predict.push(ship.predict[0]);
-				break;
-			}
-		}
-
 		var coll = collidesWithPlanet(point, ntime);
 		if(coll != null)
 		{
@@ -522,8 +500,6 @@ function predictShip(ship)
 			ship.predict.push({x: point.x, y: point.y, sx: speed.x, sy: speed.y, time: ntime});
 		}
 
-		prevDist = dist;
-		
 	}
 }
 
@@ -584,7 +560,11 @@ function simulateShip(ship, dt)
 
 		if(ship.health <= -50.0)
 		{
-			return true;
+			if(ship.side != 2)
+			{
+				explode(ship.x, ship.y, ship.speed.x, ship.speed.y, rrg(50, 200), 1.0, 1.0, true, false);
+				return true;
+			}
 		}
 	}
 	else 
@@ -598,22 +578,23 @@ function simulateShip(ship, dt)
 	}
 
 	setShipThrust(ship);
-	
-	if(ship.nograv == undefined)
-	{
-		ship.nograv = 0.0;
-	}
 
 	if(ship.landed == true)
 	{
 		var pos = planetAtTime(ship.coll.planet, time);
 		var landedPlanet = planets[ship.coll.planet];
 
+		if(landedPlanet.type == 3)
+		{
+			return true;
+		}
+
 		var speed = orbitVelocity(landedPlanet.center, landedPlanet.mass, landedPlanet.orbitRadius, time, landedPlanet.orbitOffset);
 		ship.x = pos.x + ship.coll.sx;
 		ship.y = pos.y + ship.coll.sy;
 		ship.speed.x = speed.x;
 		ship.speed.y = speed.y;
+		ship.angspeed = 0.0;
 
 		var fwt = ship.thrust.fw;
 		if(fwt > 0.0)
@@ -621,9 +602,22 @@ function simulateShip(ship, dt)
 			ship.landed = false;
 			ship.speed.x = ship.coll.nx * 15.0 + speed.x;
 			ship.speed.y = ship.coll.ny * 15.0 + speed.y;
-			ship.nograv = 0.1;
 			ship.x += ship.speed.x * dt;
 			ship.y += ship.speed.y * dt;
+		}
+
+		if(landedPlanet.warTime != undefined && landedPlanet.warTime < 0.0)
+		{
+			if(ship.side == 0)
+			{
+				landedPlanet.humanForces.push(ship);
+				return true;
+			}
+			else if(ship.side == 1)
+			{
+				landedPlanet.aiForces.push(ship);
+				return true;
+			}
 		}
 	}
 	else 
@@ -634,7 +628,17 @@ function simulateShip(ship, dt)
 		var coll = collidesWithPlanet(point, time);
 		if(coll != null)
 		{
-			// TODO: Check speed
+			var planet = planets[coll.planet];
+			var speed = orbitVelocity(planet.center, planet.mass, planet.orbitRadius, time, planet.orbitOffset);
+			var speedRel = {x: ship.speed.x - speed.x, y: ship.speed.y - speed.y};
+			var speedAbs = distance(0, 0, speedRel.x, speedRel.y);
+
+			if(speedAbs >= 100.0)
+			{
+				ship.health -= (speedAbs - 100.0) * 0.8;
+				explode(ship.x, ship.y, ship.speed.x, ship.speed.y, (speedAbs - 100.0) * 0.4, 0.8, 2.0, true, false)
+			}
+
 			ship.landed = true;
 			ship.coll = coll;
 
@@ -656,15 +660,10 @@ function simulateShip(ship, dt)
 		ship.y += ship.speed.y * dt;
 		ship.rot += ship.angspeed * dt;
 
-		if(ship.nograv < 0.0)
-		{
-			var acc = gravity(point, -1.0);
-			ship.speed.x += acc.x * dt;
-			ship.speed.y += acc.y * dt;
-			ship.acc = acc;
-		}
-
-		ship.nograv -= dt;
+		var acc = gravity(point, -1.0);
+		ship.speed.x += acc.x * dt;
+		ship.speed.y += acc.y * dt;
+		ship.acc = acc;
 
 
 	}
@@ -685,15 +684,9 @@ function simulateShip(ship, dt)
 			var speed = 650.0 - (weapon.size / 32.0) * 350.0;
 
 
-			var boost = 0.45;
-			if(ship == ships[0])
-			{
-				var boost = 1.0;
-			}
-
 			explode(muzzle.x, muzzle.y, 
 				ship.speed.x + muzzledir.x * 15.0, 
-				ship.speed.y + muzzledir.y * 15.0, size * 4.0, 1.0, 0.5, true, true, boost);
+				ship.speed.y + muzzledir.y * 15.0, size * 4.0, 1.0, 0.5, true, true, 0.8);
 
 			// Fire
 			weapon.ftimer = weapon.ftime;

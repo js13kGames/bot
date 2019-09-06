@@ -63,7 +63,13 @@ var eventStr = "";
 
 // Player "inventory"
 var plOre = 0.0;
-var plMoney = 0.0;
+var plMoney = 5000.0;
+var plHasFreighter = false;
+var plHasDestroyer = false;
+var plLevels = [1, 1, 1];
+var plHealths = [0, 0, 0];
+
+var playerShipSeed = 1234;
 
 generateStarfield();
 generateBright();
@@ -85,7 +91,7 @@ for(var i = 0; i < planets.length; i++)
 	}
 }
 
-ships.push(createShip(1, 2400, 2, 5));
+ships.push(createShip(0, playerShipSeed, 2, plLevels[0]));
 putShipInOrbit(ships[0], terra, 800.0, 0.0, true);
 ships[0].predict = new Array();
 ships[0].frame = terra;
@@ -100,6 +106,8 @@ var tooltipTime = 0.0;
 var tooltipFocus = -1;
 var tooltipEnabled = false;
 
+var mineTimer = 0.0;
+
 function update()
 {
 	var dt = dtval;
@@ -107,6 +115,7 @@ function update()
 	for(var nn = 0; nn < timestep; nn++)
 	{
 		var dt = dtval;
+		mineTimer -= dt;
 		/*if(timestep > 1)
 		{
 			dt = dt * 2.0;
@@ -144,18 +153,20 @@ function update()
 						aimShipGuns(ship, aimPoint, dt);
 					}
 
-					if(simulateShip(ship, dt) && i != 0)
+					if(simulateShip(ship, dt))
 					{
-						explode(ship.x, ship.y, ship.speed.x, ship.speed.y, rrg(50, 200), 1.0, 1.0, true, false);
-						ships.splice(i, 1);
-						var idx = Math.abs(camFocus + 1);
-
-						if(idx == i)
+						if(i != 0)
 						{
-							camFocus = -1;
-						}
+							ships.splice(i, 1);
+							var idx = Math.abs(camFocus + 1);
 
-						i--;
+							if(idx == i)
+							{
+								camFocus = -1;
+							}
+
+							i--;
+						}
 					}
 				}
 			}
@@ -328,6 +339,7 @@ function update()
 		tooltipTime += dt;
 		eventTimer -= dt;
 
+		music(dt);
 	}
 
 
@@ -529,17 +541,6 @@ function onkey(evt)
 				showEvent("Camera aligned to space", 2.0);
 			}
 		}
-
-		if(key == 'KeyU')
-		{
-			shipBehaviourLand(ships[0], ships[0].frame);
-		}
-
-		if(key == 'KeyI')
-		{
-			shipBehaviourOrbit(ships[0], ships[0].frame, 400.0);
-		}
-
 		
 		if(key == 'KeyP')
 		{
@@ -568,9 +569,11 @@ function onkey(evt)
 				showEvent(timestep.toString() + "x Timewarp", 2.0);
 			}
 		}
+	}
 
-
-
+	if(ships[0].landed)
+	{
+		planetShop(key, release, ships[0], planets[ships[0].coll.planet]);
 	}
 }
 

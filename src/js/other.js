@@ -99,7 +99,7 @@ function generatePlanet(type, radiusScale, id, moon)
 		}
 		else
 		{
-			newPlanet.ore = rrg(100, radius * 2.0);
+			newPlanet.ore = rrg(55, radius * radius * 0.0114);
 			newPlanet.fuel = rrg(50, 100);
 		}
 	}
@@ -133,7 +133,7 @@ function generatePlanet(type, radiusScale, id, moon)
 		}
 		else
 		{
-			newPlanet.ore = rrg(50, radius * 2.0);
+			newPlanet.ore = rrg(50, radius * radius * 0.004);
 			newPlanet.fuel = rrg(200, 500);
 		}
 	}
@@ -160,6 +160,8 @@ function generatePlanet(type, radiusScale, id, moon)
 		randomColor(0, 1.0), randomColor(0, 0.5), randomColor(0, 1.0),
 		'0, 0, 0', rrg(0, 10000), 64);
 		nameSrc = rockNames;
+
+		newPlanet.ore = rrg(35, radius * radius * 0.14);
 	}
 
 	newPlanet.mass = 4.0 * Math.PI * newPlanet.radius * newPlanet.radius;

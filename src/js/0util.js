@@ -446,6 +446,22 @@ function angleDiff(a, b)
 	return diff;
 }
 
+function priceToString(price)
+{
+	if(price == 0)
+	{
+		return "Free";
+	}
+	else if(isNaN(price))
+	{
+		return "";
+	}
+	else 
+	{
+		return price.toString();
+	}
+}
+
 function normalize(x1, y1)
 {
 	var length = Math.sqrt(x1 * x1 + y1 * y1);

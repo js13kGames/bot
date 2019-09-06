@@ -32,7 +32,7 @@ function updateBullet(bullet, dt)
 				var coll = collAll.city;
 				var planet = planets[coll.planet];
 				var city = planet.cities[coll.idx];
-				city.health -= damage;
+				city.health -= damage * 0.5;
 				if(planet.warTime <= 0.0)
 				{
 					planet.firstWave = true;

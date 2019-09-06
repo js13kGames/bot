@@ -73,6 +73,8 @@ function createForces(planet)
 	planet.warTime = 0.0;
 	planet.aiTime = 0.0;
 	planet.humanTime = 0.0;
+	planet.humanAggro = 0.2;
+	planet.aiAggro = 0.1;
 }
 
 // efactor = 0 -> 50%  Enemies
@@ -109,22 +111,27 @@ function createCities(planet, efactor, seed)
 
 function updateWar(planet, dt)
 {
+
 	if(planet.warTime != undefined)
 	{
+
+	
 		planet.warTime -= dt;
 		if(planet.warTime <= 0.0)
 		{
 			// Make forces come back
-			for(var i = 0; i < planet.deployed; i++)
+			for(var i = 0; i < planet.deployed.length; i++)
 			{
-				//shipBehaviourLand(ships[planet.deployed[i]], planet);
+				shipBehaviourLand(planet.deployed[i], planet.idx);
 			}
+
+			planet.deployed = [];
 		}
 		else 
 		{
 			function spawn(array, count)
 			{
-				for(var i = 0; i < aiSpawn; i++)
+				for(var i = 0; i < count; i++)
 				{
 					if(array.length <= 0)
 					{
@@ -147,14 +154,15 @@ function updateWar(planet, dt)
 					shipBehaviourOrbit(force, planet.idx, rrg(60, planet.radius));
 
 					ships.push(force);
+					planet.deployed.push(force);
+
 				}
 			}
 
-			var aggro = 1.0;
 			if(planet.firstWave || planet.wave <= 0.0)
 			{
-				var aiSpawn = rrg(1, 1 + aggro);
-				var humanSpawn = rrg(aiSpawn * 0.2, aiSpawn * 0.8);
+				var aiSpawn = rrg(1, 1 + planet.aiAggro * 10.0);
+				var humanSpawn = rrg(0, aiSpawn * planet.humanAggro);
 
 				spawn(planet.aiForces, aiSpawn);
 				spawn(planet.humanForces, humanSpawn);
