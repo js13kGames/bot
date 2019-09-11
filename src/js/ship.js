@@ -599,8 +599,8 @@ function simulateShip(ship, dt)
 		if(fwt > 0.0)
 		{
 			ship.landed = false;
-			ship.speed.x = ship.coll.nx * 15.0 + speed.x;
-			ship.speed.y = ship.coll.ny * 15.0 + speed.y;
+			ship.speed.x = ship.coll.nx * 100.0 + speed.x;
+			ship.speed.y = ship.coll.ny * 100.0 + speed.y;
 			ship.x += ship.speed.x * dt;
 			ship.y += ship.speed.y * dt;
 		}

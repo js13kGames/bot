@@ -45,6 +45,11 @@ var notes =
 	174.61,	//F3	13
 	349.23,	//F4 	14
 	369.99,	//F#4	15
+	466.16,	//A#4	16
+	196.00, //G3 	17
+	220.00,	//A3	18
+	246.94,	//B3 	19
+	311.13,	//D#4	20
 ]
 
 var spaceSong = 
@@ -68,17 +73,47 @@ var spaceSong =
 	0		, 2			, 0			, 2		,
 ]
 
-var unknownPlanetSong = 
+var desertPlanetSong = 
 [	
 	// Lead 0 // Lead 1 // Lead 2	// Drum 3
-	1 		, 3			, 0			, 1		,
-	0		, 8			, 5			, 0		,
-	0		, 6			, 0			, 0		,
-	0		, 3			, 0			, 0		,
-	10		, 8			, 0			, 1		,
-	1		, 6			, 0			, 0		,
-	0		, 3			, 4			, 0		,
-	0		, 9			, 0			, 0		,
+	13		, 19		, 20		, 7		,
+	13		, 19		, 0			, 0		,
+	17		, 15		, 10		, 1		,
+	0		, 0			, 0			, 0		,
+	18		, 15		, 10		, 0		,
+	18		, 0			, 10		, 0		,
+	17		, 1			, 20		, 0		,
+	0		, 0			, 0			, 0		,
+]
+
+var terraPlanetSong = 
+[
+	// Lead 0 // Lead 1 // Lead 2	// Drum 3
+	16		, 4			, 0			, 0		,
+	15		, 0			, 0			, 0		,
+	20		, 5			, 0			, 0		,
+	16		, 0			, 0			, 0		,
+	15		, 0			, 0			, 0		,
+	20		, 5			, 0			, 0		,
+	19		, 4			, 0			, 0		,
+	9		, 0			, 0			, 0		,
+]
+
+var rockyPlanetSong = 
+[	
+	// Lead 0 // Lead 1 // Lead 2	// Drum 3
+	1 		, 0			, 0			, 1		,
+	10		, 0			, 0			, 1		,
+	15		, 0			, 0			, 7		,
+	16		, 0			, 0			, 0		,
+	1		, 0			, 0			, 1		,
+	10		, 0			, 0			, 1		,
+	15		, 0			, 0			, 7		,
+	16		, 0			, 0			, 0		,
+	15		, 0			, 0			, 1		,
+	10		, 0			, 0			, 1		,
+	1		, 0			, 0			, 7		,
+	10		, 0			, 0			, 0		,
 ]
 
 var combatSong = 
@@ -121,12 +156,20 @@ function music(dt)
 		}
 		else if(selectSong == 1)
 		{
-			song = unknownPlanetSong;
+			song = rockyPlanetSong;
 		}
 		else if(selectSong == 2)
 		{
 			song = combatSong;
 			musicVol = 0.11;
+		}
+		else if(selectSong == 3)
+		{
+			song = desertPlanetSong;
+		}
+		else if(selectSong == 4)
+		{
+			song = terraPlanetSong;
 		}
 
 		musicTimer -= dt;

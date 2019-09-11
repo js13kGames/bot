@@ -68,6 +68,8 @@ var plHealths = [0, 0, 0];
 
 var playerShipSeed = rrg(0, 10000);
 
+var controls = 0.0;
+
 generateStarfield();
 generateBright();
 generate();
@@ -106,6 +108,8 @@ var tooltipEnabled = false;
 var mineTimer = 0.0;
 
 var tutShown = false;
+
+var hideHud = false;
 
 timestep = 0.0;
 
@@ -152,10 +156,28 @@ function update()
 
 			if(ships[0] != undefined && ships[0].landed)
 			{
-				selectSong = 1;
+				var planet = planets[ships[0].coll.planet];
+
+				if(planet.type == 0 || planet.type == 3 || planet.type == 4)
+				{
+					selectSong = 1;	// Rocky
+				}
+				else if(planet.type == 2)
+				{
+					selectSong = 3;	// Desert
+				}
+				else if(planet.type == 1)
+				{
+					selectSong = 4;	// Terra
+				}
+				else 
+				{
+					selectSong = 1;
+				}
 			}
 		
 		}
+		
 
 		if(dtval > 0.0)
 		{
@@ -359,10 +381,11 @@ function update()
 
 		tooltipTime += dt;
 		eventTimer -= dt;
+		controls -= dt;
 
 		if(!tutShown)
 		{
-			showEvent("Please read the manual", 5.0);
+			showEvent("Please read the manual, press F1 to show controls", 5.0);
 			tutShown = true;
 		}
 
@@ -442,52 +465,82 @@ function render()
 		drawFire(fire[i]);
 	}
 
-
-	if(mapMode > 0.0)
+	if(!hideHud)
 	{
-		ctx.globalAlpha = mapMode;
 
-		for(var i = 1; i < planets.length; i++)
+		if(mapMode > 0.0)
 		{
-			drawPlanetMap(planets[i]);
+			ctx.globalAlpha = mapMode;
+
+			for(var i = 1; i < planets.length; i++)
+			{
+				drawPlanetMap(planets[i]);
+			}
+
+			for(var i = 0; i < ships.length; i++)
+			{
+				drawShipMap(ships[i]);
+			}
+
+
+			ctx.globalAlpha = 1.0;
 		}
 
-		for(var i = 0; i < ships.length; i++)
+		drawShipHud(ships[0]);
+
+		if(tooltipFocus > 0 && tooltipEnabled)
 		{
-			drawShipMap(ships[i]);
+			drawTooltip(planets[tooltipFocus], aimPoint.x, aimPoint.y);
 		}
 
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+		// Static GUI
 
-		ctx.globalAlpha = 1.0;
+		if(eventTimer >= 0.0)
+		{
+			ctx.globalAlpha = eventTimer;
+			
+			var size = getTextSize(eventStr, 2.0);
+			drawText(eventStr, canvas.width / 2.0 - size / 2.0, 20.0, 2.0, 'white');
+			ctx.globalAlpha = 1.0;
+		}
+
+		if(timestep == 0)
+		{
+			var str = "Paused";
+			var size = getTextSize(str, 2.0);
+			drawText(str, canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
+		}
+
+		if(controls >= 0.0)
+		{
+			ctx.globalAlpha = controls;
+			var ctrls = [
+				"W", "Forward",
+				"S", "Backwards",
+				"A", "Rotate CCW",
+				"D", "Rotate CW",
+				"Q", "Strafe Left",
+				"E", "Strafe Right",
+				"L", "Lock Camera",
+				"T", "Show Tooltip",
+				",/.", "Timewarp",
+				"LMB", "Fire guns",
+				"RMB", "Ref. Frame",
+				"MMB", "Focus Camera",
+				"Wheel", "Zoom",
+			]
+
+			for(var i = 0; i < ctrls.length; i+=2)
+			{
+				drawText(ctrls[i], 5.0, 100.0 + i * 10.0, 2.0, 'white');
+				drawText(ctrls[i + 1], 65.0, 100.0 + i * 10.0, 2.0, 'white');
+			}
+			ctx.globalAlpha = 1.0;
+		}
+
+		drawGeneralHUD();
 	}
-
-	drawShipHud(ships[0]);
-
-	if(tooltipFocus > 0 && tooltipEnabled)
-	{
-		drawTooltip(planets[tooltipFocus], aimPoint.x, aimPoint.y);
-	}
-
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
-	// Static GUI
-
-	if(eventTimer >= 0.0)
-	{
-		ctx.globalAlpha = eventTimer;
-		
-		var size = getTextSize(eventStr, 2.0);
-		drawText(eventStr, canvas.width / 2.0 - size / 2.0, 20.0, 2.0, 'white');
-		ctx.globalAlpha = 1.0;
-	}
-
-	if(timestep == 0)
-	{
-		var str = "Paused";
-		var size = getTextSize(str, 2.0);
-		drawText(str, canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
-	}
-
-	drawGeneralHUD();
 
 }
 
@@ -514,6 +567,7 @@ function onkey(evt)
 
 	var key = evt.code;
 	var thrust = ships[0].thrust;
+
 
 	var val = 1.0;
 	if(release)
@@ -599,6 +653,17 @@ function onkey(evt)
 				timestep = timestepVals[timestepVal];
 				showEvent(timestep.toString() + "x Timewarp", 2.0);
 			}
+		}
+
+		if(key == 'F1')
+		{
+			controls = 2.0;
+			evt.preventDefault();
+		}
+		else if(key == 'F2')
+		{
+			hideHud = !hideHud;
+			evt.preventDefault();
 		}
 	}
 
