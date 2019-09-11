@@ -10,8 +10,8 @@ let previousTime = 0.0;
 var time = 0.0;
 
 var canvas = document.getElementById("canvas");
-canvas.width = window.innerWidth * 0.8;
-canvas.height = window.innerHeight * 0.8;
+canvas.width = window.innerWidth * 1.0;
+canvas.height = window.innerHeight * 1.0;
 
 var ctx = canvas.getContext("2d");
 var starFieldSize = Math.floor(Math.max(canvas.width, canvas.height) * (1.0 + Math.sqrt(2)));
@@ -46,9 +46,6 @@ var thrustSpeed = 1.0;
 
 var mapMode = 0.0;
 
-// 0 = Combat Mode
-// 1 = Maneouver Mode
-var mode = 0;
 
 var shipMass = 0.001;
 
@@ -57,7 +54,7 @@ var dtval = 0.0;
 var lockCamera = false;
 
 var timestepVals = [0.0, 1.0, 2.0, 4.0, 10.0, 25.0, 50.0, 100.0];
-var timestepVal = 1;
+var timestepVal = 0;
 var eventTimer = 0.0;
 var eventStr = "";
 
@@ -69,7 +66,7 @@ var plHasDestroyer = false;
 var plLevels = [1, 1, 1];
 var plHealths = [0, 0, 0];
 
-var playerShipSeed = 1234;
+var playerShipSeed = rrg(0, 10000);
 
 generateStarfield();
 generateBright();
@@ -108,9 +105,16 @@ var tooltipEnabled = false;
 
 var mineTimer = 0.0;
 
+var tutShown = false;
+
+timestep = 0.0;
+
+
 function update()
 {
 	var dt = dtval;
+
+
 
 	for(var nn = 0; nn < timestep; nn++)
 	{
@@ -121,6 +125,8 @@ function update()
 			dt = dt * 2.0;
 		}*/
 
+
+		anyAtWar = false;
 
 		for(var i = 1; i < planets.length; i++)
 		{
@@ -134,6 +140,21 @@ function update()
 	
 			var planetPos = orbit(cx, cy, cmass, planet.mass, planet.orbitRadius, time + planet.orbitOffset);
 			planet.x = planetPos.x; planet.y = planetPos.y;
+		}
+
+		if(anyAtWar)
+		{
+			selectSong = 2;
+		}
+		else 
+		{
+			selectSong = 0;
+
+			if(ships[0] != undefined && ships[0].landed)
+			{
+				selectSong = 1;
+			}
+		
 		}
 
 		if(dtval > 0.0)
@@ -248,7 +269,7 @@ function update()
 				if(ships[0].frame != coll.planet.planet)
 				{
 					ships[0].frame = coll.planet.planet;
-					showEvent("Changed reference frame to " + planets[coll.planet.planet].name, 2.0);
+					showEvent("Reference frame set to " + planets[coll.planet.planet].name, 2.0);
 				}
 			}
 		}
@@ -329,7 +350,7 @@ function update()
 
 		if(camera.zoom <= 0.16)
 		{	
-			mapMode = Math.max(Math.min(0.04 / camera.zoom, 1.0), 0.0);
+			mapMode = Math.max(Math.min(0.02 / camera.zoom, 1.0), 0.0);
 		}
 		else
 		{
@@ -339,14 +360,26 @@ function update()
 		tooltipTime += dt;
 		eventTimer -= dt;
 
+		if(!tutShown)
+		{
+			showEvent("Please read the manual", 5.0);
+			tutShown = true;
+		}
+
 		music(dt);
 	}
 
 
 }
 
+var totalAI = 0;
+var totalHuman = 0;
+
 function render()
 {
+	totalAI = 0;
+	totalHuman = 0;
+
 	ctx.setTransform(1, 0, 0, 1, 0, 0);
 
 	ctx.translate(canvas.width / 2.0, canvas.height / 2.0);
@@ -360,7 +393,6 @@ function render()
 
 	ctx.drawImage(starFieldImage, 0.0, 0.0);
 
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
 
 	for(var i = 0; i < rings.length; i++)
@@ -410,10 +442,6 @@ function render()
 		drawFire(fire[i]);
 	}
 
-	drawStar(sun);
-
-
-
 
 	if(mapMode > 0.0)
 	{
@@ -454,8 +482,9 @@ function render()
 
 	if(timestep == 0)
 	{
-		var size = getTextSize("Paused", 2.0);
-		drawText("Paused", canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
+		var str = "Paused";
+		var size = getTextSize(str, 2.0);
+		drawText(str, canvas.width / 2.0 - size / 2.0, 50.0, 2.0, 'white');
 	}
 
 	drawGeneralHUD();
@@ -497,32 +526,34 @@ function onkey(evt)
 		tooltipEnabled = !release;
 	}
 
-	if(mode == 0)
+	if(key == 'KeyW')
 	{
-		if(key == 'KeyW')
-		{
-			thrust.fw = val;
-		}
-		else if(key == 'KeyS')
-		{
-			thrust.fw = -val;
-		}
-		else if(key == 'KeyA')
-		{
-			thrust.rot = -val;
-		}
-		else if(key == 'KeyD')
-		{
-			thrust.rot = val;
-		}
-		else if(key == 'KeyQ')
-		{
-			thrust.side = -val;
-		}
-		else if(key == 'KeyE')
-		{
-			thrust.side = val;
-		}
+		thrust.fw = val;
+	}
+	else if(key == 'KeyS')
+	{
+		thrust.fw = -val;
+	}
+	else if(key == 'KeyA')
+	{
+		thrust.rot = -val;
+	}
+	else if(key == 'KeyD')
+	{
+		thrust.rot = val;
+	}
+	else if(key == 'KeyQ')
+	{
+		thrust.side = -val;
+	}
+	else if(key == 'KeyE')
+	{
+		thrust.side = val;
+	}
+
+	if(timestep > 2.0)
+	{
+		thrust.fw = 0.0; thrust.rot = 0.0; thrust.side = 0.0;
 	}
 
 
@@ -534,15 +565,15 @@ function onkey(evt)
 			lockCamera = !lockCamera;
 			if(lockCamera)
 			{
-				showEvent("Camera aligned to ship", 2.0);
+				showEvent("Camera locked", 2.0);
 			}
 			else 
 			{
-				showEvent("Camera aligned to space", 2.0);
+				showEvent("Camera free", 2.0);
 			}
 		}
 		
-		if(key == 'KeyP')
+		if(key == 'Period')
 		{
 			timestepVal++;
 			if(timestepVal > timestepVals.length - 1)
@@ -556,7 +587,7 @@ function onkey(evt)
 			}
 		}
 
-		if(key == 'KeyO')
+		if(key == 'Comma')
 		{
 			timestepVal--;
 			if(timestepVal < 0)
@@ -595,6 +626,7 @@ function onmouse(evt)
 	else if(evt.which == 2) // Center click
 	{
 		chooseFocus = down;
+		evt.preventDefault();
 	}
 	else if(evt.which == 3)	// Right click
 	{

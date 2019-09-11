@@ -95,7 +95,7 @@ function generatePlanet(type, radiusScale, id, moon)
 
 		if(rrg(0, 1000) >= 850)
 		{
-			createCities(newPlanet, rrg(-100, 50) * 0.01, srandom());
+			createCities(newPlanet, rrg(-70, 50) * 0.01, srandom());
 		}
 		else
 		{
@@ -114,7 +114,7 @@ function generatePlanet(type, radiusScale, id, moon)
 
 		nameSrc = terraNames;
 
-		createCities(newPlanet, rrg(-100, 100) * 0.01, srandom());
+		createCities(newPlanet, rrg(-70, 100) * 0.01, srandom());
 	}
 	else if(type == 2)
 	{
@@ -129,7 +129,7 @@ function generatePlanet(type, radiusScale, id, moon)
 
 		if(rrg(0, 1000) >= 200)
 		{
-			createCities(newPlanet, rrg(-100, 40) * 0.01, srandom());
+			createCities(newPlanet, rrg(-80, 40) * 0.01, srandom());
 		}
 		else
 		{
@@ -185,7 +185,8 @@ function generatePlanet(type, radiusScale, id, moon)
 
 function generate()
 {
-	sun = createStar(0, 0, 5000, "rgb(255, 240, 200)", "white");
+
+	sun = createStar(0, 0, 5000);
 
 	sun.mass = 375000000;
 	sun.sun = true;

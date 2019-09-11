@@ -15,7 +15,7 @@
  */
 
 
-	var seed = 757764;
+	var seed = Math.floor(Math.random() * 10000.0);
 
 	var module = noise = {};
   

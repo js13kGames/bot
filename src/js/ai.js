@@ -88,12 +88,17 @@ function updateShipAI(ship, dt)
 	if(ship.ai.target != -1 && !ship.destroyed)
 	{
 		var target = ships[ship.ai.target];
-		var otarget = {x: target.x, y: target.y};
-		// Trailing
+		if(target != undefined)
+		{
+			var otarget = {x: target.x, y: target.y};
+		
+			// Trailing
 
-		otarget.x += (target.speed.x - ship.speed.x) * a;
-		otarget.y += (target.speed.y - ship.speed.y) * a;
-		aimShipGuns(ship, otarget, dt);
+			otarget.x += (target.speed.x - ship.speed.x) * a;
+			otarget.y += (target.speed.y - ship.speed.y) * a;
+			
+			aimShipGuns(ship, otarget, dt);
+		}
 	}
 	// Add some trailing
 

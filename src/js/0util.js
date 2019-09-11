@@ -184,7 +184,7 @@ function collidesWithShip(point, side = -1, extraRadius = 1.0)
 			}
 			else if(ships[i].type == 2)
 			{
-				size = 24.0;
+				size = 28.0;
 			}
 
 			if(distance(point.x, point.y, ships[i].x, ships[i].y) <= size * extraRadius)
@@ -339,11 +339,8 @@ function sideColor(side)
 	{
 		// Soft reds
 		r = rrg(120, 210);
-		g = r * rrg(70, 80) * 0.01;
-		b = r * rrg(40, 50) * 0.01;
-		r *= rrg(100, 150) * 0.01;
-		g *= rrg(60, 90) * 0.01;
-		b *= rrg(60, 90) * 0.01;
+		g = r * rrg(40, 90) * 0.01;
+		b = r * rrg(20, 50) * 0.01;
 	}
 	else 
 	{
@@ -407,6 +404,8 @@ function drawBright(x, y, size, alpha)
 
 function doCameraTransform()
 {
+	ctx.setTransform(1, 0, 0, 1, 0, 0);
+	
 	ctx.translate(canvas.width / 2.0, canvas.height / 2.0);
 
 	if(lockCamera)

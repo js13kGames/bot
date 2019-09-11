@@ -52,8 +52,8 @@ function createForces(planet)
 {
 	var maxForces = getMaxForces(planet);
 
-	planet.humanForces = new Array();
-	planet.aiForces = new Array();
+	planet.humanForces = [];
+	planet.aiForces = [];
 
 	for(var i = 0; i < maxForces.human / 2.0 + maxForces.ai; i++)
 	{
@@ -69,12 +69,10 @@ function createForces(planet)
 	}
 
 	planet.maxForces = maxForces;
-	planet.deployed = new Array();
+	planet.deployed = [];
 	planet.warTime = 0.0;
 	planet.aiTime = 0.0;
 	planet.humanTime = 0.0;
-	planet.humanAggro = 0.2;
-	planet.aiAggro = 0.1;
 }
 
 // efactor = 0 -> 50%  Enemies
@@ -107,15 +105,16 @@ function createCities(planet, efactor, seed)
 	}
 
 	createForces(planet);
+	planet.humanAggro = rrg(5, 35) * 0.01;
 }
+
+var anyAtWar = false;
 
 function updateWar(planet, dt)
 {
 
 	if(planet.warTime != undefined)
 	{
-
-	
 		planet.warTime -= dt;
 		if(planet.warTime <= 0.0)
 		{
@@ -129,6 +128,7 @@ function updateWar(planet, dt)
 		}
 		else 
 		{
+			anyAtWar = true;
 			function spawn(array, count)
 			{
 				for(var i = 0; i < count; i++)
@@ -161,13 +161,11 @@ function updateWar(planet, dt)
 
 			if(planet.firstWave || planet.wave <= 0.0)
 			{
-				var aiSpawn = rrg(1, 1 + planet.aiAggro * 10.0);
-				var humanSpawn = rrg(0, aiSpawn * planet.humanAggro);
+				var aiSpawn = rrg(1, planet.aiForces.length / 2.0);
+				var humanSpawn = aiSpawn * planet.humanAggro;
 
 				spawn(planet.aiForces, aiSpawn);
 				spawn(planet.humanForces, humanSpawn);
-
-				console.log("Spawning " + aiSpawn + " AIs, and " + humanSpawn + " humans");
 				planet.firstWave = false;
 			}
 
@@ -250,6 +248,33 @@ function drawPlanetShadow(planet)
 	ctx.fill();
 }
 
+function drawPlanetHeights(planet, array)
+{
+	ctx.beginPath();
+
+	var ncount = array.length;
+
+	for(var i = 0; i < ncount; i++)
+	{
+		var ifloat = (i / ncount) * 2.0 * Math.PI;
+		var x = Math.cos(ifloat); var y = Math.sin(ifloat);
+		var height = array[i] + 15.0;
+		x = x * planet.radius + x * height + planet.x; 
+		y = y * planet.radius + y * height + planet.y;
+
+		if(i == 0)
+		{
+			ctx.moveTo(x, y);
+		}
+		else
+		{
+			ctx.lineTo(x, y);
+		}
+	}
+
+	ctx.fill();
+}
+
 function drawPlanet(planet)
 {
 	if(planet.isGasPlanet == true)
@@ -267,30 +292,7 @@ function drawPlanet(planet)
 
 		// Outer circle
 		ctx.fillStyle = planet.colorOuter;
-		ctx.beginPath();
-
-		var ncount = planet.heights.length;
-
-		for(var i = 0; i < ncount; i++)
-		{
-			var ifloat = (i / ncount) * 2.0 * Math.PI;
-			var x = Math.cos(ifloat); var y = Math.sin(ifloat);
-			var height = planet.heights[i] + 15.0;
-			x = x * planet.radius + x * height + planet.x; 
-			y = y * planet.radius + y * height + planet.y;
-
-			if(i == 0)
-			{
-				ctx.moveTo(x, y);
-			}
-			else
-			{
-				ctx.lineTo(x, y);
-			}
-		}
-
-		ctx.closePath();
-		ctx.fill();
+		drawPlanetHeights(planet, planet.heights);
 	}
 
 	
@@ -310,6 +312,7 @@ function drawPlanet(planet)
 
 			if(city.side == 0)
 			{
+				totalHuman++;
 				ctx.fillStyle = 'rgb(' + city.tone + ', ' + city.tone + ', ' + city.tone + ')';
 				ctx.strokeStyle = 'rgb(200, 200, 200)';
 				ctx.beginPath();
@@ -324,6 +327,7 @@ function drawPlanet(planet)
 			}
 			else 
 			{
+				totalAI++;
 				ctx.fillStyle = 'rgb(' + city.tone + ', ' + city.tone * 0.5 + ', ' + city.tone * 0.5 + ')';
 				ctx.strokeStyle = 'rgb(200, 128, 128)';
 
@@ -354,30 +358,7 @@ function drawPlanetOver(planet)
 	{
 		// Draw heights
 		ctx.fillStyle = planet.colorInner;
-		ctx.beginPath();
-
-		var ncount = planet.heights.length;
-
-		for(var i = 0; i < ncount; i++)
-		{
-			var ifloat = (i / ncount) * 2.0 * Math.PI;
-			var x = Math.cos(ifloat); var y = Math.sin(ifloat);
-			var height = planet.bheights[i] + 5.0;
-			x = x * planet.radius + x * height + planet.x; 
-			y = y * planet.radius + y * height + planet.y;
-
-			if(i == 0)
-			{
-				ctx.moveTo(x, y);
-			}
-			else
-			{
-				ctx.lineTo(x, y);
-			}
-		}
-
-		ctx.closePath();
-		ctx.fill();
+		drawPlanetHeights(planet, planet.bheights);
 
 		// Draw inner circle
 		// TODO: Could be removed
@@ -417,13 +398,13 @@ function drawPlanetMap(planet)
 	var textSize = 2.0 / camera.zoom;
 	if(planet.center != 0)
 	{
-		if(camera.zoom <= 0.04)
+		if(camera.zoom <= 0.02)
 		{	
 			textSize = 0.0;
 		}
 		else 
 		{
-			textSize = 1.0 / camera.zoom;
+			textSize = 1.3 / camera.zoom;
 		}
 	}
 

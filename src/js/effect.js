@@ -18,13 +18,14 @@ function drawFire(fire)
 {
 	ctx.beginPath();
 	var fireTime = Math.pow(fire.time, 2.0);
-	var fireR = 255; var fireG = 200; var fireB = 200;
-	var smokeR = 70; var smokeG = 70; var smokeB = 70;
-	var mixR = smokeR * fireTime + fireR * (1.0 - fire.time);
-	var mixG = smokeG * fireTime + fireG * (1.0 - fire.time);
-	var mixB = smokeB * fireTime + fireB * (1.0 - fire.time);
+	var fcol = [255, 220, 200];
+	var mix = [0, 0, 0];
+	for(var i = 0; i < 3; i++)
+	{
+		mix[i] = 70 * fireTime + fcol[i] * (1.0 - fire.time);
+	}
 
-	ctx.fillStyle = 'rgba(' + mixR + ', ' + mixG + ', ' + mixB + ', ' + fire.time * 0.5 + ')';
+	ctx.fillStyle = 'rgba(' + mix[0] + ', ' + mix[1] + ', ' + mix[2] + ', ' + (1.0 - Math.sqrt(fire.time)) + ')';
 
 	var size = Math.sqrt(fire.time) * fire.size;
 	ctx.arc(fire.x, fire.y, size, 0.0, Math.PI * 2.0);

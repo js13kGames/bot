@@ -279,6 +279,13 @@ let letters = {
 		[0,0,1,0,1],
 		[0,1,0,0,0]
 	],
+	',': [
+		[,,],
+		[,,],
+		[,,],
+		[,1,],
+		[1,,]
+	],
 };
 
 function getNeededText(str)
@@ -302,14 +309,23 @@ function getNeededText(str)
 function getTextSize(string, size)
 {
 	var needed = getNeededText(string);
-	var x = 0;
+	var xoff = 0;
 
 	for(let i = 0; i < needed.length; i++)
 	{
-		x += needed[0].length * size;
+		var char = needed[i];
+		var addx = 0;
+
+		for(let j = 0; j < char.length; j++)
+		{
+			var row = char[j];
+			addx = Math.max(addx, row.length * size);
+		}
+
+		xoff += size + addx;
 	}
 
-	return x;
+	return xoff;
 }
 
 function drawText(string, x, y, size, color)

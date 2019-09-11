@@ -18,7 +18,7 @@ function drawTooltip(planet, x, y)
 	}
 
 
-	var cwidth = 300;
+	var cwidth = 320;
 	ctx.fillStyle = dark;
 	ctx.strokeStyle = 'rgb(255, 255, 255)';
 	ctx.beginPath();
@@ -82,7 +82,7 @@ function drawTooltip(planet, x, y)
 		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 		xoff += drawText(planet.maxForces.human.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 		xoff += drawText("  Resources: ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText((planet.humanAggro * 100).toString() + "%", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
+		xoff += drawText(Math.floor(planet.humanAggro * 100).toString() + "%", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 
 		xoff = margin * 2.0;
 		yoff += 32.0 / camera.zoom;
@@ -119,8 +119,6 @@ function drawTooltip(planet, x, y)
 		xoff += drawText(planet.aiForces.length.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 		xoff += drawText(" / ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 		xoff += drawText(planet.maxForces.ai.toString(), x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
-		xoff += drawText("  Resources: ", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, titleColor);
-		xoff += drawText((planet.aiAggro * 100).toString() + "%", x + margin + xoff, y + margin + yoff, 2.0 / camera.zoom, textColor);
 
 		xoff = margin * 2.0;
 		yoff += 32.0 / camera.zoom;
@@ -130,7 +128,6 @@ function drawTooltip(planet, x, y)
 	}
 
 	
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
 
 	ctx.globalAlpha = 1.0;
@@ -181,7 +178,7 @@ function drawShipHud(ship)
 
 	ctx.globalAlpha = 1.0;
 
-	var size = 32.0;
+	var size = 42.0;
 	var rsize = Math.max(size / camera.zoom, size);
 	ctx.strokeStyle = 'rgb(128, 128, 128)';
 	ctx.lineWidth = Math.max(2.0 / camera.zoom, 2.0);
@@ -189,13 +186,7 @@ function drawShipHud(ship)
 	ctx.arc(ship.x, ship.y, rsize, 0.0, Math.PI * 2.0);
 	ctx.stroke();
 
-	ctx.strokeStyle = 'rgb(255, 255, 255)';
-	// Ship orientation
-	var forward = {x: Math.cos(ship.rot + Math.PI / 2.0), y: Math.sin(ship.rot + Math.PI / 2.0)};
-	ctx.beginPath();
-	ctx.moveTo(ship.x + forward.x * rsize * 0.5, ship.y + forward.y * rsize * 0.5);
-	ctx.lineTo(ship.x + forward.x * rsize, ship.y + forward.y * rsize);
-	ctx.stroke();
+
 
 	var prograde = getProgradeVector(ship);
 	var retrograde = {x: -prograde.x, y: -prograde.y}
@@ -232,7 +223,13 @@ function drawShipHud(ship)
 	ctx.arc(ship.x + planet.x * rsize, ship.y + planet.y * rsize, rsize / 15.0, 0.0, Math.PI * 2.0);
 	ctx.fill();
 
-	
+	ctx.strokeStyle = 'white';
+	// Ship orientation
+	var forward = {x: Math.cos(ship.rot + Math.PI / 2.0), y: Math.sin(ship.rot + Math.PI / 2.0)};
+	ctx.beginPath();
+	ctx.moveTo(ship.x + forward.x * rsize * 1.0, ship.y + forward.y * rsize * 1.0);
+	ctx.lineTo(ship.x + forward.x * rsize * 1.25, ship.y + forward.y * rsize * 1.25);
+	ctx.stroke();
 	
 }
 
@@ -387,7 +384,27 @@ function drawGeneralHUD()
 	xoff = tab;
 	xoff += drawText(ships[0].level.toString(), br0x + margin + xoff, br0y + margin + yoff, 2.0, green);
 
-	// Top, game info
-	//ctx.fillStyle = dark;
-	//ctx.fillRect(0, 0, canvas.width, 16);
+	ctx.beginPath();
+	ctx.rect(-5.0, br0y, 180.0 + 5.0, 1000.0);
+	ctx.stroke();
+
+	xoff = 0.0;
+	yoff = 0.0;
+	tab = 80;
+
+	xoff += drawText("Frame ", margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(planets[ships[0].frame].name, margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Speed ", margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(Math.floor(getFrameSpeed(ships[0])).toString(), margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Altitude ", margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(Math.floor(getAltitudeGround(ships[0])).toString(), margin + xoff, br0y + margin + yoff, 2.0, green);
+	nl();
+	xoff += drawText("Total AI ", margin + xoff, br0y + margin + yoff, 2.0, green);
+	xoff = tab;
+	xoff += drawText(totalAI.toString(), margin + xoff, br0y + margin + yoff, 2.0, green);
 }

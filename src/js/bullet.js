@@ -16,7 +16,15 @@ function updateBullet(bullet, dt)
 
 	var collAll = collidesWithAny(bullet, time, bullet.side);
 
-
+	if(collAll.ship != null)
+	{
+		explode(bullet.x, bullet.y, collAll.ship.speed.x, collAll.ship.speed.y, bullet.size * 17.0, 2.4, 0.4, true, false);
+		collAll.ship.health -= damage;
+		collAll.ship.health = Math.floor(collAll.ship.health);
+		
+		return true;
+	}
+	
 	if(collAll.planet != null)
 	{
 		var coll = collAll.planet;
@@ -38,7 +46,7 @@ function updateBullet(bullet, dt)
 					planet.firstWave = true;
 				}
 
-				planet.warTime = 30.0;
+				planet.warTime = 60.0;
 	
 
 				if(city.health <= 0.0)
@@ -56,14 +64,7 @@ function updateBullet(bullet, dt)
 		return true;
 	}
 
-	if(collAll.ship != null)
-	{
-		explode(bullet.x, bullet.y, collAll.ship.speed.x, collAll.ship.speed.y, bullet.size * 17.0, 2.4, 0.4, true, false);
-		collAll.ship.health -= damage;
-		collAll.ship.health = Math.floor(collAll.ship.health);
-		
-		return true;
-	}
+
 
 
 	bullet.timer -= dt;

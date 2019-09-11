@@ -1,14 +1,24 @@
 
+
 // A ship is made out of a shaped hull, 
 // weapon attachment points, and thrusters
 function createShip(type, nseed, side, level)
 {
+	function h(x, y)
+	{
+		hull.push({x: x, y: y});
+	}
+
+	function t(x, y, s, d)
+	{
+		thrusters.push({x:x, y:y, size: s, t: 0.0, dir: d});
+	}
 
 	let shipValues = [
 		// Maneouver, Speed, Armor, Fuel, Cargo
-		2.0, 		11.0, 	50.0, 	100.0, 50.0, 	// Fighter
-		0.8, 		8.0, 	100.0, 	200.0, 150.0, 	// Freighter
-		0.6, 		6.0, 	400.0, 	250.0, 80.0];	// Destroyer
+		2.0, 		12.0, 	50.0, 	100.0, 50.0, 	// Fighter
+		1.0, 		9.0, 	100.0, 	200.0, 150.0, 	// Freighter
+		0.8, 		9.0, 	400.0, 	250.0, 80.0];	// Destroyer
 
 	seed = nseed;
 
@@ -28,30 +38,26 @@ function createShip(type, nseed, side, level)
 		var slope = length / (width * 2.0);
 
 		// Triangle hull
-		hull.push({x: -width / 2.0, y: 0.0});
-		hull.push({x: width / 2.0, y: 0.0});
-		hull.push({x: 0.0, y: length});
-		hull.push({x: length * 0.5 * slope, y: length * 0.5});
-		hull.push({x: width * 0.8, y: length * 0.5});
-		hull.push({x: -width * 0.8, y: length * 0.5});
-		hull.push({x: 0.0, y: length * 2.0});
-		hull.push({x: width * 0.8, y: length * 0.5});
-		hull.push({x: length * 0.5 * slope, y: length * 0.5});
-		hull.push({x: 0.0, y: length});
+		h(-width / 2.0, 0.0);
+		h(width / 2.0, 0.0);
+		h(0.0, length);
+		h(length * 0.5 * slope, length * 0.5);
+		h(width * 0.8, length * 0.5);
+		h(-width * 0.8, length * 0.5);
+		h(0.0, length * 2.0);
+		h(width * 0.8, length * 0.5);
+		h(length * 0.5 * slope, length * 0.5);
+		h(0.0, length);
 		
 		// Forwad / Rot thrusters
 		var thrusterOff = width * rrg(30, 70) * 0.005;
-		thrusters.push({x:-thrusterOff, y:0.0, size: 6.0, t: 0.0, dir: 0.0});
-		thrusters.push({x:thrusterOff, y:0.0, size:6.0, t: 0.0, dir: 0.0});
-
-		// Side thrusters, and back thruster
-		thrusters.push({x:0.0, y: length * 2.0, size: 6.0, t: 0.0, dir: Math.PI});
-		thrusters.push({x:0.0, y: length * 2.0, size:6.0, t: 0.0, dir: Math.PI / 2.0});
-		thrusters.push({x:0.0, y: length * 2.0, size: 6.0, t: 0.0, dir: -Math.PI / 2.0});
-
-		// Back directional thrusters
-		thrusters.push({x:thrusterOff, y:0.0, size: 6.0, t: 0.0, dir: Math.PI / 2.0});
-		thrusters.push({x:-thrusterOff, y:0.0, size:6.0, t: 0.0, dir: -Math.PI / 2.0});
+		t(-thrusterOff, 0.0, 6.0, 0.0);
+		t(thrusterOff, 0.0, 6.0, 0.0);
+		t(0.0, length * 2.0, 6.0, Math.PI);
+		t(0.0, length * 2.0, 6.0, Math.PI / 2.0);
+		t(0.0, length * 2.0, 6.0, -Math.PI / 2.0);
+		t(thrusterOff, 0.0, 6.0, Math.PI / 2.0);
+		t(-thrusterOff, 0.0, 6.0, -Math.PI / 2.0);
 
 
 		// 2 Weapons
@@ -71,33 +77,26 @@ function createShip(type, nseed, side, level)
 		var lengthd = mlength - length;
 
 		// Rectangle hull
-		hull.push({x: -width / 2.0, y: 0.0});
-		hull.push({x: width / 2.0, y: 0.0});
-		hull.push({x: width / 2.0, y: length});
-		hull.push({x: -width / 2.0, y: length});
-		hull.push({x: width / 8.0, y: length});
-		hull.push({x: width / 8.0, y: mlength});
-		hull.push({x: -width / 8.0, y: mlength});
-		hull.push({x: -width / 8.0, y: length});
-		hull.push({x: -width / 2.0, y: length});
+		h(-width / 2.0, 0.0);
+		h(width / 2.0, 0.0);
+		h(width / 2.0, length);
+		h(-width / 2.0, length);
+		h(width / 8.0, length);
+		h(width / 8.0, mlength);
+		h(-width / 8.0, mlength);
+		h(-width / 8.0, length);
+		h(-width / 2.0, length);
 
 		var thrusterOff = width * rrg(30, 70) * 0.05;
 		// 2 Thrusters
 		var thrusterOff = width * rrg(30, 70) * 0.005;
-		thrusters.push({x:-thrusterOff, y:0.0, size: 12.0, t: 0.0, dir: 0});
-		thrusters.push({x:thrusterOff, y:0.0, size: 12.0, t: 0.0, dir: 0});
-
-		// Directionals front
-		thrusters.push({x:0.0, y:lengthd * 0.8 + length, size: 7.0, t: 0.0, dir: Math.PI});
-
-		// Directionals sides front
-		thrusters.push({x:0.0, y:lengthd * 0.8 + length, size: 7.0, t: 0.0, dir: Math.PI / 2.0});
-		thrusters.push({x:0.0, y:lengthd * 0.8 + length, size: 7.0, t: 0.0, dir: -Math.PI / 2.0});
-
-		// Directionals sides back
-		thrusters.push({x:thrusterOff, y:0.0, size: 7.0, t: 0.0, dir: Math.PI / 2.0});
-		thrusters.push({x:-thrusterOff, y:0.0, size: 7.0, t: 0.0, dir: -Math.PI / 2.0});
-
+		t(-thrusterOff, 0.0, 12.0, 0.0);
+		t(thrusterOff, 0.0, 12.0, 0.0);
+		t(0.0, lengthd * 0.8 + length, 7.0, Math.PI);
+		t(0.0, lengthd * 0.8 + length, 7.0, Math.PI / 2.0);
+		t(0.0, lengthd * 0.8 + length, 7.0, -Math.PI / 2.0);
+		t(thrusterOff, 0.0, 7.0, Math.PI / 2.0);
+		t(-thrusterOff, 0.0, 7.0, -Math.PI / 2.0);
 
 		// 2 Front Weapons
 		var lPos = rrg(70, 100) * length * 0.01;
@@ -121,28 +120,43 @@ function createShip(type, nseed, side, level)
 		var waistLength = rrg(30, 60) * length * 0.01;
 		// Waist-style hull
 		
-		// Bottom vertices
-		hull.push({x: width / 2.0, y: 0.0});
-		hull.push({x: centerWidth / 2.0, y: waistLength});
-		hull.push({x: width / 2.0, y: length});
-		hull.push({x: 0.0, y: length * 1.1});
-		hull.push({x: -width / 2.0, y: length});
-		hull.push({x: -centerWidth / 2.0, y: waistLength});
-		hull.push({x: -width / 2.0, y: 0.0});
+		h(width / 2.0, 0.0);
+		h(centerWidth / 2.0, waistLength);
+		h(width / 2.0, length);
+		h(0.0, length * 1.1);
+		h(-width / 2.0, length);
+		h(-centerWidth / 2.0, waistLength);
+		h(-width / 2.0, 0.0);
 
-		// One huge thruster
-		thrusters.push({x:0.0, y:0.0, size: 20.0, t: 0.0, dir: 0.0});
+/*	ship.thrusters[0].t = xfw.a;
+	ship.thrusters[1].t = xfw.a;
+	ship.thrusters[2].t = xfw.b;
+	if(ship.type == 2)
+	{
+		ship.thrusters[7].t = xfw.b;
+	}
+	ship.thrusters[3].t = Math.max(xside.a, xrot.a);
+	ship.thrusters[4].t = Math.max(xside.b, xrot.b);
+	ship.thrusters[5].t = Math.max(xside.a, xrot.b);
+	ship.thrusters[6].t = Math.max(xside.b, xrot.a);
+	*/
 
-		// Two small ones
-		thrusters.push({x:width / 2.2, y: 0.0, size: 14.0, t: 0.0, dir: 0.0});
-		thrusters.push({x:-width / 2.2, y: 0.0, size: 14.0, t: 0.0, dir: 0.0});
+		// Forward
+		t(width / 2.2, 0.0, 14.0, 0.0);
+		t(-width / 2.2, 0.0, 14.0, 0.0);
 
-		// Directional thrusters
-		thrusters.push({x:-centerWidth * 0.5, y: waistLength, size: 12.0, t: 0.0, dir: -Math.PI / 2.0});
-		thrusters.push({x:centerWidth * 0.5, y: waistLength, size: 12.0, t: 0.0, dir: Math.PI / 2.0});
+		// Back 1
+		t(-centerWidth * 0.5, waistLength, 12.0, Math.PI * 1.15);
 
-		thrusters.push({x:-centerWidth * 0.5, y: waistLength, size: 12.0, t: 0.0, dir: Math.PI * 1.15});
-		thrusters.push({x:centerWidth * 0.5, y: waistLength, size: 12.0, t: 0.0, dir: -Math.PI * 1.15});
+		// Side
+		t(centerWidth * 0.4, length * 0.74, 12.0, Math.PI / 2.0);
+		t(-centerWidth * 0.4, length * 0.74, 12.0, -Math.PI / 2.0);
+		t(centerWidth * 0.5, waistLength * 0.5, 12.0, Math.PI / 2.0);
+		t(-centerWidth * 0.5, waistLength * 0.5, 12.0, -Math.PI / 2.0);
+
+		// Back 2
+		t(centerWidth * 0.5, waistLength, 12.0, -Math.PI * 1.15);
+
 
 		// One huge center weapon
 		weapons.push({x: 0.0, y: waistLength, dir: 0, size: 32.0, angle: Math.PI, speed: 2.0, ftime: 1.0, ftimer: 0.0});
@@ -186,7 +200,7 @@ function drawShipLow(ship)
 {
 	// Draw hull
 	ctx.fillStyle = ship.color;
-	ctx.strokeStyle = 'rgb(255, 255, 255)';
+	ctx.strokeStyle = 'white';
 	ctx.lineWidth = 2.0;
 	ctx.beginPath();
 
@@ -206,29 +220,18 @@ function drawShipLow(ship)
 	for(var i = 0; i < ship.thrusters.length; i++)
 	{
 		ctx.fillStyle = 'rgb(60, 60, 60)';
-		ctx.strokeStyle = 'rgb(255, 255, 255)';
+		ctx.strokeStyle = 'white';
 		ctx.lineWidth = 2.0;
 
 		var thruster = ship.thrusters[i];
-		var thrusterSize = thruster.size;
-
-		var endPointX = Math.cos(thruster.dir - Math.PI / 2.0);
-		var endPointY = Math.sin(thruster.dir - Math.PI / 2.0);
-
-		var perpX = Math.cos(thruster.dir);
-		var perpY = Math.sin(thruster.dir);
-
-		var nozzleX = endPointX * thrusterSize * 2.0 + perpX * thrusterSize * 0.7;
-		var nozzleY = endPointY * thrusterSize * 2.0 + perpY * thrusterSize * 0.7;
-		var nozzle1X = endPointX * thrusterSize * 2.0 - perpX * thrusterSize * 0.7;
-		var nozzle1Y = endPointY * thrusterSize * 2.0 - perpY * thrusterSize * 0.7;
+		var tstuff = getThrusterStuff(thruster);
 
 		ctx.beginPath();
 
 		// Thruster triangle
 		ctx.moveTo(thruster.x, thruster.y);
-		ctx.lineTo(thruster.x + nozzleX, thruster.y + nozzleY);
-		ctx.lineTo(thruster.x + nozzle1X, thruster.y + nozzle1Y);
+		ctx.lineTo(thruster.x + tstuff.nozzleX, thruster.y + tstuff.nozzleY);
+		ctx.lineTo(thruster.x + tstuff.nozzle1X, thruster.y + tstuff.nozzle1Y);
 		ctx.lineTo(thruster.x, thruster.y);
 
 		ctx.fill();
@@ -236,7 +239,7 @@ function drawShipLow(ship)
 
 		ctx.beginPath();
 
-		ctx.arc(thruster.x, thruster.y, thrusterSize, 0.0, Math.PI * 2.0);
+		ctx.arc(thruster.x, thruster.y, tstuff.thrusterSize, 0.0, Math.PI * 2.0);
 
 		ctx.fill();
 		ctx.stroke();
@@ -247,10 +250,7 @@ function drawShipLow(ship)
 	// Draw weapon attachments
 	for(var i = 0; i < ship.weapons.length; i++)
 	{
-		ctx.fillStyle = 'rgb(170, 90, 90)';
-		ctx.strokeStyle = 'rgb(255, 255, 255)';
 		ctx.lineWidth = 2.0;
-
 		var weapon = ship.weapons[i];
 		var weaponSize = weapon.size;
 
@@ -290,8 +290,31 @@ function drawShip(ship)
 
 	drawShipLow(ship);
 	
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
+}
+
+function getThrusterStuff(thruster)
+{
+
+	var thrusterSize = thruster.size;
+
+	var endPointX = Math.cos(thruster.dir - Math.PI / 2.0);
+	var endPointY = Math.sin(thruster.dir - Math.PI / 2.0);
+
+	var perpX = Math.cos(thruster.dir);
+	var perpY = Math.sin(thruster.dir);
+
+	var nozzleX = endPointX * thrusterSize * 2.0 + perpX * thrusterSize * 0.7;
+	var nozzleY = endPointY * thrusterSize * 2.0 + perpY * thrusterSize * 0.7;
+	var nozzle1X = endPointX * thrusterSize * 2.0 - perpX * thrusterSize * 0.7;
+	var nozzle1Y = endPointY * thrusterSize * 2.0 - perpY * thrusterSize * 0.7;
+
+	var thrust = (thruster.t + 0.00) * 8.0;
+
+	return {nozzleX: nozzleX, nozzleY: nozzleY, 
+		nozzle1X: nozzle1X, nozzle1Y: nozzle1Y, 
+		thrust: thrust, thrusterSize: thrusterSize,
+		endPointX: endPointX, endPointY: endPointY};
 
 }
 
@@ -299,6 +322,7 @@ function drawShip(ship)
 function drawShipExhaust(ship)
 {
 	shipTransform(ship);
+
 
 	for(var i = 0; i < ship.thrusters.length; i++)
 	{
@@ -308,32 +332,19 @@ function drawShipExhaust(ship)
 		ctx.lineWidth = 2.0;
 
 		var thruster = ship.thrusters[i];
-		var thrusterSize = thruster.size;
-
-		var endPointX = Math.cos(thruster.dir - Math.PI / 2.0);
-		var endPointY = Math.sin(thruster.dir - Math.PI / 2.0);
-
-		var perpX = Math.cos(thruster.dir);
-		var perpY = Math.sin(thruster.dir);
-
-		var nozzleX = endPointX * thrusterSize * 2.0 + perpX * thrusterSize * 0.7;
-		var nozzleY = endPointY * thrusterSize * 2.0 + perpY * thrusterSize * 0.7;
-		var nozzle1X = endPointX * thrusterSize * 2.0 - perpX * thrusterSize * 0.7;
-		var nozzle1Y = endPointY * thrusterSize * 2.0 - perpY * thrusterSize * 0.7;
-
-		var thrust = (thruster.t + 0.00) * 8.0;
+		var tstuff = getThrusterStuff(thruster);
 
 		ctx.beginPath();
-		ctx.lineTo(thruster.x + nozzleX, thruster.y + nozzleY);
-		ctx.lineTo(thruster.x + endPointX * (thrust + 2.0) * thrusterSize, thruster.y + thrusterSize * (thrust + 2.0) * endPointY);
-		ctx.lineTo(thruster.x + nozzle1X, thruster.y + nozzle1Y);
+		ctx.lineTo(thruster.x + tstuff.nozzleX, thruster.y + tstuff.nozzleY);
+		ctx.lineTo(thruster.x + tstuff.endPointX * (tstuff.thrust + 2.0) * tstuff.thrusterSize, 
+		thruster.y + tstuff.thrusterSize * (tstuff.thrust + 2.0) * tstuff.endPointY);
+		ctx.lineTo(thruster.x + tstuff.nozzle1X, thruster.y + tstuff.nozzle1Y);
 
 		ctx.fill();
 		ctx.stroke();
 	}
 
 	
-	ctx.setTransform(1, 0, 0, 1, 0, 0);
 	doCameraTransform();
 }
 
@@ -358,30 +369,21 @@ function setShipThrust(ship)
 	var xrot = xvals(ship.thrust.rot);
 	var xside = xvals(ship.thrust.side);
 	var xfw = xvals(ship.thrust.fw);
+	ship.thrusters[0].t = xfw.a;
+	ship.thrusters[1].t = xfw.a;
+	ship.thrusters[2].t = xfw.b;
 	if(ship.type == 2)
 	{
-		ship.thrusters[0].t = xfw.a;
-		ship.thrusters[2].t = Math.max(xrot.b, xfw.a);
-		ship.thrusters[1].t = Math.max(xrot.a, xfw.a);
-		ship.thrusters[3].t = xside.b;
-		ship.thrusters[4].t = xside.a;
-		ship.thrusters[5].t = xfw.b;
-		ship.thrusters[6].t = xfw.b;
+		ship.thrusters[7].t = xfw.b;
 	}
-	else
-	{
-		ship.thrusters[0].t = xfw.a;
-		ship.thrusters[1].t = xfw.a;
-		ship.thrusters[2].t = xfw.b;
-		ship.thrusters[3].t = Math.max(xside.a, xrot.a);
-		ship.thrusters[4].t = Math.max(xside.b, xrot.b);
-		ship.thrusters[5].t = Math.max(xside.a, xrot.b);
-		ship.thrusters[6].t = Math.max(xside.b, xrot.a);
-	}
+	ship.thrusters[3].t = Math.max(xside.a, xrot.a);
+	ship.thrusters[4].t = Math.max(xside.b, xrot.b);
+	ship.thrusters[5].t = Math.max(xside.a, xrot.b);
+	ship.thrusters[6].t = Math.max(xside.b, xrot.a);
 }
 
 // Aims all ship guns to given point
-function aimShipGuns(ship, p, dt)
+function aimShipGuns(ship, p)
 {
 	// Transform p to ship-relative coordinates
 
@@ -457,7 +459,6 @@ function predictShip(ship)
 
 	var step = 0.5;
 	var max = 500;
-	var minDist = 15.0;
 
 	if(ship.frame == 0)
 	{
@@ -473,8 +474,6 @@ function predictShip(ship)
 		}
 	}
 	
-	var frameThen = planetAtTime(ship.frame, time);
-
 	for(var i = 0; i < max / step; i++)
 	{
 		var point = {x: ship.predict[i].x, y: ship.predict[i].y};

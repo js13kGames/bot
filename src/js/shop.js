@@ -21,7 +21,7 @@ function upgradePrice()
 
 function orePrice()
 {
-	return 5.0 * plOre;
+	return 8.0 * plOre;
 }
 
 var holdingUpgrade = false;
@@ -90,6 +90,7 @@ function planetShop(key, release, ship, planet)
 				{
 					plMoney -= repairPrice();
 					ships[0].health = ships[0].stats.armor;
+					ships[0].destroyed = false;
 				}
 			}
 			else if(key == 'KeyU')
@@ -116,6 +117,9 @@ function planetShop(key, release, ship, planet)
 				{
 					zzfx(1,.1,836,.2,.01,0,.3,1.3,.78); // ZzFX 18945
 				}
+
+				planet.humanAggro += plOre * 0.001 * 0.20;
+				planet.humanAggro = Math.min(planet.humanAggro, 1.0);
 
 				plOre = 0;
 			}
