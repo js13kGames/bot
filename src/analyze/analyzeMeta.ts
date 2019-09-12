@@ -213,7 +213,7 @@ export const getFiles = ({ github }: { github: GithubClient }) => async (
     const { data: commit } = await github.repos.getCommit({
       owner: pullRequest.base.repo.owner.login,
       repo: pullRequest.base.repo.name,
-      commit_sha
+      ref: commit_sha
     });
 
     for (const file of commit.files) {
