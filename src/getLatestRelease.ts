@@ -11,7 +11,7 @@ export const getLatestRelease = ({
     per_page: 250
   });
 
-  const { data: commits } = await github.pullRequests.listCommits({
+  const { data: commits } = await github.pulls.listCommits({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
     number: pullRequest.number,

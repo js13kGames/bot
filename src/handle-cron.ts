@@ -7,7 +7,7 @@ import { getCheckRuns } from "./checkRuns";
 import { sendMessage } from "./services/sqs";
 
 export const handle = async () => {
-  const installations = await listInstallations();
+  const { data: installations } = await listInstallations();
 
   for (const installation of shuffle(installations)) {
     const github = await create(installation.id);
@@ -19,7 +19,7 @@ export const handle = async () => {
     for (const repository of shuffle(repositories)) {
       console.log(`-- repository ${repository.owner.login}/${repository.name}`);
 
-      const { data: pullRequests } = await github.pullRequests.list({
+      const { data: pullRequests } = await github.pulls.list({
         owner: repository.owner.login,
         repo: repository.name,
         state: "open"

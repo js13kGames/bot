@@ -113,7 +113,7 @@ export const handle: SQSHandler = async e => {
       "#"
     );
 
-    const { data: pullRequest } = await github.pullRequests.get({
+    const { data: pullRequest } = await github.pulls.get({
       owner: event.repository.owner.login,
       repo: event.repository.name,
       number: +pullRequestNumber
@@ -164,7 +164,7 @@ export const handle: SQSHandler = async e => {
     });
 
     // close PR
-    await github.pullRequests.update({
+    await github.pulls.update({
       owner: event.repository.owner.login,
       repo: event.repository.name,
       number: +pullRequestNumber,

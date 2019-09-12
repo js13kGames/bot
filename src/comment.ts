@@ -13,7 +13,7 @@ export const getComment = ({ github }: { github: GithubClient }) => async (
     per_page: 100
   });
 
-  const app = await getApp();
+  const { data: app } = await getApp();
   const userLogin = app.name.toLowerCase() + "[bot]";
 
   const comment = comments.find(({ user }) => user.login === userLogin);

@@ -200,7 +200,7 @@ export const getFiles = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest,
   commitSha?: string
 ): Promise<File[]> => {
-  const { data: commits } = await github.pullRequests.listCommits({
+  const { data: commits } = await github.pulls.listCommits({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
     number: pullRequest.number,
@@ -209,11 +209,11 @@ export const getFiles = ({ github }: { github: GithubClient }) => async (
 
   const files = {};
 
-  for (const sha of removeAfter(commits.map(c => c.sha), commitSha)) {
+  for (const commit_sha of removeAfter(commits.map(c => c.sha), commitSha)) {
     const { data: commit } = await github.repos.getCommit({
       owner: pullRequest.base.repo.owner.login,
       repo: pullRequest.base.repo.name,
-      sha
+      commit_sha
     });
 
     for (const file of commit.files) {
