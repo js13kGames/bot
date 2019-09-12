@@ -1,25 +1,27 @@
 import "./polyfill.fromEntries";
 import { create, listInstallations } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
-import { analyzeAndReport } from "./handle-job";
+import { sendMessage } from "./services/sqs";
+import { pullsListAllCommits } from "./services/github/pagination";
 
 const run = async () => {
-  const installations = await listInstallations();
-  const github = await create(installations[0].id);
+  const {
+    data: [installation]
+  } = await listInstallations();
+  const github = await create(installation.id);
 
-  const { data: pullRequest } = await github.pullRequests.get({
+  const { data: pullRequest } = await github.pulls.get({
     owner: "js13kGames",
     repo: "entry",
-    number: 31
+    pull_number: 53
   });
 
   const re = await getLatestRelease({ github })(pullRequest);
 
-  const { data: commits } = await github.pullRequests.listCommits({
+  const commits = await pullsListAllCommits(github)({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
-    number: pullRequest.number,
-    per_page: 250
+    pull_number: pullRequest.number
   });
   const latestCommit = commits.slice(-1)[0];
 
@@ -29,7 +31,13 @@ const run = async () => {
       : `${pullRequest.title}  no release, commit ${latestCommit.sha}`
   );
 
-  analyzeAndReport({ github })(pullRequest, latestCommit.sha, re && re.release);
+  await sendMessage({
+    eventName: "x-force-analyze",
+    installation,
+    pullRequest,
+    release: re && re.release,
+    commitSha: latestCommit.sha
+  });
 };
 
 run();
