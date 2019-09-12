@@ -1,4 +1,5 @@
 import { PullRequest, GithubClient, getApp } from "./services/github";
+import { issuesListAllComments } from "./services/github/pagination";
 
 /**
  * read the comment left by the bot
@@ -6,11 +7,10 @@ import { PullRequest, GithubClient, getApp } from "./services/github";
 export const getComment = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest
 ) => {
-  const { data: comments } = await github.issues.listComments({
+  const comments = await issuesListAllComments(github)({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
-    number: pullRequest.number,
-    per_page: 100
+    issue_number: pullRequest.number
   });
 
   const { data: app } = await getApp();

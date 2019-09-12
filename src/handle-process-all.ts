@@ -2,9 +2,10 @@ import "./polyfill.fromEntries";
 import { create, listInstallations } from "./services/github";
 import { getLatestRelease } from "./getLatestRelease";
 import { sendMessage } from "./services/sqs";
+import { pullsListAllCommits } from "./services/github/pagination";
 
 export const handle = async () => {
-  const {data:installations} = await listInstallations();
+  const { data: installations } = await listInstallations();
 
   for (const installation of shuffle(installations)) {
     const github = await create(installation.id);
@@ -29,11 +30,10 @@ export const handle = async () => {
 
         const re = await getLatestRelease({ github })(pullRequest);
 
-        const { data: commits } = await github.pulls.listCommits({
+        const commits = await pullsListAllCommits(github)({
           owner: pullRequest.base.repo.owner.login,
           repo: pullRequest.base.repo.name,
-          number: pullRequest.number,
-          per_page: 250
+          pull_number: pullRequest.number
         });
         const latestCommit = commits.slice(-1)[0];
 

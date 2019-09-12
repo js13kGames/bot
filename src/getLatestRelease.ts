@@ -1,27 +1,29 @@
 import { GithubClient, PullRequest } from "./services/github";
+import {
+  pullsListAllCommits,
+  reposListAllTags,
+  reposListAllReleases
+} from "./services/github/pagination";
 
 export const getLatestRelease = ({
   github
 }: {
   github: GithubClient;
 }) => async (pullRequest: PullRequest, commitSha?: string) => {
-  const { data: releases } = await github.repos.listReleases({
+  const releases = await reposListAllReleases(github)({
     owner: pullRequest.head.repo.owner.login,
-    repo: pullRequest.head.repo.name,
-    per_page: 250
+    repo: pullRequest.head.repo.name
   });
 
-  const { data: commits } = await github.pulls.listCommits({
+  const commits = await pullsListAllCommits(github)({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
-    number: pullRequest.number,
-    per_page: 250
+    pull_number: pullRequest.number
   });
 
-  const { data: tags } = await github.repos.listTags({
+  const tags = await reposListAllTags(github)({
     owner: pullRequest.head.repo.owner.login,
-    repo: pullRequest.head.repo.name,
-    per_page: 250
+    repo: pullRequest.head.repo.name
   });
 
   /**

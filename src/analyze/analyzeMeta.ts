@@ -8,6 +8,7 @@ import { Control } from "./control";
 import { PullRequest, GithubClient, File } from "../services/github";
 import { promisify } from "util";
 import { uploadImage, createUrl } from "../services/cloudinary";
+import { pullsListAllCommits } from "../services/github/pagination";
 
 export const analyzeMeta = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest,
@@ -200,11 +201,10 @@ export const getFiles = ({ github }: { github: GithubClient }) => async (
   pullRequest: PullRequest,
   commitSha?: string
 ): Promise<File[]> => {
-  const { data: commits } = await github.pulls.listCommits({
+  const commits = await pullsListAllCommits(github)({
     owner: pullRequest.base.repo.owner.login,
     repo: pullRequest.base.repo.name,
-    number: pullRequest.number,
-    per_page: 300
+    pull_number: pullRequest.number
   });
 
   const files = {};
