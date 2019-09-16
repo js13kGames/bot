@@ -7,16 +7,16 @@
 - [TL;DR](#TL;DR)
 - [Step by step](#step-by-step)
   - [Fork](#fork)
-  - [Pull Request](#pull-request)
   - [Release](#release)
+  - [Pull Request](#pull-request)
 - [FAQ](#FAQ)
 
 ## TL;DR
 
 - fork [github.com/js13kGames/entry](https://github.com/js13kGames/entry)
 - work on your entry 👷
-- create a PR
 - create a release with a zip file containing your game
+- create a PR
 - 🍹
 
 ## Step by step
@@ -26,6 +26,16 @@
 For the repository [github.com/js13kGames/entry](https://github.com/js13kGames/entry)
 
 > If you have troubles forking, please read this [github guide](https://help.github.com/en/articles/fork-a-repo)
+
+### Release
+
+Your bundled entry does not need to be committed, instead it should be upload as release asset.
+
+You bundle should be zipped and contain a file named `index.html`.
+
+The release tagname does not matter.
+
+> If you have troubles creating the relese, please read this [github guide](https://help.github.com/en/articles/creating-releases)
 
 ### Pull Request
 
@@ -52,16 +62,6 @@ The manifest should be a json file looking like:
 ```
 
 If the `images` property is not defined, it will default to look for images named `image_large` and `image_thumbnail`
-
-### Release
-
-Your bundled entry does not need to be committed, instead it should be upload as release asset.
-
-You bundle should be zipped and contain a file named `index.html`.
-
-The release tagname does not matter.
-
-> If you have troubles creating the relese, please read this [github guide](https://help.github.com/en/articles/creating-releases)
 
 
 ## FAQ
