@@ -34,10 +34,13 @@ Once your submission is ready, open a pull request.
 In addition to your games sources, the pull request should includes. A manifest containing information about your game, as well as some images.
 
 It should includes: 
-- a large image, with a 400:250 ratio
-- a thumbnail image, with a 100:100 ratio
+- a large image, with a 400:250 ratio (100kb max)
+- a thumbnail image, with a 100:100 ratio (100kb max)
+- a description of your game (1000 bytes max)
 
 The images can actually be larger as long as the ratio is the same.
+
+The bot does not currently enforce size limits on description and images, but the submission form does.
 
 The manifest should be a json file looking like:
 ```javascript
