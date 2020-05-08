@@ -1,27 +1,20 @@
-service: js13kGames-bot
+service: js13kGames-bot-v2
 
 package:
+  individually: true
+  excludeDevDependencies: false
   exclude:
-    - ./src/**
-    - ./doc/**
-    - ./.jest-cache/**
-    - ./node_modules/.cache/**
-    - README.md
-    - license
+    - ./**
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   region: eu-west-1
   stage: stage
   logRetentionInDays: 14
+  memorySize: 256
+  timeout: 30
   iamRoleStatements:
-    # - Effect: "Allow"
-    #   Action:
-    #     - "s3:"
-    #   Resource:
-    #     - "arn:aws:s3:::js13kgames-entry-preview"
-    #
     - Effect: "Allow"
       Action:
         - "s3:ListBucket*"
@@ -34,74 +27,42 @@ provider:
       Resource:
         - "*"
 
-    - Effect: "Allow"
-      Action:
-        - "xray:PutTraceSegments"
-        - "xray:PutTelemetryRecords"
-      Resource:
-        - "*"
-
-    - Effect: "Allow"
-      Action:
-        - "sqs:ListQueues"
-      Resource:
-        - "*"
-
-    - Effect: "Allow"
-      Action:
-        - "sqs:*"
-      Resource:
-        - Fn::GetAtt:
-            - JobQueue
-            - Arn
-
   environment:
-    AWS_BUCKET_NAME: js13kgames-entry-preview
-    AWS_SQS_QUEUE_NAME:
-      Fn::GetAtt:
-        - JobQueue
-        - QueueName
-    AWS_SQS_QUEUE_ARN:
-      Fn::GetAtt:
-        - JobQueue
-        - Arn
-    GITHUB_WEBHOOK_URL:
-      Fn::Join:
-        - ""
-        - - "https://"
-          - Ref: "ApiGatewayRestApi"
-          - ".execute-api.${self:provider.region}.amazonaws.com/${self:provider.stage}/webhook"
+    AWS_BUCKET_NAME: js13kgames-entry-previeww
+    BROWSERSTACK_KEY: ${env:BROWSERSTACK_KEY}
+    BROWSERSTACK_USER: ${env:BROWSERSTACK_USER}
 
 resources:
   Resources:
-    JobQueue:
-      Type: "AWS::SQS::Queue"
+    deployBucket:
+      Type: "AWS::S3::Bucket"
       Properties:
-        VisibilityTimeout: 120
+        WebsiteConfiguration:
+          IndexDocument: "index.html"
+
+        CorsConfiguration:
+          CorsRules:
+            - AllowedMethods:
+                - "GET"
+              AllowedOrigins:
+                - "*"
+        BucketName: js13kgames-entry-previeww
 
 functions:
-  github-webhook:
-    memorySize: 128
-    timeout: 10
-    handler: build/handle-github-webhook.handle
+  bundleAnalyzer:
+    package:
+      include:
+        - build/bundle-analyzer/index.js
+    handler: build/bundle-analyzer/index.handle
     events:
-      - http: POST webhook
+      - http: POST analyze-bundle
 
-  detect-new-release:
-    memorySize: 256
-    timeout: 60
-    handler: build/handle-cron.handle
-    events:
-      - schedule: rate(8 minutes)
+plugins:
+  - serverless-apigw-binary
 
-  job:
-    memorySize: 256
-    timeout: 120
-    handler: build/handle-job.handle
-    events:
-      - sqs:
-          arn:
-            Fn::GetAtt:
-              - JobQueue
-              - Arn
-          batchSize: 1
+custom:
+  apigwBinary:
+    types:
+      - "*/*"
+      - "multipart/form-data"
+      - "image/*"

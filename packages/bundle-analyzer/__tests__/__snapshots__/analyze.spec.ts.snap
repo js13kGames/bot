@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should anayze blank-screen 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "failed",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
+  },
+}
+`;
+
+exports[`should anayze error-on-run 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "details": "got 1 errors:
+http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+      "result": "failed",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
+  },
+}
+`;
+
+exports[`should anayze external-http-call-html 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "details": "got 2 forbidden requests:
+https://avatars0.githubusercontent.com/u/1659820?v=4
+https://github.com/platane.png",
+      "result": "failed",
+    },
+  },
+}
+`;
+
+exports[`should anayze missing-index 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "details": "Can you try renaming \\"game.html\\" to \\"index.html\\" ?",
+      "result": "failed",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "untested",
+    },
+    "game_no_error": Object {
+      "result": "untested",
+    },
+    "game_no_external_http": Object {
+      "result": "untested",
+    },
+  },
+}
+`;
+
+exports[`should anayze oversize-bundle 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "failed",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
+  },
+}
+`;
+
+exports[`should anayze valid 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
+  },
+}
+`;

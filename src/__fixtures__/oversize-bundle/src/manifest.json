@@ -1,4 +1,0 @@
-{
-  "name": "oversize bundle",
-  "description": "This entry should yield an error because the bundle is over the size limit"
-}
