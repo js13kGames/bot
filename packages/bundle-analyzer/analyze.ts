@@ -3,72 +3,99 @@ import { getHash } from "./md5";
 import { createUploader } from "./s3";
 import { runGame } from "./browserstack";
 import { promisify } from "util";
+import { Rules } from "js13kGames-bot-rules";
 // @ts-ignore
 import * as getPixels from "get-pixels";
-import { createInitialReport } from "./report";
-
-export type Rules = {
-  bundle: {
-    max_size: number;
-  };
-  game: {
-    http_request_whitelist: RegExp[];
-  };
-};
+import { checkDescriptions, Result, CheckId } from "./checks";
 
 export const analyze = async (rules: Rules, bundleContent: Buffer) => {
   const key = getHash(bundleContent);
   const report = createInitialReport();
 
+  report.checks.bundle_size.result =
+    bundleContent.length <= rules.bundle.max_size ? "ok" : "failed";
+
+  // unzip
+  let files: ReturnType<typeof unzip>;
   try {
-    report.bundle_size.result =
-      bundleContent.length <= rules.bundle.max_size ? "ok" : "failed";
+    files = unzip(bundleContent);
+    report.checks.bundle_valid_zip.result = "ok";
+  } catch (error) {
+    report.checks.bundle_valid_zip.result = "failed";
+    report.checks.bundle_valid_zip.details = error.message;
+    return report;
+  }
 
-    // unzip
-    const files = unzip(bundleContent);
+  // check index.html
+  {
+    const ok = files.some((x) => x.filename === "index.html");
 
-    report.bundle_valid_zip.result = "ok";
+    if (ok) {
+      report.checks.bundle_contains_index.result = "ok";
+    } else {
+      report.checks.bundle_contains_index.result = "failed";
 
-    // deploy
-    let gameUrl = await uploadFiles(key, files);
+      const htmlFile = files.find((x) => x.filename.endsWith(".html"));
 
-    if (!gameUrl) {
-      report.bundle_contains_index.result = "failed";
-      return report;
+      if (htmlFile && htmlFile.filename.endsWith("index.html"))
+        report.checks.bundle_contains_index.details = `Can you try moving "${htmlFile.filename}" to the root of the zip ?`;
+      if (htmlFile && !htmlFile.filename.endsWith("index.html"))
+        report.checks.bundle_contains_index.details = `Can you try renaming "${htmlFile.filename}" to "index.html" ?`;
     }
+  }
 
-    report.bundle_contains_index.result = "ok";
+  // deploy
+  let gameUrl = await uploadFiles(key, files);
 
-    // test game
-    const { urls, errorlogs, base64screenShot } = await runGame(gameUrl);
+  if (!gameUrl) {
+    return report;
+  } else {
+    report.deployUrl = gameUrl;
+  }
 
-    const { data: dataImage } = await promisify(getPixels)(
-      "data:image/png;base64," + base64screenShot
-    );
+  // test game
+  const { urls, errorlogs, base64screenShot } = await runGame(gameUrl);
 
-    report.game_no_blank_screen.result = isImageBlank(dataImage)
-      ? "failed"
-      : "ok";
+  /// check for errors
+  {
+    report.checks.game_no_error.result = errorlogs.length ? "failed" : "ok";
+    report.checks.game_no_error.details = errorlogs.length
+      ? `got ${errorlogs.length} errors:\n` + errorlogs.join("\n")
+      : undefined;
+  }
 
-    report.game_no_error.result = errorlogs.length ? "failed" : "ok";
-    report.game_no_error.details = errorlogs;
-
+  // check for forbidden requests
+  {
     const externalUrls = urls
       .filter((url) => !url.includes(key))
       .filter(
         (url) => !rules.game.http_request_whitelist.some((re) => url.match(re))
       );
-    report.game_no_external_http.result = externalUrls.length ? "failed" : "ok";
-    report.game_no_external_http.details = externalUrls;
-  } catch (error) {
-    console.error(error);
+    report.checks.game_no_external_http.result = externalUrls.length
+      ? "failed"
+      : "ok";
+    report.checks.game_no_external_http.details = externalUrls.length
+      ? `got ${externalUrls.length} forbidden requests:\n` +
+        externalUrls.join("\n")
+      : undefined;
+  }
+
+  // check for blank screen
+  {
+    const { data: dataImage } = await promisify(getPixels)(
+      "data:image/png;base64," + base64screenShot
+    );
+
+    report.checks.game_no_blank_screen.result = isImageBlank(dataImage)
+      ? "failed"
+      : "ok";
   }
 
   return report;
 };
 
 const uploadFiles = async (key: string, files: any[]) => {
-  const { upload } = await createUploader(key);
+  const { upload } = createUploader(key);
   let indexUrl: string | undefined;
   await Promise.all(
     files.map(({ filename, content }) =>
@@ -93,3 +120,27 @@ const isImageBlank = (data: number[]) => {
 
   return err === 0;
 };
+
+const createInitialReport = () => {
+  const checks: any = {};
+
+  for (const id in checkDescriptions) {
+    checks[id] = { result: "untested" };
+  }
+
+  return {
+    deployUrl: null as null | string,
+    checks: checks as Record<CheckId, { result: Result; details?: string }>,
+  };
+};
+
+export const formatReport = (
+  report: ReturnType<typeof createInitialReport>
+) => ({
+  ...report,
+  checks: Object.entries(report.checks).map(([id, value]) => ({
+    id,
+    ...value,
+    description: checkDescriptions[id as CheckId],
+  })),
+});

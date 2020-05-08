@@ -10,7 +10,7 @@ for (const file of fs.readdirSync(FIXTURE_DIR))
   it(`should anayze ${file}`, async () => {
     const rules = {
       bundle: { max_size: 13 * 1024 },
-      game: { http_request_whitelist: [/\.favicon.ico$/] },
+      game: { http_request_whitelist: [] },
     };
 
     const zip = fs.readFileSync(path.resolve(FIXTURE_DIR, file, "bundle.zip"));

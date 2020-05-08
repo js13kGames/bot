@@ -64,4 +64,5 @@ custom:
   apigwBinary:
     types:
       - "*/*"
+      - "multipart/form-data"
       - "image/*"

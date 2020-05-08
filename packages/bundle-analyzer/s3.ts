@@ -3,7 +3,7 @@ import * as S3 from "aws-sdk/clients/s3";
 import * as mime from "mime-types";
 
 export const createUploader = (key: string) => {
-  const s3 = new S3(getConfig());
+  const s3 = new S3(getCredentials());
   const bucketName = process.env.AWS_BUCKET_NAME!;
   const region = process.env.AWS_DEFAULT_REGION!;
 
@@ -29,7 +29,7 @@ export const createUploader = (key: string) => {
   return { upload };
 };
 
-const getConfig = () => {
+const getCredentials = () => {
   const sessionToken = process.env.AWS_SESSION_TOKEN;
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;

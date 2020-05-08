@@ -3,7 +3,7 @@ import * as webdriver from "selenium-webdriver";
 import { encode } from "base-64";
 
 export const runGame = async (gameUrl: string) => {
-  const { user, key } = getConfig();
+  const { user, key } = getCredentials();
 
   const capabilities = {
     os: "Windows",
@@ -60,6 +60,8 @@ export const runGame = async (gameUrl: string) => {
     .map((x: any) => x.toJSON())
     .filter(({ level }: any) => ["SEVERE"].includes(level))
     .map(({ message }: any) => message)
+
+    // omit error message related to favicon
     .filter(
       (message: string) =>
         !(message.includes("favicon.ico") && message.match(/(404|403)/))
@@ -73,16 +75,19 @@ export const runGame = async (gameUrl: string) => {
   return { networkLog, browserLogs, errorlogs, urls, base64screenShot };
 };
 
-// omit requests made by the os that somehow end up here
 const isUrlRelevant = (url: string) =>
   !(
-    url.startsWith("http://ctldl.windowsupdate.com/msdownload/update") ||
-    url.startsWith("http://crl.globalsign.net") ||
-    url.match(/^https?:\/\/[^/]+microsoft\.com/) ||
-    url.endsWith("favicon.ico")
+    // omit requests made by the os that somehow end up here
+    (
+      url.startsWith("http://ctldl.windowsupdate.com/msdownload/update") ||
+      url.startsWith("http://crl.globalsign.net") ||
+      url.match(/^https?:\/\/[^/]+microsoft\.com/) ||
+      // omit favicon
+      url.endsWith("favicon.ico")
+    )
   );
 
-const getConfig = () => ({
+const getCredentials = () => ({
   user: process.env.BROWSERSTACK_USER!,
   key: process.env.BROWSERSTACK_KEY!,
 });
@@ -93,7 +98,7 @@ const getBrowserStackNetworkLog = async (
   sessionId: string,
   retry = 0
 ): Promise<any> => {
-  const { user, key } = getConfig();
+  const { user, key } = getCredentials();
 
   const auth = encode(user + ":" + key);
 
