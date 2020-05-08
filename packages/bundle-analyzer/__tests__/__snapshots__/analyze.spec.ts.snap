@@ -2,189 +2,156 @@
 
 exports[`should anayze blank-screen 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "ok",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "ok",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "failed",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "details": Array [],
-    "result": "ok",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "details": Array [],
-    "result": "ok",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "failed",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
   },
 }
 `;
 
 exports[`should anayze error-on-run 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "ok",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "ok",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "ok",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "details": Array [
-      "http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
-    ],
-    "result": "failed",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "details": Array [],
-    "result": "ok",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "details": "got 1 errors:
+http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+      "result": "failed",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
   },
 }
 `;
 
 exports[`should anayze external-http-call-html 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "ok",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "ok",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "ok",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "details": Array [],
-    "result": "ok",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "details": Array [
-      "https://avatars0.githubusercontent.com/u/1659820?v=4",
-      "https://github.com/platane.png",
-    ],
-    "result": "failed",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "details": "got 2 forbidden requests:
+https://avatars0.githubusercontent.com/u/1659820?v=4
+https://github.com/platane.png",
+      "result": "failed",
+    },
   },
 }
 `;
 
 exports[`should anayze missing-index 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "failed",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "ok",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "untested",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "result": "untested",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "result": "untested",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "details": "Can you try renaming \\"game.html\\" to \\"index.html\\" ?",
+      "result": "failed",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "untested",
+    },
+    "game_no_error": Object {
+      "result": "untested",
+    },
+    "game_no_external_http": Object {
+      "result": "untested",
+    },
   },
 }
 `;
 
 exports[`should anayze oversize-bundle 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "ok",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "failed",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "ok",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "details": Array [],
-    "result": "ok",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "details": Array [],
-    "result": "ok",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "failed",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
   },
 }
 `;
 
 exports[`should anayze valid 1`] = `
 Object {
-  "bundle_contains_index": Object {
-    "description": "The bundle should contain an index.html file at the root",
-    "result": "ok",
-  },
-  "bundle_size": Object {
-    "description": "The bundle should not be over the size limit",
-    "result": "ok",
-  },
-  "bundle_valid_zip": Object {
-    "description": "The bundle should be a valid zip file",
-    "result": "ok",
-  },
-  "game_no_blank_screen": Object {
-    "description": "The game should display something on the screen",
-    "result": "ok",
-  },
-  "game_no_error": Object {
-    "description": "The game should start without error",
-    "details": Array [],
-    "result": "ok",
-  },
-  "game_no_external_http": Object {
-    "description": "The game should not load external http resources",
-    "details": Array [],
-    "result": "ok",
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
   },
 }
 `;

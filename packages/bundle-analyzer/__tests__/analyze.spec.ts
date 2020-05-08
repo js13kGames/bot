@@ -15,7 +15,7 @@ for (const file of fs.readdirSync(FIXTURE_DIR))
 
     const zip = fs.readFileSync(path.resolve(FIXTURE_DIR, file, "bundle.zip"));
 
-    const report = await analyze(rules, zip);
+    const { deployUrl, ...report } = await analyze(rules, zip);
 
     expect(report).toMatchSnapshot();
   });

@@ -59,9 +59,10 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
   /// check for errors
   {
     report.checks.game_no_error.result = errorlogs.length ? "failed" : "ok";
-    report.checks.game_no_error.details = errorlogs.length
-      ? `got ${errorlogs.length} errors:\n` + errorlogs.join("\n")
-      : undefined;
+
+    if (errorlogs.length)
+      report.checks.game_no_error.details =
+        `got ${errorlogs.length} errors:\n` + errorlogs.join("\n");
   }
 
   // check for forbidden requests
@@ -74,10 +75,10 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
     report.checks.game_no_external_http.result = externalUrls.length
       ? "failed"
       : "ok";
-    report.checks.game_no_external_http.details = externalUrls.length
-      ? `got ${externalUrls.length} forbidden requests:\n` +
-        externalUrls.join("\n")
-      : undefined;
+    if (externalUrls.length)
+      report.checks.game_no_external_http.details =
+        `got ${externalUrls.length} forbidden requests:\n` +
+        externalUrls.join("\n");
   }
 
   // check for blank screen
