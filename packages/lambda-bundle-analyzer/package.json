@@ -1,0 +1,10 @@
+{
+  "name": "js13kGames-bot-lambda-bundle-analyzer",
+  "version": "2.0.0",
+  "sideEffect": false,
+  "dependencies": {
+    "@types/aws-lambda": "8.10.51",
+    "aws-lambda": "1.0.6",
+    "js13kGames-bot-bundle-analyzer": "2.0.0"
+  }
+}

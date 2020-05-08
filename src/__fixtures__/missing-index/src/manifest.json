@@ -1,4 +1,0 @@
-{
-  "name": "missing index",
-  "description": "This entry should yield an error because the index.html is missing from the bundle"
-}

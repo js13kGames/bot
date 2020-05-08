@@ -1,4 +1,0 @@
-{
-  "name": "error on run",
-  "description": "This entry should yield an error because when running, the game yield error in the console"
-}
