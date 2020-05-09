@@ -1,4 +1,5 @@
 import { unzip } from "./unzip";
+import { parse as parseUrl } from "url";
 import { getHash } from "./md5";
 import { createUploader } from "./s3";
 import { runGame } from "./browserstack";
@@ -62,23 +63,39 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
 
     if (errorlogs.length)
       report.checks.game_no_error.details =
-        `got ${errorlogs.length} errors:\n` + errorlogs.join("\n");
+        `got ${errorlogs.length} errors:\n` +
+        errorlogs.map((message) => `  ${message}`).join("\n");
   }
 
   // check for forbidden requests
   {
+    const [baseUrl] = gameUrl.split("/index.html");
     const externalUrls = urls
-      .filter((url) => !url.includes(key))
+      .filter((url) => !url.startsWith(baseUrl))
       .filter(
         (url) => !rules.game.http_request_whitelist.some((re) => url.match(re))
       );
+
     report.checks.game_no_external_http.result = externalUrls.length
       ? "failed"
       : "ok";
+
     if (externalUrls.length)
       report.checks.game_no_external_http.details =
         `got ${externalUrls.length} forbidden requests:\n` +
-        externalUrls.join("\n");
+        externalUrls
+          .map((url) => {
+            const hostname = parseUrl(url).hostname;
+            const baseHostname = parseUrl(baseUrl).hostname;
+
+            if (hostname && hostname === baseHostname)
+              return `- ${
+                url.split(hostname)[1]
+              } Can you try importing this resource with a relative path ?`;
+
+            return `- ${url}`;
+          })
+          .join("\n");
   }
 
   // check for blank screen
