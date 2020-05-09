@@ -16,12 +16,17 @@ Exposes an endpoint to run checks on a bundle.zip
 ## Table of Content
 
 - [Usage](#Usage)
-- [Demo](#Demo)
-  - [pure html](https://js13kgames.github.io/bot/demo-pure-html.html)
-  - [with xhr](https://js13kgames.github.io/bot/demo-xhr.html)
+  - [Endpoint](#Endpoint)
+  - [Result](#Result)
+  - [Demo](#Demo)
+    - [xhr](https://js13kgames.github.io/bot/demo-xhr.html)
+    - [pure html](https://js13kgames.github.io/bot/demo-pure-html.html)
+- [Third party](#Third-party)
 - [License](#License)
 
 ## Usage
+
+### Endpoint
 
 ```sh
 
@@ -35,8 +40,10 @@ curl -X POST \
   --form category=mobile \
 
   # temporary dev endpoint
-  https://jwxql7uhq6.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle
+  https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle
 ```
+
+### Result
 
 ```typescript
 type Res = {
@@ -66,13 +73,19 @@ type Res = {
 };
 ```
 
-## Demo
+### Demo
 
 [A very simple form](https://js13kgames.github.io/bot/demo-xhr.html)
 
 And an even [simpler one without js](https://js13kgames.github.io/bot/demo-pure-html.html)
 
 There is some bundle.zip samples in [packages/bundle-analyzer/\_\_fixtures\_\_](packages/bundle-analyzer/__fixtures__)
+
+## Third party
+
+![browserstack logo](https://d2ogrdw2mh0rsl.cloudfront.net/production/images/static/header/header-logo.svg)
+
+Thanks to browserstack for supporting open source projects.
 
 ## License
 
