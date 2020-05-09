@@ -1,4 +1,4 @@
-service: js13kGames-bot-v2
+service: js13kGames-bot
 
 package:
   individually: true
@@ -17,18 +17,14 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action:
-        - "s3:ListBucket*"
+        - "s3:PutObject"
+        - "s3:PutObjectAcl"
       Resource:
-        - "arn:aws:s3:::*"
-
-    - Effect: "Allow"
-      Action:
-        - "s3:*"
-      Resource:
-        - "*"
+        # - "*"
+        - !Join ["/", [!GetAtt deployBucket.Arn, "*"]]
 
   environment:
-    AWS_BUCKET_NAME: js13kgames-entry-previeww
+    AWS_BUCKET_NAME: !Select [1, !Split [":::", !GetAtt deployBucket.Arn]]
     BROWSERSTACK_KEY: ${env:BROWSERSTACK_KEY}
     BROWSERSTACK_USER: ${env:BROWSERSTACK_USER}
 
@@ -46,7 +42,6 @@ resources:
                 - "GET"
               AllowedOrigins:
                 - "*"
-        BucketName: js13kgames-entry-previeww
 
 functions:
   bundleAnalyzer:
