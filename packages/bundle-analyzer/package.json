@@ -3,14 +3,14 @@
   "version": "2.0.0",
   "sideEffect": false,
   "dependencies": {
-    "aws-sdk": "2.672.0",
+    "aws-sdk": "2.734.0",
     "base-64": "0.1.0",
     "get-pixels": "3.3.2",
+    "js13kGames-bot-rules": "2.0.0",
     "mime-types": "2.1.27",
     "node-fetch": "2.6.0",
     "node-zip": "1.1.1",
-    "selenium-webdriver": "4.0.0-alpha.7",
-    "js13kGames-bot-rules": "2.0.0"
+    "selenium-webdriver": "4.0.0-alpha.7"
   },
   "devDependencies": {
     "@types/base-64": "0.1.3",
