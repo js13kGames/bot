@@ -8,10 +8,12 @@ import { Rules } from "js13kGames-bot-rules";
 // @ts-ignore
 import * as getPixels from "get-pixels";
 import { checkDescriptions, Result, CheckId } from "./checks";
+import { sign } from "./sign";
 
 export const analyze = async (rules: Rules, bundleContent: Buffer) => {
-  const key = getHash(bundleContent);
   const report = createInitialReport();
+  const md5Hash = getHash(bundleContent);
+  report.md5Hash = getHash(bundleContent);
 
   report.checks.bundle_size.result =
     bundleContent.length <= rules.bundle.max_size ? "ok" : "failed";
@@ -46,7 +48,7 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
   }
 
   // deploy
-  let gameUrl = await uploadFiles(key, files);
+  let gameUrl = await uploadFiles(md5Hash, files);
 
   if (!gameUrl) {
     return report;
@@ -109,6 +111,13 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
       : "ok";
   }
 
+  // generate a signature if all checks passed
+  {
+    if (Object.values(report.checks).every(({ result }) => result === "ok")) {
+      report.sha256SignatureOfTheMd5Hash = sign(md5Hash);
+    }
+  }
+
   return report;
 };
 
@@ -147,6 +156,8 @@ const createInitialReport = () => {
   }
 
   return {
+    sha256SignatureOfTheMd5Hash: null as null | string,
+    md5Hash: null as null | string,
     deployUrl: null as null | string,
     checks: checks as Record<CheckId, { result: Result; details?: string }>,
   };

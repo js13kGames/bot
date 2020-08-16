@@ -27,6 +27,7 @@ provider:
     AWS_BUCKET_NAME: !Select [1, !Split [":::", !GetAtt deployBucket.Arn]]
     BROWSERSTACK_KEY: ${env:BROWSERSTACK_KEY}
     BROWSERSTACK_USER: ${env:BROWSERSTACK_USER}
+    SUCCESS_SIGNATURE_PRIVATE_KEY: ${env:SUCCESS_SIGNATURE_PRIVATE_KEY}
 
 resources:
   Resources:
