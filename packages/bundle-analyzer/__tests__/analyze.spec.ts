@@ -7,7 +7,7 @@ const FIXTURE_DIR = path.resolve(__dirname, "..", "__fixtures__");
 jest.setTimeout(50000);
 
 for (const file of fs.readdirSync(FIXTURE_DIR))
-  it(`should anayze ${file}`, async () => {
+  it(`should analyze ${file}`, async () => {
     const rules = {
       bundle: { max_size: 13 * 1024 },
       game: { http_request_whitelist: [] },
@@ -15,7 +15,18 @@ for (const file of fs.readdirSync(FIXTURE_DIR))
 
     const zip = fs.readFileSync(path.resolve(FIXTURE_DIR, file, "bundle.zip"));
 
-    const { deployUrl, ...report } = await analyze(rules, zip);
+    const report = await analyze(rules, zip);
+    const genericReport = removeEnvSpecificData(report);
 
-    expect(report).toMatchSnapshot();
+    expect(genericReport).toMatchSnapshot();
   });
+
+// redact the actual bucket name from the report
+// so the report is the same regardless of the bucket name
+const removeEnvSpecificData = (o: Object) =>
+  JSON.parse(
+    JSON.stringify(o).replace(
+      new RegExp(process.env.AWS_BUCKET_NAME!, "g"),
+      "<bucketName>"
+    )
+  );

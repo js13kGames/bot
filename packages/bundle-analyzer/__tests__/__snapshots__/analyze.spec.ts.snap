@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should anayze absolute-import-path 1`] = `
+exports[`should analyze absolute-import-path 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -17,8 +17,8 @@ Object {
     },
     "game_no_error": Object {
       "details": "got 2 errors:
-  http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/asset/image/1659821.jpeg - Failed to load resource: the server responded with a status of 404 (Not Found)
-  http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/asset/script.js - Failed to load resource: the server responded with a status of 404 (Not Found)",
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/asset/image/1659821.jpeg - Failed to load resource: the server responded with a status of 404 (Not Found)
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/asset/script.js - Failed to load resource: the server responded with a status of 404 (Not Found)",
       "result": "failed",
     },
     "game_no_external_http": Object {
@@ -28,10 +28,11 @@ Object {
       "result": "failed",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b2ed77c919951cd7c6be1eebec67ba70/index.html",
 }
 `;
 
-exports[`should anayze blank-screen 1`] = `
+exports[`should analyze blank-screen 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -53,10 +54,11 @@ Object {
       "result": "ok",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html",
 }
 `;
 
-exports[`should anayze error-on-run 1`] = `
+exports[`should analyze error-on-run 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -73,17 +75,18 @@ Object {
     },
     "game_no_error": Object {
       "details": "got 1 errors:
-  http://js13kgames-entry-preview.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
       "result": "failed",
     },
     "game_no_external_http": Object {
       "result": "ok",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html",
 }
 `;
 
-exports[`should anayze external-http-call-html 1`] = `
+exports[`should analyze external-http-call-html 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -108,10 +111,11 @@ Object {
       "result": "failed",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
 }
 `;
 
-exports[`should anayze index-not-in-root 1`] = `
+exports[`should analyze index-not-in-root 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -134,10 +138,11 @@ Object {
       "result": "untested",
     },
   },
+  "deployUrl": null,
 }
 `;
 
-exports[`should anayze missing-index 1`] = `
+exports[`should analyze missing-index 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -160,10 +165,11 @@ Object {
       "result": "untested",
     },
   },
+  "deployUrl": null,
 }
 `;
 
-exports[`should anayze oversize-bundle 1`] = `
+exports[`should analyze oversize-bundle 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -185,10 +191,11 @@ Object {
       "result": "ok",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html",
 }
 `;
 
-exports[`should anayze valid 1`] = `
+exports[`should analyze valid 1`] = `
 Object {
   "checks": Object {
     "bundle_contains_index": Object {
@@ -210,5 +217,6 @@ Object {
       "result": "ok",
     },
   },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
 }
 `;
