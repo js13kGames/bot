@@ -1,6 +1,12 @@
 import * as deepmerge from "deepmerge";
 
-export const categories = ["mobile", "server", "desktop", "webxr"] as const;
+export const categories = [
+  "mobile",
+  "server",
+  "desktop",
+  "webxr",
+  "webmonetization",
+] as const;
 export type Category = typeof categories[number];
 
 export const isValidCategory = (x: any): x is Category =>
@@ -19,6 +25,7 @@ export const getRulesForCategory = (category: Category): Rules | null => {
   switch (category) {
     case "mobile":
     case "desktop":
+    case "webmonetization":
       return {
         bundle: { max_size: 13 * 1024 },
         game: { http_request_whitelist: [] },
