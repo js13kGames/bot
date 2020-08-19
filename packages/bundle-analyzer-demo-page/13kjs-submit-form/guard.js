@@ -27,15 +27,15 @@ let request;
 // hold the current result, as given by the endpoint
 let result = null;
 
-let confirmMessage = null;
-
 // on submit, display a confirm if some test were failing
 // the user get a chance to either confirm and continue with this submission
 // or cancel and submit a fix
+let confirmMessage = null;
 formElement.addEventListener("submit", (event) => {
   if (confirmMessage && !window.confirm(confirmMessage)) event.preventDefault();
 });
 
+// called for every change of the input or categories inputs
 const onChange = () => {
   // aborting previous
   if (request) request.abort();
@@ -87,9 +87,19 @@ const onChange = () => {
 
   updateUi();
 };
+bundleInput.addEventListener("change", onChange);
+categoryInputs.forEach((i) => i.addEventListener("change", onChange));
 
+// based on the global variables result and request,
+// update the ui
+// - the hint panel
+// - the delivery hidden input
+// - the confirm message
 const updateUi = () => {
   if (result && !(result instanceof Error)) {
+    //
+    // we got a result
+
     bundleInputHint.style.display = "block";
     bundleInputHint.innerHTML = result.checks
       .map((c) => {
@@ -137,6 +147,9 @@ const updateUi = () => {
         "Are you sure you want to force the submission anyway?",
       ].join("\n");
   } else if (request && !result) {
+    //
+    // we don't have a result yet and there is a request pending
+
     bundleInputHint.style.display = "block";
     bundleInputHint.innerHTML = "analyzing bundle...";
 
@@ -145,6 +158,9 @@ const updateUi = () => {
     confirmMessage =
       "Our bot have not finished to evaluate your submission.\n\nAre you sure you want to force the submission without waiting for validation?";
   } else if (result instanceof Error) {
+    //
+    // the result is an unexpected error
+
     bundleInputHint.style.display = "block";
     bundleInputHint.innerHTML =
       "our bot is temporary unavailable, sorry about that";
@@ -154,6 +170,9 @@ const updateUi = () => {
     confirmMessage =
       "Our bot was temporary unable to validate your submission.\n\nAre you sure you want to force the submission anyway?";
   } else {
+    //
+    // no result, typically when there is no bundle
+
     bundleInputHint.style.display = "none";
     bundleInputHint.innerHTML = "";
 
@@ -163,6 +182,3 @@ const updateUi = () => {
   }
 };
 updateUi();
-
-bundleInput.addEventListener("change", onChange);
-categoryInputs.forEach((i) => i.addEventListener("change", onChange));
