@@ -28,7 +28,7 @@ Object {
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b2ed77c919951cd7c6be1eebec67ba70/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/f0d7fa6245ed0093b6f70c56a4a99b4c/index.html",
 }
 `;
 
@@ -54,7 +54,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6d57c49a05ab7cae134184d357b3f9e3/index.html",
 }
 `;
 
@@ -75,14 +75,14 @@ Object {
     },
     "game_no_error": Object {
       "details": "got 1 errors:
-  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/67a909f1347eb868eb38292744dcaea6/asset/script.js 7:10 Uncaught Error: something bad",
       "result": "failed",
     },
     "game_no_external_http": Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/67a909f1347eb868eb38292744dcaea6/index.html",
 }
 `;
 
@@ -111,7 +111,7 @@ Object {
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/143781ec38fbd4a01c23e923cac1ba08/index.html",
 }
 `;
 
@@ -191,7 +191,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c1742ac6a386249c4524df6fd80e8bde/index.html",
 }
 `;
 
@@ -217,7 +217,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/14da0cd2e4b0dcaef8fae192a35dd52a/index.html",
 }
 `;
 
@@ -243,6 +243,6 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/7edd45b6ad71be8feb0ff6a43a13a0f8/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/1ccad7376e365d2272c05e60eb2253bc/index.html",
 }
 `;

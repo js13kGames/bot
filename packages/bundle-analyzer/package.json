@@ -18,6 +18,6 @@
     "@types/selenium-webdriver": "4.0.9"
   },
   "scripts": {
-    "bundleFixtures": "for i in ./__fixtures__/*; do ( cd $i/src ; zip -qr ../bundle.zip ./* ); done;"
+    "bundleFixtures": "for i in ./__fixtures__/*; do ( cd $i/src ; zip -XDqr ../bundle.zip ./* ); done;"
   }
 }
