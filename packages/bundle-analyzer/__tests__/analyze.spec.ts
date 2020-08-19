@@ -18,6 +18,9 @@ for (const file of fs.readdirSync(FIXTURE_DIR))
     const report = await analyze(rules, zip);
     const genericReport = removeEnvSpecificData(report);
 
+    genericReport.sha256SignatureOfTheMd5Hash =
+      genericReport.sha256SignatureOfTheMd5Hash && "<signature>";
+
     expect(genericReport).toMatchSnapshot();
   });
 

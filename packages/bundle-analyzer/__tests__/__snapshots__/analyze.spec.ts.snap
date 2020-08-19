@@ -29,6 +29,8 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b2ed77c919951cd7c6be1eebec67ba70/index.html",
+  "md5Hash": "b2ed77c919951cd7c6be1eebec67ba70",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -55,6 +57,8 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html",
+  "md5Hash": "6dd4e6691e2ead04a88ee4dc99a9ed99",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -83,6 +87,8 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html",
+  "md5Hash": "b3107c5e2f9240efdff74a17a6e5ef0b",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -112,6 +118,8 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
+  "md5Hash": "c0d13b09ee4ae30c8938235cbbb7ae2e",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -139,6 +147,8 @@ Object {
     },
   },
   "deployUrl": null,
+  "md5Hash": "1b3591f375352962396e2fec3382bca7",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -166,6 +176,8 @@ Object {
     },
   },
   "deployUrl": null,
+  "md5Hash": "3422b369f99ee2f4ac965ee30ef7bd0e",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -192,6 +204,8 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html",
+  "md5Hash": "8007d43b7ccd9e60484608a3d6be6b19",
+  "sha256SignatureOfTheMd5Hash": null,
 }
 `;
 
@@ -218,5 +232,7 @@ Object {
     },
   },
   "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
+  "md5Hash": "cec73ecd46375ab7c64a85c8a4d2c172",
+  "sha256SignatureOfTheMd5Hash": "<signature>",
 }
 `;
