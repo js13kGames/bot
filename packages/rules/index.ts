@@ -17,7 +17,7 @@ export type Rules = {
     max_size: number;
   };
   game: {
-    http_request_whitelist: RegExp[];
+    http_request_whitelist_regexp: string[];
   };
 };
 
@@ -28,12 +28,18 @@ export const getRulesForCategory = (category: Category): Rules | null => {
     case "webmonetization":
       return {
         bundle: { max_size: 13 * 1024 },
-        game: { http_request_whitelist: [] },
+        game: { http_request_whitelist_regexp: [] },
       };
     case "webxr":
       return {
         bundle: { max_size: 13 * 1024 },
-        game: { http_request_whitelist: [/aframe/] },
+        game: {
+          http_request_whitelist_regexp: [
+            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/babylon\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/aframe\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/three\.js$`,
+          ],
+        },
       };
 
     case "server":

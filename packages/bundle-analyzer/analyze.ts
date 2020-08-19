@@ -73,7 +73,10 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
     const externalUrls = urls
       .filter((url) => !url.startsWith(baseUrl))
       .filter(
-        (url) => !rules.game.http_request_whitelist.some((re) => url.match(re))
+        (url) =>
+          !rules.game.http_request_whitelist_regexp.some((re) =>
+            url.match(new RegExp(re))
+          )
       );
 
     report.checks.game_no_external_http.result = externalUrls.length

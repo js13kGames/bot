@@ -28,7 +28,7 @@ Object {
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b2ed77c919951cd7c6be1eebec67ba70/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/bd1602a1362d694cc6b9ddf4c5207244/index.html",
 }
 `;
 
@@ -54,7 +54,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6dd4e6691e2ead04a88ee4dc99a9ed99/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/40ee652d2122d448f64b309c58a6b6f8/index.html",
 }
 `;
 
@@ -74,15 +74,16 @@ Object {
       "result": "ok",
     },
     "game_no_error": Object {
-      "details": "got 1 errors:
-  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/asset/script.js 7:10 Uncaught Error: something bad",
+      "details": "got 2 errors:
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/dca252fad75e913a541ca5673481c867/asset/script.js 7:10 Uncaught Error: something bad
+  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/dca252fad75e913a541ca5673481c867/asset/script.js 7:10 Uncaught Error: something bad",
       "result": "failed",
     },
     "game_no_external_http": Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/b3107c5e2f9240efdff74a17a6e5ef0b/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/dca252fad75e913a541ca5673481c867/index.html",
 }
 `;
 
@@ -111,7 +112,7 @@ Object {
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c0d13b09ee4ae30c8938235cbbb7ae2e/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/696cdb41bf18ff816639e11aa50ad364/index.html",
 }
 `;
 
@@ -191,7 +192,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/8007d43b7ccd9e60484608a3d6be6b19/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/5855708fa624653a763da490406581d6/index.html",
 }
 `;
 
@@ -217,6 +218,32 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/cec73ecd46375ab7c64a85c8a4d2c172/index.html",
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/5e081c6c24ce7be528b5b876b21c3521/index.html",
+}
+`;
+
+exports[`should analyze valid-whitelisted-external 1`] = `
+Object {
+  "checks": Object {
+    "bundle_contains_index": Object {
+      "result": "ok",
+    },
+    "bundle_size": Object {
+      "result": "ok",
+    },
+    "bundle_valid_zip": Object {
+      "result": "ok",
+    },
+    "game_no_blank_screen": Object {
+      "result": "ok",
+    },
+    "game_no_error": Object {
+      "result": "ok",
+    },
+    "game_no_external_http": Object {
+      "result": "ok",
+    },
+  },
+  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/7edd45b6ad71be8feb0ff6a43a13a0f8/index.html",
 }
 `;
