@@ -65,7 +65,7 @@ type Res = {
   deployUrl?: string;
 
   // list of categories found in the request
-  categories: ( "desktop" | "mobile" | "webxr" | "server" | "webmonetization" )[];
+  categories: ("desktop" | "mobile" | "webxr" | "server" | "webmonetization")[];
 
   // rules applying to this combinaison of categories
   // or null if no rule could be applied
