@@ -82,6 +82,8 @@ const isUrlRelevant = (url: string) =>
     (
       url.startsWith("http://ctldl.windowsupdate.com/msdownload/update") ||
       url.startsWith("http://crl.globalsign.net") ||
+      url.startsWith("https://accounts.google.com") ||
+      url.startsWith("https://www.gstatic.com/chrome/intelligence/assist/") ||
       url.match(/^https?:\/\/[^/]+microsoft\.com/) ||
       // omit favicon
       url.endsWith("favicon.ico")
