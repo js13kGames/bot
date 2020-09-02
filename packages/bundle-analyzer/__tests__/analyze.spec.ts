@@ -5,7 +5,7 @@ import { getRulesForCategory } from "js13kGames-bot-rules";
 
 const FIXTURE_DIR = path.resolve(__dirname, "..", "__fixtures__");
 
-jest.setTimeout(50000);
+jest.setTimeout(1.6 * 60 * 1000);
 
 for (const file of fs.readdirSync(FIXTURE_DIR))
   it(`should analyze ${file}`, async () => {
