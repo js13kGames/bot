@@ -9,7 +9,7 @@ export const runGame = async (gameUrl: string) => {
     os: "Windows",
     os_version: "10",
     browserName: "Chrome",
-    browser_version: "80.0",
+    browser_version: "83.0",
     "browserstack.local": "false",
     "browserstack.debug": "false",
     "browserstack.video": "false",
@@ -17,6 +17,7 @@ export const runGame = async (gameUrl: string) => {
     "browserstack.console": "errors",
     "browserstack.seleniumLogs": "false",
     "browserstack.selenium_version": "3.14.0",
+    // "browserstack.selenium_version": "4.0.0-alpha-6",
     "browserstack.user": user,
     "browserstack.key": key,
   };
