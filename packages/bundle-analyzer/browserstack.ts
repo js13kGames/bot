@@ -86,6 +86,7 @@ const isUrlRelevant = (url: string) =>
       url.startsWith("https://accounts.google.com") ||
       url.startsWith("https://www.gstatic.com/chrome/intelligence/assist/") ||
       url.match(/^https?:\/\/[^/]+microsoft\.com/) ||
+      url.match(/^https?:\/\/[^/]+\.windows\.com/) ||
       // omit favicon
       url.endsWith("favicon.ico")
     )
