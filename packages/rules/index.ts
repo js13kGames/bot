@@ -38,6 +38,7 @@ export const getRulesForCategory = (category: Category): Rules | null => {
             `^https?:\/\/js13kgames.com\/webxr-src\/2020\/babylon\.js$`,
             `^https?:\/\/js13kgames.com\/webxr-src\/2020\/aframe\.js$`,
             `^https?:\/\/js13kgames.com\/webxr-src\/2020\/three\.js$`,
+            `^https?:\/\/cdn.aframe.io\/`,
           ],
         },
       };
