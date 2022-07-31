@@ -1,63 +1,35 @@
+useDotenv: true
+
 service: js13kGames-bot
-
-package:
-  individually: true
-  excludeDevDependencies: false
-  exclude:
-    - ./**
-
+configValidationMode: off
 provider:
-  name: aws
-  runtime: nodejs12.x
-  region: eu-west-1
-  stage: stage
-  logRetentionInDays: 14
-  memorySize: 256
-  timeout: 30
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "s3:PutObject"
-        - "s3:PutObjectAcl"
-      Resource:
-        # - "*"
-        - !Join ["/", [!GetAtt deployBucket.Arn, "*"]]
+  name: scaleway
+  runtime: node18
 
-  environment:
-    AWS_BUCKET_NAME: !Select [1, !Split [":::", !GetAtt deployBucket.Arn]]
-    BROWSERSTACK_KEY: ${env:BROWSERSTACK_KEY}
-    BROWSERSTACK_USER: ${env:BROWSERSTACK_USER}
-
-resources:
-  Resources:
-    deployBucket:
-      Type: "AWS::S3::Bucket"
-      Properties:
-        WebsiteConfiguration:
-          IndexDocument: "index.html"
-
-        CorsConfiguration:
-          CorsRules:
-            - AllowedMethods:
-                - "GET"
-              AllowedOrigins:
-                - "*"
-
-functions:
-  bundleAnalyzer:
-    package:
-      include:
-        - build/bundle-analyzer/index.js
-    handler: build/bundle-analyzer/index.handle
-    events:
-      - http: POST analyze-bundle
+  scwToken: ${env:SCALEWAY_SECRET_KEY}
+  scwProject: ${env:SCALEWAY_PROJECT_ID}
+  scwRegion: ${env:SCALEWAY_REGION}
 
 plugins:
-  - serverless-apigw-binary
+  - serverless-scaleway-functions
 
-custom:
-  apigwBinary:
-    types:
-      - "*/*"
-      - "multipart/form-data"
-      - "image/*"
+package:
+  patterns:
+    - "!**/*"
+    - "build/**/*"
+    - "package.json"
+
+functions:
+  analyze:
+    description: receive a zip file containing the game. Attempt to run it. Report issues.
+    handler: build/handler.handle
+    memoryLimit: 512
+    timeout: 300s
+    secret:
+      SCALEWAY_REGION: ${env:SCALEWAY_REGION}
+      SCALEWAY_ACCESS_KEY: ${env:SCALEWAY_ACCESS_KEY}
+      SCALEWAY_SECRET_KEY: ${env:SCALEWAY_SECRET_KEY}
+    env:
+      SCALEWAY_S3_ENDPOINT: ${env:SCALEWAY_S3_ENDPOINT}
+    custom_domains:
+      - ${env:SUBMISSION_CUSTOM_DOMAIN}

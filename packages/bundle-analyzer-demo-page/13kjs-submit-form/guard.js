@@ -79,10 +79,7 @@ const onChange = () => {
       updateUi();
     }
   });
-  request.open(
-    "POST",
-    "https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle"
-  );
+  request.open("POST", " https://js13kgames-submission-validation.platane.me");
   request.send(fd);
 
   updateUi();

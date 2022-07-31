@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import * as Busboy from "busboy";
-import { decodeBase64 } from "tweetnacl-util";
+import Busboy from "busboy";
+import { decode as decodeBase64 } from "@stablelib/base64";
+import type { Readable } from "stream";
 
 export type File = {
   filename: string;
@@ -13,7 +14,7 @@ export const parseBody = (
   event: APIGatewayProxyEvent
 ): Promise<Record<string, File | string | string[]>> =>
   new Promise((resolve, reject) => {
-    const bb = new Busboy({
+    const bb = Busboy({
       headers: { "content-type": readHeader(event, "content-type") },
     });
 
@@ -21,23 +22,32 @@ export const parseBody = (
 
     const content: Record<string, File | string | string[]> = {};
 
-    bb.on("file", (name, file, filename, encoding, mimetype) => {
-      const parts: Buffer[] = [];
-      file
-        .on("data", (data) => {
-          parts.push(data);
-        })
-        .on(
-          "end",
-          () =>
-            (content[name] = {
-              filename,
-              encoding,
-              mimetype,
-              content: Buffer.concat(parts),
-            })
-        );
-    });
+    bb.on(
+      "file",
+      (
+        name: string,
+        file: Readable,
+        filename: string,
+        encoding: string,
+        mimetype: string
+      ) => {
+        const parts: Buffer[] = [];
+        file
+          .on("data", (data) => {
+            parts.push(data);
+          })
+          .on(
+            "end",
+            () =>
+              (content[name] = {
+                filename,
+                encoding,
+                mimetype,
+                content: Buffer.concat(parts),
+              })
+          );
+      }
+    );
 
     bb.on("field", (name, value) => {
       if (!(name in content)) {
@@ -54,8 +64,6 @@ export const parseBody = (
     bb.on("finish", () => resolve(content));
 
     if (event.body && event.isBase64Encoded) {
-      console.log(decodeBase64(event.body));
-
       bb.write(decodeBase64(event.body));
     }
     if (event.body && !event.isBase64Encoded) {

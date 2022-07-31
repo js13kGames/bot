@@ -21,6 +21,7 @@ Exposes an endpoint to run checks on a bundle.zip
   - [Demo](#Demo)
     - [xhr](https://js13kgames.github.io/bot/demo-xhr.html)
     - [pure html](https://js13kgames.github.io/bot/demo-pure-html.html)
+  - [Development](#Development)
 - [Third party](#Third-party)
 - [License](#License)
 
@@ -39,8 +40,8 @@ curl -X POST \
   --form category=desktop \
   --form category=mobile \
 
-  # temporary dev endpoint
-  https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle
+  # endpoint
+   https://js13kgames-submission-validation.platane.me
 ```
 
 ### Result
@@ -86,6 +87,32 @@ There is some bundle.zip samples in [packages/bundle-analyzer/\_\_fixtures\_\_](
 ![browserstack logo](https://d2ogrdw2mh0rsl.cloudfront.net/production/images/static/header/header-logo.svg)
 
 Thanks to browserstack for supporting open source projects.
+
+## Development
+
+### Run
+
+This project uses [pnpm](https://pnpm.io) for dependencies management.
+
+**install dependencies**
+
+`pnpm install`
+
+**run tests**
+
+`pnpm test`
+
+runs the unit tests, some make http request to third party services ( such as scaleway or browserstack )
+
+> ⚠️ you will need credentials for scaleway ( to upload files to the bucket ) and browserstack ( to run the game ). And pass then as env var ( check .env.sample )
+
+## Deployment
+
+The analyzer is run in a lambda hosted at [scaleway](https://www.scaleway.com).
+
+The build process is arguably bad (sorry): ( rollup the sources and upload the whole node_modules folder as some dependencies were reluctant to be bundled ).
+
+I ( @platane ) handle the deployment manually in order to avoid leaking sensitive credentials.
 
 ## License
 

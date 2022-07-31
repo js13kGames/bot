@@ -17,8 +17,8 @@ Object {
     },
     "game_no_error": Object {
       "details": "got 2 errors:
-  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/asset/image/1659821.jpeg - Failed to load resource: the server responded with a status of 404 (Not Found)
-  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/asset/script.js - Failed to load resource: the server responded with a status of 404 (Not Found)",
+  https://<deploy-url>/asset/image/1659821.jpeg - Failed to load resource: the server responded with a status of 404 (Not Found)
+  https://<deploy-url>/asset/script.js - Failed to load resource: the server responded with a status of 404 (Not Found)",
       "result": "failed",
     },
     "game_no_external_http": Object {
@@ -28,7 +28,7 @@ Object {
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/f0d7fa6245ed0093b6f70c56a4a99b4c/index.html",
+  "deployUrl": "https://<deploy-url>/f0d7fa6245ed0093b6f70c56a4a99b4c/index.html",
 }
 `;
 
@@ -54,7 +54,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/6d57c49a05ab7cae134184d357b3f9e3/index.html",
+  "deployUrl": "https://<deploy-url>/6d57c49a05ab7cae134184d357b3f9e3/index.html",
 }
 `;
 
@@ -75,14 +75,14 @@ Object {
     },
     "game_no_error": Object {
       "details": "got 1 errors:
-  http://<bucketName>.s3-website-eu-west-1.amazonaws.com/67a909f1347eb868eb38292744dcaea6/asset/script.js 7:10 Uncaught Error: something bad",
+  https://<deploy-url>/67a909f1347eb868eb38292744dcaea6/asset/script.js 7:10 Uncaught Error: something bad",
       "result": "failed",
     },
     "game_no_external_http": Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/67a909f1347eb868eb38292744dcaea6/index.html",
+  "deployUrl": "https://<deploy-url>/67a909f1347eb868eb38292744dcaea6/index.html",
 }
 `;
 
@@ -106,12 +106,12 @@ Object {
     },
     "game_no_external_http": Object {
       "details": "got 2 forbidden requests:
-- https://avatars0.githubusercontent.com/u/1659820?v=4
+- https://avatars.githubusercontent.com/u/1659820?v=4
 - https://github.com/platane.png",
       "result": "failed",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/143781ec38fbd4a01c23e923cac1ba08/index.html",
+  "deployUrl": "https://<deploy-url>/143781ec38fbd4a01c23e923cac1ba08/index.html",
 }
 `;
 
@@ -191,7 +191,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/c1742ac6a386249c4524df6fd80e8bde/index.html",
+  "deployUrl": "https://<deploy-url>/c1742ac6a386249c4524df6fd80e8bde/index.html",
 }
 `;
 
@@ -217,7 +217,7 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/14da0cd2e4b0dcaef8fae192a35dd52a/index.html",
+  "deployUrl": "https://<deploy-url>/14da0cd2e4b0dcaef8fae192a35dd52a/index.html",
 }
 `;
 
@@ -243,6 +243,6 @@ Object {
       "result": "ok",
     },
   },
-  "deployUrl": "http://<bucketName>.s3-website-eu-west-1.amazonaws.com/1ccad7376e365d2272c05e60eb2253bc/index.html",
+  "deployUrl": "https://<deploy-url>/1ccad7376e365d2272c05e60eb2253bc/index.html",
 }
 `;

@@ -1,45 +1,51 @@
-import * as S3 from "aws-sdk/clients/s3";
-// @ts-ignore
 import * as mime from "mime-types";
+import { AwsClient } from "aws4fetch";
+import * as crypto from "crypto";
 
-export const createUploader = (key: string) => {
-  const s3 = new S3(getCredentials());
-  const bucketName = process.env.AWS_BUCKET_NAME!;
-  const region = process.env.AWS_DEFAULT_REGION!;
+(global as any).crypto = crypto;
 
-  const upload = async (
-    filename: string,
-    body: string | Buffer | ArrayBuffer,
-    options = {}
-  ) => {
-    const { Key } = await s3
-      .upload({
-        Bucket: bucketName,
-        Key: key + "/" + filename,
-        Body: body,
-        ACL: "public-read",
-        ContentType: mime.lookup(filename) || undefined,
-        ...options,
-      })
-      .promise();
+let client: AwsClient;
 
-    return `http://${bucketName}.s3-website-${region}.amazonaws.com/${Key}`;
-  };
+const getClient = () =>
+  (client =
+    client ??
+    new AwsClient({
+      accessKeyId: process.env.SCALEWAY_ACCESS_KEY!,
+      secretAccessKey: process.env.SCALEWAY_SECRET_KEY!,
 
-  return { upload };
+      region: process.env.SCALEWAY_REGION!,
+
+      service: "s3",
+    }));
+
+const endpoint = process.env.SCALEWAY_S3_ENDPOINT!;
+const bucketName = process.env.SUBMISSION_BUCKET_NAME!;
+
+export const upload = async (
+  key: string,
+  body: Uint8Array | ArrayBuffer | string
+) => {
+  const contentType = mime.lookup(key);
+
+  const res = await getClient().fetch(`${endpoint}/${bucketName}/${key}`, {
+    method: "PUT",
+    body,
+    headers: {
+      "x-amz-acl": "public-read",
+      ...(contentType && { "content-type": contentType }),
+    },
+  });
+
+  if (!res.ok) throw new Error(res.statusText);
+
+  return getPublicUri(bucketName, key);
 };
 
-const getCredentials = () => {
-  const sessionToken = process.env.AWS_SESSION_TOKEN;
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-  const region = process.env.AWS_DEFAULT_REGION;
+const getPublicUri = (bucket: string, key: string) => {
+  const u = new URL(endpoint);
 
-  if (sessionToken) return { sessionToken };
-  if (accessKeyId && secretAccessKey && region)
-    return {
-      accessKeyId,
-      secretAccessKey,
-      region,
-    };
+  u.host = bucket + "." + u.host;
+  u.pathname = "/" + key;
+
+  return u.toString();
 };

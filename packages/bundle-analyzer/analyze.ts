@@ -1,12 +1,12 @@
 import { unzip } from "./unzip";
 import { parse as parseUrl } from "url";
+import * as path from "path";
 import { getHash } from "./md5";
-import { createUploader } from "./s3";
+import { upload } from "./s3";
 import { runGame } from "./browserstack";
 import { promisify } from "util";
 import { Rules } from "js13kGames-bot-rules";
-// @ts-ignore
-import * as getPixels from "get-pixels";
+import getPixels from "get-pixels";
 import { checkDescriptions, Result, CheckId } from "./checks";
 
 export const analyze = async (rules: Rules, bundleContent: Buffer) => {
@@ -21,7 +21,7 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
   try {
     files = unzip(bundleContent);
     report.checks.bundle_valid_zip.result = "ok";
-  } catch (error) {
+  } catch (error: any) {
     report.checks.bundle_valid_zip.result = "failed";
     report.checks.bundle_valid_zip.details = error.message;
     return report;
@@ -103,8 +103,10 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
 
   // check for blank screen
   {
-    const { data: dataImage } = await promisify(getPixels)(
-      "data:image/png;base64," + base64screenShot
+    const getPixelsP = promisify(getPixels);
+    const { data: dataImage } = await getPixelsP(
+      "data:image/png;base64," + base64screenShot,
+      ""
     );
 
     report.checks.game_no_blank_screen.result = isImageBlank(dataImage)
@@ -116,11 +118,10 @@ export const analyze = async (rules: Rules, bundleContent: Buffer) => {
 };
 
 const uploadFiles = async (key: string, files: any[]) => {
-  const { upload } = createUploader(key);
   let indexUrl: string | undefined;
   await Promise.all(
     files.map(({ filename, content }) =>
-      upload(filename, content).then((url) => {
+      upload(path.join(key, filename), content).then((url) => {
         if (filename === "index.html") indexUrl = url;
       })
     )
@@ -129,7 +130,7 @@ const uploadFiles = async (key: string, files: any[]) => {
 };
 
 // return true if the image is filled with only one color
-const isImageBlank = (data: number[]) => {
+const isImageBlank = (data: ArrayLike<number>) => {
   let err = 0;
 
   for (let i = 0; i < data.length; i += 4) {

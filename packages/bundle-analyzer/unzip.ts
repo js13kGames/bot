@@ -1,5 +1,5 @@
 // @ts-ignore
-import * as Zip from "node-zip";
+import Zip from "node-zip";
 
 export const unzip = (
   bundleContent: Buffer

@@ -1,6 +1,5 @@
-import fetch from "node-fetch";
+import { encode } from "@stablelib/base64";
 import * as webdriver from "selenium-webdriver";
-import { encode } from "base-64";
 
 export const runGame = async (gameUrl: string) => {
   const { user, key } = getCredentials();
@@ -105,7 +104,7 @@ const getBrowserStackNetworkLog = async (
 ): Promise<any> => {
   const { user, key } = getCredentials();
 
-  const auth = encode(user + ":" + key);
+  const auth = encode(new TextEncoder().encode(user + ":" + key));
 
   try {
     const res = await fetch(
