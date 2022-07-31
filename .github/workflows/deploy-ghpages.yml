@@ -1,0 +1,19 @@
+name: deploy-ghpages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: packages/bundle-analyzer-demo-page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
