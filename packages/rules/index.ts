@@ -6,6 +6,8 @@ export const categories = [
   "desktop",
   "webxr",
   "webmonetization",
+  "decentralized",
+  "unfinished",
 ] as const;
 export type Category = typeof categories[number];
 
@@ -26,6 +28,8 @@ export const getRulesForCategory = (category: Category): Rules | null => {
     case "mobile":
     case "desktop":
     case "webmonetization":
+    case "unfinished":
+    case "decentralized":
       return {
         bundle: { max_size: 13 * 1024 },
         game: { http_request_whitelist_regexp: [] },
@@ -35,9 +39,10 @@ export const getRulesForCategory = (category: Category): Rules | null => {
         bundle: { max_size: 13 * 1024 },
         game: {
           http_request_whitelist_regexp: [
-            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/babylon\.js$`,
-            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/aframe\.js$`,
-            `^https?:\/\/js13kgames.com\/webxr-src\/2020\/three\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/babylon\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/aframe\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/three\.js$`,
+            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/playcanvas\.js$`,
             `^https?:\/\/cdn.aframe.io\/`,
           ],
         },
