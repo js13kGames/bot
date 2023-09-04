@@ -23,7 +23,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-      - uses: crazy-max/ghaction-github-pages@068e494
+      - uses: crazy-max/ghaction-github-pages@v3.2.0
         with:
           target_branch: gh-pages
           build_dir: packages/bundle-analyzer-demo-page
