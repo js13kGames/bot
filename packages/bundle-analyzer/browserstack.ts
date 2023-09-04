@@ -77,20 +77,22 @@ export const runGame = async (gameUrl: string) => {
   return { networkLog, browserLogs, errorlogs, urls, base64screenShot };
 };
 
-const isUrlRelevant = (url: string) =>
-  !(
-    // omit requests made by the os that somehow end up here
-    (
-      url.startsWith("http://ctldl.windowsupdate.com/msdownload/update") ||
-      url.startsWith("http://crl.globalsign.net") ||
-      url.startsWith("https://accounts.google.com") ||
-      url.startsWith("https://www.gstatic.com/chrome/intelligence/assist/") ||
-      url.match(/^https?:\/\/[^/]+microsoft\.com/) ||
-      url.match(/^https?:\/\/[^/]+\.windows\.com/) ||
-      // omit favicon
-      url.endsWith("favicon.ico")
-    )
-  );
+const isUrlRelevant = (url: string) => {
+  const u = new URL(url);
+
+  if (
+    u.origin === "accounts.google.com" ||
+    u.origin === "crl.globalsign.net" ||
+    u.origin.endsWith("windowsupdate.com") ||
+    u.origin.endsWith("microsoft.com") ||
+    u.origin.endsWith("windows.com") ||
+    url.startsWith("https://www.gstatic.com/chrome/intelligence/assist/") ||
+    url.endsWith("favicon.ico")
+  )
+    return false;
+
+  return true;
+};
 
 const getCredentials = () => ({
   user: process.env.BROWSERSTACK_USER!,
