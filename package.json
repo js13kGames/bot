@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/jest": "26.0.10",
-    "@zeit/ncc": "0.22.3",
+    "@vercel/ncc": "0.36.1",
     "dotenv": "^8.2.0",
     "jest": "26.4.0",
     "prettier": "2.0.5",
@@ -25,7 +25,7 @@
     "test": "jest --config ./jest.config.js --no-cache",
     "type": "tsc --noEmit",
     "lint": "yarn prettier -c '**/*.{ts,tsx,js,jsx,json,md}' '!**/dist/**'",
-    "build": "ncc build packages/lambda-bundle-analyzer/handler.ts -o build/bundle-analyzer",
+    "build": "ncc build packages/lambda-bundle-analyzer/handler.ts --out build/bundle-analyzer --transpile-only",
     "deploy": "serverless deploy --config serverless.yml"
   }
 }
