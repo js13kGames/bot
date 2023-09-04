@@ -1,4 +1,4 @@
-service: js13kGames-bot
+service: js13kGames-bot-node18
 
 package:
   individually: true
