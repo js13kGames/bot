@@ -1,6 +1,7 @@
 import fetch from "node-fetch";
 import * as webdriver from "selenium-webdriver";
 import { encode } from "base-64";
+import { parse as parse_url } from "url";
 
 export const runGame = async (gameUrl: string) => {
   const { user, key } = getCredentials();
@@ -78,14 +79,14 @@ export const runGame = async (gameUrl: string) => {
 };
 
 const isUrlRelevant = (url: string) => {
-  const u = new URL(url);
+  const u = parse_url(url);
 
   if (
-    u.origin === "accounts.google.com" ||
-    u.origin === "crl.globalsign.net" ||
-    u.origin.endsWith("windowsupdate.com") ||
-    u.origin.endsWith("microsoft.com") ||
-    u.origin.endsWith("windows.com") ||
+    u.host === "accounts.google.com" ||
+    u.host === "crl.globalsign.net" ||
+    u.host?.endsWith("windowsupdate.com") ||
+    u.host?.endsWith("microsoft.com") ||
+    u.host?.endsWith("windows.com") ||
     url.startsWith("https://www.gstatic.com/chrome/intelligence/assist/") ||
     url.endsWith("favicon.ico")
   )
