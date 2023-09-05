@@ -40,7 +40,7 @@ curl -X POST \
   --form category=mobile \
 
   # temporary dev endpoint
-  https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle
+  https://wdbnnia6lj.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle
 ```
 
 ### Result
@@ -65,7 +65,15 @@ type Res = {
   deployUrl?: string;
 
   // list of categories found in the request
-  categories: ("desktop" | "mobile" | "webxr" | "server" | "webmonetization")[];
+  categories: (
+    | "desktop"
+    | "mobile"
+    | "webxr"
+    | "server"
+    | "webmonetization"
+    | "decentralized"
+    | "unfinished"
+  )[];
 
   // rules applying to this combinaison of categories
   // or null if no rule could be applied

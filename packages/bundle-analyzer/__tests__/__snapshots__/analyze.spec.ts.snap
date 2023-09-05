@@ -106,7 +106,7 @@ Object {
     },
     "game_no_external_http": Object {
       "details": "got 2 forbidden requests:
-- https://avatars0.githubusercontent.com/u/1659820?v=4
+- https://avatars.githubusercontent.com/u/1659820?v=4
 - https://github.com/platane.png",
       "result": "failed",
     },

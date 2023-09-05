@@ -39,11 +39,8 @@ export const getRulesForCategory = (category: Category): Rules | null => {
         bundle: { max_size: 13 * 1024 },
         game: {
           http_request_whitelist_regexp: [
-            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/babylon\.js$`,
-            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/aframe\.js$`,
-            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/three\.js$`,
-            `^https?:\/\/js13kgames.com\/webxr-src\/\d+\/playcanvas\.js$`,
-            `^https?:\/\/cdn.aframe.io\/`,
+            `^https?:\/\/js13kgames\.com\/webxr-src\/`,
+            `^https?:\/\/cdn.aframe\.io\/`,
           ],
         },
       };

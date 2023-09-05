@@ -1,10 +1,10 @@
 service: js13kGames-bot-node18
 
+useDotenv: true
+
 package:
   individually: true
   excludeDevDependencies: false
-  exclude:
-    - ./**
 
 provider:
   name: aws
@@ -14,14 +14,15 @@ provider:
   logRetentionInDays: 14
   memorySize: 256
   timeout: 30
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - "s3:PutObject"
-        - "s3:PutObjectAcl"
-      Resource:
-        # - "*"
-        - !Join ["/", [!GetAtt deployBucket.Arn, "*"]]
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "s3:PutObject"
+            - "s3:PutObjectAcl"
+          Resource:
+            - !Join ["/", [!GetAtt deployBucket.Arn, "*"]]
 
   environment:
     AWS_BUCKET_NAME: !Select [1, !Split [":::", !GetAtt deployBucket.Arn]]
@@ -46,7 +47,8 @@ resources:
 functions:
   bundleAnalyzer:
     package:
-      include:
+      patterns:
+        - "!**/*"
         - build/bundle-analyzer/index.js
     handler: build/bundle-analyzer/index.handle
     events:

@@ -13,7 +13,7 @@
     "dotenv": "^8.2.0",
     "jest": "26.4.0",
     "prettier": "2.0.5",
-    "serverless": "1.78.1",
+    "serverless": "3.34.0",
     "serverless-apigw-binary": "0.4.4",
     "ts-jest": "26.2.0",
     "typescript": "3.9.7"

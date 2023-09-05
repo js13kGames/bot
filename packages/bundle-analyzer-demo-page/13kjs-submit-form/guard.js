@@ -81,7 +81,7 @@ const onChange = () => {
   });
   request.open(
     "POST",
-    "https://iw8sii1h9b.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle"
+    "https://wdbnnia6lj.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle"
   );
   request.send(fd);
 
