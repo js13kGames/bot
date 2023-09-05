@@ -1,6 +1,6 @@
 # js13kGames bot
 
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![type: typescript](https://img.shields.io/npm/types/typescript.svg?style=flat-square)](https://github.com/microsoft/TypeScript) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/js13kGames/bot/main?style=flat-square)](https://github.com/js13kGames/bot/actions?query=workflow%3Amain)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier) [![type: typescript](https://img.shields.io/npm/types/typescript.svg?style=flat-square)](https://github.com/microsoft/TypeScript) [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/js13kGames/bot/main.yml?style=flat-square)](https://github.com/js13kGames/bot/actions/workflows/main.yml)
 
 > js13kGames automatic submission validation
 
