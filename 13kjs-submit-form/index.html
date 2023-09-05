@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://js13kgames.com/style.css" />
+  </head>
+  <body>
+    <div class="content">
+      <section id="submit">
+        <h2>Submit Form</h2>
+
+        <article class="form">
+          <h3>
+            Read the <a href="/#rules">Rules</a> carefully before submitting
+            your game!
+          </h3>
+
+          <p style="margin: -20px 0 20px 0; font-size: 12px;">
+            Also, remember that only
+            <a
+              target="_blank"
+              href="https://medium.com/js13kgames/t-shirts-for-top-100-entries-614a1a4e36e9"
+              >top 100 entries</a
+            >
+            will get free t-shirts and CDs, so submitting another Breakout or
+            Flappy Bird clone,<br />
+            stolen from the Internet, or any type of game taken from somebody
+            else's tutorial, will make no sense at all.
+          </p>
+
+          <form action="/submit" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="delivery" value="form" />
+            <p>
+              <label for="nick" class="required">Name &frasl; nick:</label>
+              <input
+                id="nick"
+                class="text"
+                type="text"
+                name="author"
+                maxlength="50"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              <label for="twitter">Twitter username:</label>
+              <input
+                id="twitter"
+                class="text"
+                type="text"
+                name="twitter"
+                placeholder="without the @"
+                maxlength="50"
+                value=""
+              />
+            </p>
+            <p>
+              <label for="website">Your website:</label>
+              <input
+                id="website"
+                class="text"
+                type="text"
+                placeholder="https://"
+                name="website_url"
+                maxlength="200"
+                value=""
+              />
+            </p>
+            <p>
+              <label for="email" class="required"
+                >E-mail address <span>(won't be published)</span>:</label
+              >
+              <input
+                id="email"
+                class="text"
+                type="email"
+                name="email"
+                maxlength="100"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              <label for="github" class="required"
+                >Link to the GitHub repository:</label
+              >
+              <input
+                id="github"
+                class="text"
+                type="text"
+                name="github_url"
+                maxlength="200"
+                placeholder="https://github.com/"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              <label for="title" class="required">Title of the game:</label>
+              <input
+                id="title"
+                class="text"
+                type="text"
+                name="title"
+                maxlength="100"
+                value=""
+                required
+              />
+            </p>
+            <p>
+              <label class="required">Categories:</label>
+
+              <span class="category" style="font-size: 10px;"
+                ><input
+                  class="checkbox"
+                  id="cat_22"
+                  type="checkbox"
+                  name="categories[]"
+                  value="22"
+                />
+                desktop
+              </span>
+              <span class="category" style="font-size: 10px;"
+                ><input
+                  class="checkbox"
+                  id="cat_23"
+                  type="checkbox"
+                  name="categories[]"
+                  value="23"
+                />
+                mobile
+              </span>
+              <span class="category" style="font-size: 10px;"
+                ><input
+                  class="checkbox"
+                  id="cat_24"
+                  type="checkbox"
+                  name="categories[]"
+                  value="24"
+                />
+                server
+              </span>
+              <span class="category" style="font-size: 10px;"
+                ><input
+                  class="checkbox"
+                  id="cat_25"
+                  type="checkbox"
+                  name="categories[]"
+                  value="25"
+                />
+                web monetization
+              </span>
+              <span class="category" style="font-size: 10px;"
+                ><input
+                  class="checkbox"
+                  id="cat_26"
+                  type="checkbox"
+                  name="categories[]"
+                  value="26"
+                />
+                webxr
+              </span>
+            </p>
+            <p>
+              <label for="server"
+                >Link to the deployed game<br />
+                (server category only):</label
+              >
+              <input
+                id="server"
+                class="text"
+                type="text"
+                name="server_url"
+                maxlength="200"
+                placeholder="https://mygame.heroku.com"
+                value=""
+              />
+            </p>
+            <p>
+              <label for="coil"
+                >Coil username<br />
+                (Web Monetization category only):</label
+              >
+              <input
+                id="coil"
+                class="text"
+                type="text"
+                name="coil_username"
+                maxlength="100"
+                placeholder="username"
+                value=""
+              />
+            </p>
+            <p>
+              <label for="description" class="required"
+                >Game description, controls, and extras for monetized
+                subscribers:</label
+              >
+              <textarea
+                id="description"
+                class="text"
+                name="description"
+                cols="1"
+                rows="1"
+                required
+              ></textarea>
+            </p>
+            <p>
+              <label for="file" class="required"
+                >Upload the .zip package:</label
+              >
+              <input
+                type="file"
+                name="file"
+                id="file"
+                accept="application/zip"
+                required
+              />
+            </p>
+            <p>
+              <label for="image1" class="required"
+                >Small screenshot (160px &times; 160px):</label
+              >
+              <input
+                type="file"
+                name="small_screenshot"
+                id="image1"
+                accept="image/*"
+                required
+              />
+            </p>
+            <p>
+              <label for="image2" class="required"
+                >Big screenshot (400px &times; 250px):</label
+              >
+              <input
+                type="file"
+                name="big_screenshot"
+                id="image2"
+                accept="image/*"
+                required
+              />
+            </p>
+
+            <p class="bottom">
+              <label for="submit" class="send">Let's do it!</label>
+              <input
+                type="submit"
+                id="submit"
+                name="formSubmit"
+                class="submit"
+                value="Submit"
+              />
+            </p>
+          </form>
+        </article>
+
+        <a class="up" href="https://js13kgames.com"></a>
+      </section>
+    </div>
+
+    <script src="https://js13kgames.com/js/jquery-2.1.4.min.js"></script>
+    <script>
+      $("#cat_22").change(function () {
+        $("#cat_26").prop("checked", false);
+      });
+      $("#cat_23").change(function () {
+        $("#cat_26").prop("checked", false);
+      });
+      $("#cat_24").change(function () {
+        $("#cat_26").prop("checked", false);
+      });
+      $("#cat_26").change(function () {
+        $("#cat_22").prop("checked", false);
+        $("#cat_23").prop("checked", false);
+        $("#cat_24").prop("checked", false);
+        $(this).prop("checked", true);
+      });
+    </script>
+    <script src="./guard.js"></script>
+  </body>
+</html>

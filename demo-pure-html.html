@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>demo</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <form
+      action="https://wdbnnia6lj.execute-api.eu-west-1.amazonaws.com/stage/analyze-bundle"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <section>
+        <input
+          type="file"
+          name="bundle"
+          accept="zip,application/octet-stream,application/zip,application/x-zip,application/x-zip-compressed"
+        />
+      </section>
+
+      <div style="width: 20px; height: 20px;"></div>
+
+      <section>
+        <input type="checkbox" name="category" id="server" value="server" />
+        <label for="server">server</label>
+        <input type="checkbox" name="category" id="webxr" value="webxr" />
+        <label for="webxr">webxr</label>
+        <input type="checkbox" name="category" id="mobile" value="mobile" />
+        <label for="mobile">mobile</label>
+        <input type="checkbox" name="category" id="desktop" value="desktop" />
+        <label for="desktop">desktop</label>
+        <input
+          type="checkbox"
+          name="category"
+          id="webmonetization"
+          value="webmonetization"
+        />
+        <label for="webmonetization">webmonetization</label>
+        <input
+          type="checkbox"
+          name="category"
+          id="decentralized"
+          value="decentralized"
+        />
+        <label for="decentralized">decentralized</label>
+        <input
+          type="checkbox"
+          name="category"
+          id="unfinished"
+          value="unfinished"
+        />
+        <label for="unfinished">unfinished</label>
+      </section>
+
+      <div style="width: 20px; height: 20px;"></div>
+
+      <button type="submit">ok</button>
+    </form>
+
+    <script></script>
+  </body>
+</html>
